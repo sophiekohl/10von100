@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#1c211f" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="10 / 100" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+  <title>10 / 100</title>
+  <style>
+    :root{
+      --ink:#1c211f;--paper:#f8f6f1;--muted:#777b75;--line:rgba(28,33,31,.13);
+      --card:rgba(255,255,255,.62);--shadow:0 24px 70px rgba(28,33,31,.09);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;color:var(--ink);background:
+      radial-gradient(circle at 80% 5%, rgba(199,210,197,.35), transparent 32rem),
+      radial-gradient(circle at 0% 35%, rgba(221,213,197,.35), transparent 30rem),
+      var(--paper);
+      font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      min-height:100vh;
+    }
+    .noise{position:fixed;inset:0;pointer-events:none;opacity:.15;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.08'/%3E%3C/svg%3E")}
+    .wrap{max-width:760px;margin:auto;padding:28px 18px 90px}
+    header{display:flex;justify-content:space-between;align-items:center;margin-bottom:70px}
+    .brand{font-size:12px;font-weight:800;letter-spacing:.24em}
+    .dot{width:9px;height:9px;border-radius:50%;background:var(--ink);box-shadow:0 0 0 6px rgba(28,33,31,.07)}
+    .hero{margin-bottom:70px}
+    .eyebrow{font-size:11px;letter-spacing:.18em;font-weight:700;color:var(--muted);margin-bottom:18px}
+    h1{font-family:Georgia,"Times New Roman",serif;font-weight:400;letter-spacing:-.035em;
+      line-height:.99;font-size:clamp(48px,11vw,84px);margin:0 0 24px}
+    .lead{font-family:Georgia,"Times New Roman",serif;font-size:22px;line-height:1.45;max-width:590px;color:#3b403d}
+    .progressBox{margin:42px 0 0}
+    .progressTop{display:flex;justify-content:space-between;font-size:11px;letter-spacing:.12em;color:var(--muted);margin-bottom:11px}
+    .track{height:2px;background:var(--line);overflow:hidden}
+    .fill{height:100%;width:0;background:var(--ink);transition:width .8s cubic-bezier(.2,.8,.2,1)}
+    .chapters{display:grid;gap:14px}
+    .chapter{
+      position:relative;border:1px solid var(--line);background:var(--card);backdrop-filter:blur(14px);
+      border-radius:22px;padding:22px;min-height:164px;box-shadow:0 5px 30px rgba(28,33,31,.03);
+      overflow:hidden;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease
+    }
+    .chapter.unlocked{cursor:pointer}
+    .chapter.unlocked:active{transform:scale(.985)}
+    .chapter.open{box-shadow:var(--shadow);border-color:rgba(28,33,31,.26)}
+    .chapterTop{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}
+    .kicker{font-size:10px;letter-spacing:.18em;color:var(--muted);font-weight:800}
+    .chapter h2{font-family:Georgia,"Times New Roman",serif;font-size:29px;line-height:1.08;font-weight:400;max-width:500px;margin:12px 0 0}
+    .symbol{font-family:Georgia,serif;font-size:31px;line-height:1;color:var(--muted)}
+    .locked h2{filter:blur(5px);user-select:none;opacity:.45}
+    .locked .symbol{opacity:.3}
+    .lockline{display:flex;align-items:center;gap:8px;margin-top:24px;font-size:12px;color:var(--muted)}
+    .lockIcon{font-size:13px}
+    .reveal{max-height:0;opacity:0;overflow:hidden;transition:max-height .55s ease,opacity .45s ease,padding .45s ease}
+    .open .reveal{max-height:460px;opacity:1;padding-top:24px}
+    .hint{font-family:Georgia,"Times New Roman",serif;font-size:21px;line-height:1.5;margin:0}
+    .after{font-size:12px;line-height:1.6;color:var(--muted);margin:18px 0 0}
+    .tap{margin-top:22px;font-size:11px;letter-spacing:.12em;font-weight:800}
+    .countdown{
+      margin:18px 0 0;padding:12px 14px;border-radius:12px;background:rgba(28,33,31,.045);
+      font-variant-numeric:tabular-nums;font-size:12px;color:var(--muted)
+    }
+    footer{margin-top:70px;padding-top:26px;border-top:1px solid var(--line);color:var(--muted);font-size:11px;line-height:1.6}
+    .install{
+      position:fixed;left:50%;transform:translateX(-50%);bottom:18px;width:min(680px,calc(100% - 28px));
+      display:none;align-items:center;justify-content:space-between;gap:14px;padding:14px 16px;border-radius:18px;
+      background:#1c211f;color:white;box-shadow:0 18px 50px rgba(0,0,0,.22);z-index:10
+    }
+    .install strong{font-size:12px}.install small{display:block;opacity:.7;margin-top:3px}
+    .install button{border:0;border-radius:12px;background:white;color:#1c211f;padding:10px 13px;font-weight:800}
+    .install.show{display:flex}
+    @media(min-width:700px){.wrap{padding-top:42px}.chapter{padding:28px}}
+  </style>
+</head>
+<body>
+<div class="noise"></div>
+<main class="wrap">
+  <header><div class="brand" id="brand">10 / 100</div><div class="dot"></div></header>
+  <section class="hero">
+    <div class="eyebrow" id="eyebrow"></div>
+    <h1 id="heroTitle"></h1>
+    <div class="lead" id="heroText"></div>
+    <div class="progressBox">
+      <div class="progressTop"><span>DEINE GESCHICHTE</span><span id="progressLabel">0 / 7</span></div>
+      <div class="track"><div class="fill" id="progressFill"></div></div>
+    </div>
+  </section>
+  <section class="chapters" id="chapters"></section>
+  <footer>
+    <div id="recipient">Für dich.</div>
+    <div style="margin-top:6px">Manche Dinge werden erst schön, wenn man ein bisschen auf sie warten muss.</div>
+  </footer>
+</main>
+<div class="install" id="installBox">
+  <div><strong>Als App speichern</strong><small>Dann bleibt 10 / 100 auf deinem Home-Bildschirm.</small></div>
+  <button id="installBtn">Hinzufügen</button>
+</div>
+
+<script src="config.js"></script>
+<script>
+  const cfg = window.APP_CONFIG;
+  const $ = s => document.querySelector(s);
+  $("#brand").textContent = cfg.appTitle;
+  $("#eyebrow").textContent = cfg.eyebrow;
+  $("#heroTitle").textContent = cfg.introTitle;
+  $("#heroText").textContent = cfg.introText;
+  $("#recipient").textContent = cfg.recipient;
+
+  function fmtDate(d){
+    return new Intl.DateTimeFormat("de-DE",{day:"2-digit",month:"long",year:"numeric"}).format(d);
+  }
+  function diffText(target){
+    const ms = target - effectiveNow;
+    if(ms <= 0) return "Jetzt freigeschaltet.";
+    const days = Math.ceil(ms / 86400000);
+    if(days === 1) return "Noch 1 Tag.";
+    return `Noch ${days} Tage.`;
+  }
+  const previewParam = new URLSearchParams(location.search).get("preview");
+  const effectiveNow = previewParam ? new Date(previewParam + (previewParam.length===10 ? "T12:00:00+01:00" : "")) : new Date();
+  function isUnlocked(ch){ return effectiveNow >= new Date(ch.date); }
+
+  function render(){
+    const box = $("#chapters");
+    box.innerHTML = "";
+    let unlockedCount = 0;
+    cfg.chapters.forEach((ch, i) => {
+      const unlocked = isUnlocked(ch);
+      if(unlocked) unlockedCount++;
+      const el = document.createElement("article");
+      el.className = "chapter " + (unlocked ? "unlocked" : "locked");
+      el.dataset.id = ch.id;
+
+      const title = unlocked ? ch.title : "Dieses Kapitel ist noch verschlossen.";
+      el.innerHTML = `
+        <div class="chapterTop">
+          <div>
+            <div class="kicker">${ch.kicker} · ${String(i+1).padStart(2,"0")}</div>
+            <h2>${title}</h2>
+          </div>
+          <div class="symbol">${unlocked ? ch.symbol : "○"}</div>
+        </div>
+        ${unlocked ? `
+          <div class="tap">ANTIPPEN ZUM ÖFFNEN ↓</div>
+          <div class="reveal">
+            <p class="hint">${ch.hint}</p>
+            <p class="after">${ch.after}</p>
+          </div>
+        ` : `
+          <div class="lockline"><span class="lockIcon">⌁</span><span>Freischaltung am ${fmtDate(new Date(ch.date))}</span></div>
+          <div class="countdown">${diffText(new Date(ch.date))}</div>
+        `}
+      `;
+      if(unlocked){
+        el.addEventListener("click", () => {
+          el.classList.toggle("open");
+          const tap = el.querySelector(".tap");
+          if(tap) tap.textContent = el.classList.contains("open") ? "KAPITEL SCHLIESSEN ↑" : "ANTIPPEN ZUM ÖFFNEN ↓";
+          if(navigator.vibrate) navigator.vibrate(10);
+        });
+      }
+      box.appendChild(el);
+    });
+
+    $("#progressLabel").textContent = `${unlockedCount} / ${cfg.chapters.length}`;
+    $("#progressFill").style.width = `${(unlockedCount/cfg.chapters.length)*100}%`;
+  }
+  render();
+  setInterval(render, 60 * 60 * 1000);
+
+  if("serviceWorker" in navigator){
+    window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(()=>{}));
+  }
+
+  let deferredPrompt;
+  window.addEventListener("beforeinstallprompt", e => {
+    e.preventDefault(); deferredPrompt = e;
+    $("#installBox").classList.add("show");
+  });
+  $("#installBtn").addEventListener("click", async () => {
+    if(deferredPrompt){ deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt = null; $("#installBox").classList.remove("show");}
+    else alert("Auf iPhone: Teilen → „Zum Home-Bildschirm“. Auf Android: Browser-Menü → „App installieren“.");
+  });
+
+  const isiOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  const standalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+  if(isiOS && !standalone){
+    setTimeout(()=>$("#installBox").classList.add("show"),1200);
+  }
+</script>
+</body>
+</html>
