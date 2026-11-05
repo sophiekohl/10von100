@@ -38,18 +38,21 @@ Stand: 05.11.2026 · Jubiläum: **18.01.2027**
 - [x] Rechteprüfung: kein anonymes SELECT/TRUNCATE auf Inhalten, kein TRUNCATE auf Adminregister für authenticated; browserseitige PIN-Konfiguration verboten; bestehende Authidentität unverändert. Health-Advisor ohne Befund.
 - [x] Signierte Medien-URLs behalten den erforderlichen `/storage/v1`-Präfix; Regressionstest ergänzt.
 
+- [x] GitHub Actions auf Ubuntu 24.04: 20 Handler-/Sitzungs-/DOM-/Cache-Tests, Datenbankprüfung und alle sechs Playwright-Tests mit iPhone-15-Pro-Viewport bestanden. Lauf: https://github.com/sophiekohl/10von100/actions/runs/42102283255 . Die lokale Work-Laufzeit startet Chromium nicht; der Browsernachweis stammt aus CI.
+
 ## 4. Noch offen – Release-Blocker
 
 - [ ] Erfolgreiche PIN-Anmeldung und Session-Erneuerung mit echtem Partnerkonto sowie reale Storage-Uploads/-Wiedergabe Ende-zu-Ende prüfen. Backend-Bereitstellung und negative Live-Zugriffstests sind bereits erfolgt.
 - [ ] Eigene Partner-PIN privat im Studio setzen; keine Test-PIN produktiv übernehmen.
 - [ ] Reale Freischaltung, signierte Medien-URLs, Uploads und Auth-Refresh mit getrenntem Partner- und Admin-Konto Ende-zu-Ende prüfen.
-- [ ] Vollständige Playwright-Browser-Suite erfolgreich ausführen; GitHub-Actions-Workflow ergänzt. In der Work-Umgebung startet Chromium nicht (SIGTRAP vor dem ersten App-Aufruf); DOM-Tests sind kein Browsernachweis.
 - [ ] Installierte Safari-PWA auf iPhone 15 Pro mit iOS 27.2 prüfen: Neustart, Hintergrund/Refresh, Tastatur, Offline, HEIC, Audio-/Video-Wiedergabe, Medienwechsel und externe Player.
 - [ ] Finale Freigabe nach bestandener Sicherheits- und Geräteabnahme.
 
 ## Nachweise und Grenzen
 
 `npm test`: automatisierte Handler-, Session-, DOM- und Service-Worker-Tests. `npm run test:db`: echte Upgrade-Migration und RLS-/PIN-Assertions im lokalen PostgreSQL-WASM. Schema-Abbild enthält keine Nutzerdaten; Auth/Storage sind reduzierte Testmodelle. Tests mit echten Diensten und physischem iPhone bleiben erforderlich. Prüfdetails: `docs/TEST_REPORT.md`.
+
+Die bestehende Adminidentität wurde nach Bereitstellung per Rollenprüfung bestätigt. bcrypt/12 wurde zusätzlich live mit künstlichem Eingabewert geprüft. Die lokalen Migrationsdateien wurden mit den tatsächlich angewendeten Supabase-Versionen abgeglichen.
 
 Supabase meldete deaktivierten Schutz gegen geleakte Passwörter; Admin-Auth-Einstellung vor Freigabe im Dashboard prüfen. SECURITY-DEFINER-Funktionen werden nach ihren tatsächlichen Zugriffskontrollen bewertet, nicht pauschal freigegeben.
 

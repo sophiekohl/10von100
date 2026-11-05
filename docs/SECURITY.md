@@ -19,7 +19,7 @@ Der bestehende Admin bleibt in `admin_users` und meldet sich nur im Studio mit S
 ## Bereitstellung
 
 1. `npm ci`, `npm test`, `npm run test:db`, `npx playwright install --with-deps chromium webkit`, `npm run test:browser`.
-2. Migrationen in `supabase/migrations/` in Dateireihenfolge gegen das vorher inventarisierte Supabase-Projekt prüfen und atomar anwenden. Sie sind Upgrades des vorhandenen Schemas, kein vollständiges Bootstrap für eine leere Datenbank. `tests/baseline.sql` ist ausschließlich ein lokales Testmodell, keine Produktionsmigration.
+2. Migrationen in `supabase/migrations/` in Dateireihenfolge gegen das vorher inventarisierte Supabase-Projekt prüfen und atomar anwenden. Sie sind Upgrades des vorhandenen Schemas, kein vollständiges Bootstrap für eine leere Datenbank. Die Dateiversionen entsprechen der angewendeten Supabase-Migrationshistorie. Frühere Projektmigrationen sind nicht vollständig im Repository; vor einem späteren CLI-Push die lokale/entfernte Historie abgleichen, statt diese Upgrades erneut auszuführen. `tests/baseline.sql` ist ausschließlich ein lokales Testmodell, keine Produktionsmigration.
 3. Edge Function `partner-pin` aus `supabase/functions/partner-pin/` mit `verify_jwt=false` bereitstellen. `SUPABASE_URL` und `SUPABASE_SERVICE_ROLE_KEY` stellt die Supabase-Laufzeit bereit. Keine Schlüssel im Repo oder in Frontend-Variablen ergänzen.
 4. Smoke-Tests gegen das echte Projekt: Fremdkonto, Partner, Admin, künftiger Beitrag, Entwurf, private Medien, Sperre und Widerruf. Keine privaten Produktionsdaten als Testfixtures veröffentlichen.
 5. Frontend über den geprüften PR veröffentlichen. Im Studio eine selbst gewählte PIN setzen und nur privat weitergeben. Erst ein explizit gesetzter PIN aktiviert den Partnerzugang.
