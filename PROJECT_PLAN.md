@@ -40,6 +40,8 @@ Stand: 05.11.2026 · Jubiläum: **18.01.2027**
 
 - [x] GitHub Actions auf Ubuntu 24.04: 20 Handler-/Sitzungs-/DOM-/Cache-Tests, Datenbankprüfung und alle sechs Playwright-Tests mit iPhone-15-Pro-Viewport bestanden. Lauf: https://github.com/sophiekohl/10von100/actions/runs/42102283255 . Die lokale Work-Laufzeit startet Chromium nicht; der Browsernachweis stammt aus CI.
 
+- [x] Manueller Live-Test durch Sophie: Adminanmeldung und Speichern einer Überraschung erfolgreich. Testdatensatz anschließend gezielt entfernt; Abfrage bestätigt null verbleibende Datensätze für die Test-ID. Dieser Nachweis betrifft das bestehende veröffentlichte Studio, nicht die neue PIN-Oberfläche.
+
 ## 4. Noch offen – Release-Blocker
 
 - [ ] Erfolgreiche PIN-Anmeldung und Session-Erneuerung mit echtem Partnerkonto sowie reale Storage-Uploads/-Wiedergabe Ende-zu-Ende prüfen. Backend-Bereitstellung und negative Live-Zugriffstests sind bereits erfolgt.
