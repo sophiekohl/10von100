@@ -10,6 +10,12 @@
 
 Alle Fixtures sind künstlich. Es wurden keine privaten Medien oder Produktionsinhalte veröffentlicht.
 
+## Backend-Bereitstellung und Live-Negativtests
+
+Migrationen `private_app_security` und `explicit_app_grants` sind angewendet. `partner-pin` Version 1 ist ACTIVE; keine PIN konfiguriert. Die Rechteinventur ergab zusätzlich fehlende DML-Grants und unnötige TRUNCATE-/TRIGGER-/REFERENCES-Rechte. Explizite App-Grants sind unter gehärteter RLS aktiv; anon hat keine App-Tabellenrechte. Signierte Medien-URLs wurden anhand des offiziellen storage-js-Quellcodes korrigiert: `/object/sign/...` muss den Präfix `/storage/v1` behalten.
+
+Live-HTTP: anonymer REST-Inhaltszugriff 401, interner PIN-Prüf-RPC 401, öffentliche neutrale Termin-RPC 200, fremder Origin am PIN-Endpunkt 403. Ungültiger PIN sowie nicht authentifizierte Konfiguration/Sperre liefern 401, `Cache-Control: no-store` und keinen Token. Rechteabfrage bestätigt keine öffentlichen PIN-RPC-Rechte, kein anonymes Lesen/Truncate und unveränderte bestehende Authidentität. Health-Advisor nach Migration ohne Befund. Security-Advisor enthält die dokumentierten bewussten Definer-Funktionen, absichtlich geschlossene Mitgliedschafts-/Private-Tabellen und deaktivierten Schutz gegen geleakte Passwörter.
+
 ## Nicht bestanden / nicht ausführbar
 
 Die Playwright-Suite wurde gestartet, konnte aber keine App-Prüfung durchführen: Der Chromium-Prozess beendet sich in der Work-Laufzeit mit SIGTRAP. Die Tests bleiben im Repository für CI/Entwicklungsumgebung. Ein Viewport-Mock und DOM-Tests können Layout, native Medienwiedergabe, Safari und PWA-Installation nicht bestätigen.
@@ -18,4 +24,4 @@ Ein geplanter transaktionaler Test über Supabase `execute_sql` wurde nicht ausg
 
 ## Erforderlich vor Freigabe
 
-Backend bereitstellen, Advisor erneut prüfen, negative Zugriffs- und PIN-Tests mit echten getrennten Konten durchführen. Danach die Liste in `IPHONE_ACCEPTANCE.md` auf dem Zielgerät abarbeiten. Keine Aufgabe zur Produktionsabnahme allein wegen bestandener lokaler Tests abhaken.
+Erfolgreichen PIN-/Refresh-Ablauf und private Medien mit echten getrennten Konten prüfen. Der Versuch einer vollständigen transaktionalen Fixture-Suite gegen Produktion blieb wegen abgelaufener Bestätigung ohne Ausführung; die zusätzliche Live-Grants-Prüfung wurde separat erfolgreich ausgeführt. Negative Live-HTTP-Tests und Backend-Bereitstellung sind abgeschlossen. Danach die Liste in `IPHONE_ACCEPTANCE.md` auf dem Zielgerät abarbeiten. Keine Aufgabe zur Produktionsabnahme allein wegen bestandener lokaler Tests abhaken.

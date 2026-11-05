@@ -1,5 +1,7 @@
 # iPhone-Abnahme vor Veröffentlichung
 
+Zielgerät: **iPhone 15 Pro · iOS 27.2** (vom Nutzer am 05.11.2026 angegeben).
+
 Automatisierte mobile Chromium-Tests ersetzen kein echtes iPhone. Diese Liste bleibt offen, bis die installierte Safari-PWA geprüft wurde.
 
 - [ ] Safari: App öffnen, PIN mit Zahlentastatur eingeben, zum Home-Bildschirm hinzufügen (Teilen → Zum Home-Bildschirm).

@@ -10,6 +10,8 @@ create function pg_temp.assert(ok boolean,label text) returns void language plpg
 set local role anon;
 select pg_temp.assert(not has_function_privilege('anon','public.partner_pin_check(text,text)','execute'),'anon cannot check PIN');
 select pg_temp.assert(not has_function_privilege('authenticated','public.partner_pin_configure(uuid,text,boolean)','execute'),'browser cannot configure PIN');
+select pg_temp.assert(not has_table_privilege('anon','public.content_items','TRUNCATE'),'anon cannot truncate application data');
+select pg_temp.assert(not has_table_privilege('authenticated','public.admin_users','TRUNCATE'),'authenticated cannot truncate admin registry');
 select pg_temp.assert(not exists(select 1 from public.public_surprise_schedule() where id=(select draft_item from test_ids)),'draft hidden from public schedule');
 reset role;
 select set_config('request.jwt.claims',jsonb_build_object('sub',outsider,'role','authenticated')::text,true) from test_ids;

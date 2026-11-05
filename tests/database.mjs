@@ -4,8 +4,8 @@ import fs from 'node:fs/promises';
 const db=new PGlite({extensions:{pgcrypto}});
 try {
   await db.exec(await fs.readFile(new URL('./baseline.sql',import.meta.url),'utf8'));
-  const migration=await fs.readFile(new URL('../supabase/migrations/20261105194808_private_app_security.sql',import.meta.url),'utf8');
-  await db.exec(migration);
+  for(const name of (await fs.readdir(new URL('../supabase/migrations/',import.meta.url))).filter(n=>n.endsWith('.sql')).sort())
+    await db.exec(await fs.readFile(new URL('../supabase/migrations/'+name,import.meta.url),'utf8'));
   await db.exec('begin;');
   await db.exec(await fs.readFile(new URL('./security.sql',import.meta.url),'utf8'));
   await db.exec('rollback;');

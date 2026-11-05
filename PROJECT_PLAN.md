@@ -15,7 +15,7 @@ Stand: 05.11.2026 · Jubiläum: **18.01.2027**
 - [x] Tabellen, Policies, RPCs, drei private Storage-Buckets und Edge Functions inventarisiert.
 - [x] Bestehende Adminidentität und Paarzuordnung vorhanden; keine Identitäten geändert.
 - [x] Vereinbarungen aus PR #1, PIN-Konzept aus PR #2 und Roadmap aus PR #3 gelesen.
-- [x] Sicherheitslücke belegt: direkte Tabellen-/Storage-Regeln akzeptieren teilweise jedes `authenticated`-Konto; vorbereitete Migration beschränkt dies auf Paar/Admin.
+- [x] Zu breite RLS-Regeln und fehlende reguläre Tabellenrechte inventarisiert; gehärtete Paar-/Admin-Policies und explizite DML-Grants bereitgestellt. Unnötige TRUNCATE-Rechte entfernt.
 
 ## 2. Implementiert und lokal geprüft
 
@@ -30,13 +30,21 @@ Stand: 05.11.2026 · Jubiläum: **18.01.2027**
 - [x] PNG-PWA-Icons, expliziter Manifest-Scope, statische Offline-Hülle und Test der Cache-Abgrenzung ergänzt.
 - [x] README, Sicherheits-/Betriebsanleitung und iPhone-Abnahmeliste aktualisiert.
 
-## 3. Noch offen – Release-Blocker
+## 3. Backend bereitgestellt und live geprüft
 
-- [ ] Produktionsmigration und Edge Function bereitstellen und mit echten Supabase-Diensten prüfen.
+- [x] Migrationen `private_app_security` und `explicit_app_grants` angewendet.
+- [x] Edge Function `partner-pin` Version 1 aktiv; noch keine PIN konfiguriert.
+- [x] Live-Negativtests: private REST-Daten und interne PIN-RPCs verweigern anonymen Zugriff; öffentliche neutrale Termine erreichbar; fremder Origin abgewiesen. PIN-Login/Verwaltung ohne gültige Anmeldung liefern keinen Token.
+- [x] Rechteprüfung: kein anonymes SELECT/TRUNCATE auf Inhalten, kein TRUNCATE auf Adminregister für authenticated; browserseitige PIN-Konfiguration verboten; bestehende Authidentität unverändert. Health-Advisor ohne Befund.
+- [x] Signierte Medien-URLs behalten den erforderlichen `/storage/v1`-Präfix; Regressionstest ergänzt.
+
+## 4. Noch offen – Release-Blocker
+
+- [ ] Erfolgreiche PIN-Anmeldung und Session-Erneuerung mit echtem Partnerkonto sowie reale Storage-Uploads/-Wiedergabe Ende-zu-Ende prüfen. Backend-Bereitstellung und negative Live-Zugriffstests sind bereits erfolgt.
 - [ ] Eigene Partner-PIN privat im Studio setzen; keine Test-PIN produktiv übernehmen.
 - [ ] Reale Freischaltung, signierte Medien-URLs, Uploads und Auth-Refresh mit getrenntem Partner- und Admin-Konto Ende-zu-Ende prüfen.
-- [ ] Vollständige Playwright-Browser-Suite erfolgreich ausführen. In der Work-Umgebung startet Chromium nicht (SIGTRAP vor dem ersten App-Aufruf); DOM-Tests sind kein Browsernachweis.
-- [ ] Installierte iPhone-/Safari-PWA prüfen: Neustart, Hintergrund/Refresh, Tastatur, Offline, HEIC, Audio-/Video-Wiedergabe, Medienwechsel und externe Player.
+- [ ] Vollständige Playwright-Browser-Suite erfolgreich ausführen; GitHub-Actions-Workflow ergänzt. In der Work-Umgebung startet Chromium nicht (SIGTRAP vor dem ersten App-Aufruf); DOM-Tests sind kein Browsernachweis.
+- [ ] Installierte Safari-PWA auf iPhone 15 Pro mit iOS 27.2 prüfen: Neustart, Hintergrund/Refresh, Tastatur, Offline, HEIC, Audio-/Video-Wiedergabe, Medienwechsel und externe Player.
 - [ ] Finale Freigabe nach bestandener Sicherheits- und Geräteabnahme.
 
 ## Nachweise und Grenzen

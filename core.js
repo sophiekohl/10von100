@@ -33,5 +33,10 @@ window.AppCore = (() => {
       const actual=Date.parse(`${p.year}-${p.month}-${p.day}T${p.hour}:${p.minute}:${p.second}Z`);const delta=target-actual;if(!delta)return new Date(instant).toISOString();instant+=delta;}
     throw Error('Diese Uhrzeit existiert wegen der Zeitumstellung nicht. Bitte eine andere Uhrzeit wählen.');
   }
-  return {API,KEY,Session,berlinDate,berlinInstant};
+  function storageURL(value){if(typeof value!=='string')throw Error('Medienlink fehlt');
+    const url=new URL(value.startsWith('/object/')?'/storage/v1'+value:value,API+'/storage/v1/');
+    if(url.origin!==API||!url.pathname.startsWith('/storage/v1/object/sign/'))throw Error('Ungültiger Medienlink');
+    return url.href;
+  }
+  return {API,KEY,Session,berlinDate,berlinInstant,storageURL};
 })();
