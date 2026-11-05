@@ -1,0 +1,31 @@
+name: Verify acceptance preview
+on:
+  pull_request:
+  push:
+    branches: [main, feature/acceptance-preview]
+permissions:
+  contents: read
+jobs:
+  preview:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: 8c79ff958f61ada0ccedfd05f941418da906254f
+          path: verified-source
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24'
+      - name: Test the preview files using the reviewed source suite
+        working-directory: verified-source
+        run: |
+          cp ../preview/index.html index.html
+          cp ../preview/core.js core.js
+          cp ../preview/partner.js partner.js
+          cp ../preview/studio/index.html studio/index.html
+          npm ci
+          npm test
+          npx playwright install --with-deps chromium webkit
+          npm run test:browser
