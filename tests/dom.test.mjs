@@ -38,3 +38,15 @@ test('Studio upload error never publishes',async()=>{const x=await open({studio:
 test('Studio administers memories',async()=>{const x=await open({studio:true,admin:true,restore:true});try{x.doc.getElementById('adminMomentCaption').value='TEST admin memory';await x.doc.getElementById('adminMomentSave').onclick();assert.ok(x.doc.getElementById('adminMomentList').textContent.includes('TEST admin memory'));x.w.prompt=()=> 'TEST changed';await [...x.doc.querySelectorAll('#adminMomentList button')].find(b=>b.textContent==='Text bearbeiten').onclick();assert.ok(x.doc.getElementById('adminMomentList').textContent.includes('TEST changed'));await [...x.doc.querySelectorAll('#adminMomentList button')].find(b=>b.textContent==='Erinnerung löschen').onclick();assert.equal(x.moments.length,0);}finally{x.dom.window.close()}});
 
 test('calendar excludes an unlocked item whose calendar flag is off',async()=>{const x=await open({restore:true,hiddenCalendar:true});try{x.doc.getElementById('openCal').onclick();assert.equal(x.doc.querySelectorAll('#grid .event').length,4);assert.ok(x.doc.querySelector('#giftcards .opened'));}finally{x.dom.window.close()}});
+
+test('Studio ignores an edit response arriving after logout',async()=>{
+ const x=await open({studio:true,admin:true,restore:true});try{
+  const originalFetch=x.w.fetch;let release;
+  const waiting=new Promise(resolve=>{release=resolve});
+  x.w.fetch=async(url,options)=>url.includes('/content_items?id=eq.late')?waiting:originalFetch(url,options);
+  const edit=x.w.editItem('late');await x.tick();
+  x.doc.getElementById('logout').click();await x.tick();
+  release(new Response(JSON.stringify([{id:'late',title:'PRIVATE late response',body:'PRIVATE body',unlock_at:'2099-01-18T08:00:00Z'}])));
+  await edit;assert.equal(x.doc.getElementById('title').value,'');assert.equal(x.doc.getElementById('body').value,'');assert.ok(x.doc.getElementById('studio').classList.contains('hidden'));
+ }finally{x.dom.window.close()}
+});

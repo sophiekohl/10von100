@@ -25,6 +25,7 @@ async function mock(page,{admin=false,uploadFailure=false}={}){await page.clock.
  else if(p==='/rest/v1/content_items'){
   if(r.method()==='POST'){items.push({...body,id});result=[items.at(-1)];}
   else if(r.method()==='PATCH'){Object.assign(items[0],body);result=null;}
+  else if(r.method()==='DELETE'){items.length=0;result=null;}
   else result=items;
  }
  else if(p==='/auth/v1/logout')return route.fulfill({status:204});
@@ -37,3 +38,23 @@ test('memory creation reload edit delete',async({page})=>{await mock(page);await
 test('PIN account is refused Studio',async({page})=>{await mock(page);await page.addInitScript(s=>sessionStorage.setItem('studioSession',JSON.stringify({...s,expires_at:Math.floor(Date.now()/1000)+3600})),session);await page.goto('/studio/');await expect(page.locator('#studio')).toBeHidden();await expect(page.locator('#loginMsg')).toContainText('Kein Studio-Zugriff');});
 test('Studio uploads remain draft until all work succeeds',async({page})=>{const {calls,items}=await mock(page,{admin:true,uploadFailure:true});await page.addInitScript(s=>sessionStorage.setItem('studioSession',JSON.stringify({...s,expires_at:Math.floor(Date.now()/1000)+3600})),session);await page.goto('/studio/');await expect(page.locator('#studio')).toBeVisible();await page.locator('#title').fill('TEST surprise');await page.locator('#body').fill('TEST private letter');await page.locator('#date').fill('2099-01-18');await page.locator('#published').check();await page.locator('#media').setInputFiles({name:'test.jpg',mimeType:'image/jpeg',buffer:Buffer.from('test')});await page.locator('#save').click();await expect(page.locator('#saveMsg')).toContainText('privater Entwurf');expect(items[0].published).toBe(false);expect(calls.some(c=>c.p==='/rest/v1/content_items'&&c.body?.published===true)).toBe(false);});
 test('iPhone viewport has no horizontal overflow and calendar marks whole range',async({page})=>{await mock(page);await page.goto('/');await page.locator('#openCal').click();await expect(page.locator('#calendar')).toBeVisible();await expect(page.locator('#grid .event')).toHaveCount(4);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.locator('#closeCal').click();await page.screenshot({path:'test-results/iphone-home.png',fullPage:true});});
+
+test('Studio saved entries can be reopened, edited and deleted without publishing drafts',async({page})=>{
+ const {items}=await mock(page,{admin:true});
+ await page.addInitScript(s=>sessionStorage.setItem('studioSession',JSON.stringify({...s,expires_at:Math.floor(Date.now()/1000)+3600})),session);
+ await page.goto('/studio/');await expect(page.locator('#studio')).toBeVisible();
+ await page.locator('#title').fill('Privater Entwurf');await page.locator('#body').fill('Nur im Studio sichtbar');await page.locator('#date').fill('2099-01-18');await page.locator('#save').click();
+ await expect(page.locator('#scheduleList')).toContainText('Privater Entwurf');
+ await page.reload();await page.locator('#scheduleList').getByRole('button',{name:'Bearbeiten',exact:true}).click();
+ await expect(page.locator('#body')).toHaveValue('Nur im Studio sichtbar');await expect(page.locator('#date')).toHaveValue('2099-01-18');await expect(page.locator('#time')).toHaveValue('09:00');
+ await page.locator('#title').fill('Überarbeiteter Entwurf');await page.locator('#save').click();await expect(page.locator('#scheduleList')).toContainText('Überarbeiteter Entwurf');expect(items[0].published).toBe(false);
+ page.once('dialog',d=>d.accept());await page.locator('#scheduleList').getByRole('button',{name:'Löschen',exact:true}).click();await expect(page.locator('#scheduleList')).toContainText('Noch keine Beiträge');expect(items).toHaveLength(0);
+});
+test('Studio date fields and header fit the iPhone screen',async({page},testInfo)=>{
+ await mock(page,{admin:true});await page.addInitScript(s=>sessionStorage.setItem('studioSession',JSON.stringify({...s,expires_at:Math.floor(Date.now()/1000)+3600})),session);
+ await page.goto('/studio/');await expect(page.locator('#studio')).toBeVisible();
+ await page.locator('#date').fill('2027-01-18');await page.locator('#rangeStart').fill('2027-01-18');await page.locator('#rangeEnd').fill('2027-01-20');
+ for(const width of [393,320]){await page.setViewportSize({width,height:852});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ for(const id of ['date','time','rangeStart','rangeEnd']){const box=await page.locator('#'+id).boundingBox();expect(box.x).toBeGreaterThanOrEqual(0);expect(box.x+box.width).toBeLessThanOrEqual(width);}}
+ await page.setViewportSize({width:393,height:852});await page.screenshot({path:testInfo.outputPath('iphone-studio.png'),fullPage:true});
+});
