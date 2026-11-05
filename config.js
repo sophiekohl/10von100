@@ -1,1 +1,1 @@
-window.APP_CONFIG={version:"2.0",title:"10 / 100",anniversary:"2017-01-18",birthday:"2026-12-09",note:"Inhalte werden in einer späteren Version über das mobile 10/100 Studio gepflegt."};
+window.APP_CONFIG={version:"3.0",title:"10 / 100",anniversary:"2017-01-18",note:"Private Inhalte werden im Admin-Studio verwaltet."};
