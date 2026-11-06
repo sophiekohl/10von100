@@ -143,3 +143,10 @@ Auf Wunsch vom 06.11.2026: Hochzeitsbild deutlich kleiner, kein Text direkt unte
 - [x] Ursache des Hinzufügefehlers eingegrenzt: Deezer-App-Kurzlink wird vom Studio nicht unterstützt. Vollständige numerische Track-Adresse zum Test verwendet; kein privater Songtitel/Link im Repository hinterlegt.
 - [x] Sophie bestätigt Hinzufügen, Playeranzeige und hörbare Deezer-Wiedergabe in der Partner-App auf dem iPhone.
 - [ ] Automatische Kurzlinkauflösung weiterhin nicht implementiert. Bis dahin vollständige Track-/Album-/Playlist-Adressen verwenden; keine allgemeine Kurzlink-Unterstützung als fertig markieren.
+
+## Korrektur Moment hinzufügen
+
+- [x] Formular blieb nach Verschieben der Schaltfläche hinter der Erinnerungsliste. Formular und Status sind jetzt unmittelbar unter der Schaltfläche; Öffnen scrollt/fokussiert den Formularbereich mit Abstand zur Bildschirmkante.
+- [x] Eingaben bleiben beim Zu-/Aufklappen erhalten; Speichern schließt das Formular und stellt den Schaltflächenzustand zurück. Logout bereinigt den Zustand.
+- [x] 26 mobile Browserprüfungen in Chromium/WebKit bestanden, einschließlich 20 bestehender Erinnerungen, sichtbarer Formularposition und erfolgreichem Speichern: https://github.com/sophiekohl/10von100/actions/runs/42267759839 . PR #13 nach Prüfung zusammengeführt.
+- [ ] Korrigiertes Hinzufügen und anschließender JPG-Collagenexport auf Sophies iPhone erneut bestätigen.
