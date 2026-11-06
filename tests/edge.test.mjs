@@ -1,0 +1,17 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {createHandler} from '../supabase/functions/partner-pin/handler.mjs';
+const req=(body,headers={})=>new Request('https://test/partner-pin',{method:'POST',headers:{'Content-Type':'application/json',...headers},body:JSON.stringify(body)});
+const ok=data=>new Response(JSON.stringify(data),{headers:{'Content-Type':'application/json'}});
+test('origin and body limits reject before upstream calls',async()=>{let calls=0;const handler=createHandler({url:'https://test',key:'test',fetcher:()=>{calls++;throw Error()}});
+ assert.equal((await handler(req({action:'login',pin:'1234'},{origin:'https://evil.example'}))).status,403);
+ assert.equal((await handler(req({action:'login',pin:'x'.repeat(600)}))).status,413);assert.equal(calls,0);
+});
+test('invalid PIN never reaches session issuer; generic errors and no cache',async()=>{const calls=[];const handler=createHandler({url:'https://test',key:'server-secret',fetcher:async(url,opts)=>{calls.push({url,body:JSON.parse(opts.body)});return ok(null)}});
+ const response=await handler(req({action:'login',pin:'bad'},{'x-forwarded-for':'192.0.2.1'}));assert.equal(response.status,401);assert.equal(response.headers.get('cache-control'),'no-store');assert.equal(calls.length,1);assert.equal(calls[0].body.p_ip_hash.length,64);assert.ok(!JSON.stringify(calls).includes('192.0.2.1'));
+});
+test('non-admin cannot configure or revoke PIN',async()=>{for(const action of ['configure','revoke']){const calls=[];const handler=createHandler({url:'https://test',key:'secret',fetcher:async url=>{calls.push(url);return ok(url.endsWith('/user')?{id:'member'}:false)}});const r=await handler(req({action,pin:'1234'},{authorization:'Bearer partner-token'}));assert.equal(r.status,403);assert.equal(calls.length,2);}});
+test('approved PIN returns only registered standard Auth session',async()=>{const claims=btoa(JSON.stringify({session_id:'sid'}));const calls=[];const handler=createHandler({url:'https://test',key:'server-secret',fetcher:async(url,opts)=>{calls.push(url);if(url.endsWith('partner_pin_check'))return ok({user_id:'partner',email:'internal@example.invalid',revision:'rev'});if(url.endsWith('generate_link'))return ok({hashed_token:'private-otp'});if(url.endsWith('/verify'))return ok({access_token:'x.'+claims+'.x',refresh_token:'refresh',expires_in:3600,user:{id:'partner',email:'internal@example.invalid'}});if(url.endsWith('partner_pin_register'))return ok(true);throw Error();}});
+ const response=await handler(req({action:'login',pin:'1234'}));assert.equal(response.status,200);const body=await response.json();assert.equal(body.user.id,'partner');assert.equal(body.refresh_token,'refresh');assert.ok(!JSON.stringify(body).includes('server-secret'));assert.ok(!JSON.stringify(body).includes('private-otp'));assert.ok(!JSON.stringify(body).includes('internal@example'));assert.equal(calls.length,4);
+});
+test('rotation race cannot issue a usable session',async()=>{const handler=createHandler({url:'https://test',key:'secret',fetcher:async url=>{if(url.endsWith('partner_pin_check'))return ok({user_id:'p',email:'x',revision:'old'});if(url.endsWith('generate_link'))return ok({hashed_token:'x'});if(url.endsWith('/verify'))return ok({access_token:'x.'+btoa('{"session_id":"s"}')+'.x',user:{id:'p'}});if(url.endsWith('partner_pin_register'))return ok(false);return new Response(null,{status:204});}});assert.equal((await handler(req({action:'login',pin:'1234'}))).status,401);});

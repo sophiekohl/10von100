@@ -1,0 +1,3 @@
+[functions.partner-pin]
+# The handler authenticates PINs itself, and validates admin JWTs with Auth.
+verify_jwt = false

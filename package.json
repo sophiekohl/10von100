@@ -1,0 +1,15 @@
+{
+  "name": "10von100",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/edge.test.mjs tests/session.test.mjs tests/sw.test.mjs",
+    "test:browser": "playwright test",
+    "test:db": "node tests/database.mjs"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.5.15",
+    "@playwright/test": "1.56.1",
+    "jsdom": "27.2.0"
+  }
+}
