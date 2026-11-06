@@ -156,3 +156,9 @@ Auf Wunsch vom 06.11.2026: Hochzeitsbild deutlich kleiner, kein Text direkt unte
 - [x] Sophie bestätigt erfolgreichen Collagenablauf nach Wiederfinden des Moment-Formulars. Gesonderte breite Prüfung vieler Bilder/Formatmischungen bleibt sinnvoll.
 - [x] Überraschungsmedien erhalten feinen cremefarbenen Rahmen und dezenten Schatten. Scrollhinweis erscheint nur bei verbleibendem Inhalt unterhalb der aktuellen Position; bei kurzem Inhalt und am Ende verborgen.
 - [x] 28 mobile Chromium-/WebKit-Prüfungen erfolgreich: https://github.com/sophiekohl/10von100/actions/runs/42278276300 . PR #14 nach Prüfung zusammengeführt; Auslieferung durch GitHub Pages gesondert kontrollieren.
+
+## Manuelle Mediengestaltung-Abnahme
+
+- [x] GitHub-Pages-Veröffentlichung für PR #14 erfolgreich, ausgelieferter Rahmen und Scrollhinweis per HTTPS verifiziert.
+- [x] Sophie bestätigt anschließend die funktionierende Mediengestaltung auf ihrem iPhone.
+- [ ] Harmlosen Testbeitrag einschließlich Medien nach Tests entfernen; finale installierte PWA und Betrieb bleiben offen.
