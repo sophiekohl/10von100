@@ -184,3 +184,10 @@ Auf Wunsch vom 06.11.2026: Hochzeitsbild deutlich kleiner, kein Text direkt unte
 - [x] Kombination aus Entwurf 07 und 03 von Sophie freigegeben.
 - [x] Versionierte PNG-App-Icons (192/512) und Browser-Icon (64) erstellt; Manifest, Apple-Touch-Icon und öffentlicher Cache aktualisiert.
 - [ ] Darstellung des neuen Symbols bei bestehender iPhone-Installation prüfen.
+
+## Push-Ausbau
+- [x] Neutrale Push-Mitteilungen, freiwilliges Aktivieren/Ausschalten und Testversand implementiert.
+- [x] Private Subscription-Verwaltung, Vault-Schlüssel, Minutenplan und Zustellprotokoll mit Wiederholungsbegrenzung umgesetzt.
+- [x] Lokale Rechte-/Sperr-/Freischaltungs- und Verschlüsselungstests bestanden.
+- [ ] Browser-Regression und Live-Veröffentlichung prüfen.
+- [ ] Echten Empfang, Antippen und geplanten Versand auf Sophies installierter iPhone-App abnehmen; erst danach Push als fertig markieren.

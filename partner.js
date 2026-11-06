@@ -1,6 +1,11 @@
 function memoryAction(button,label,path){button.setAttribute('aria-label',label);button.title=label;button.style.cssText='display:inline-flex;align-items:center;justify-content:center;flex:0 0 44px;width:44px;min-height:44px;margin:0;padding:10px;border:0;background:transparent;color:#641d2b;border-radius:12px;font-size:0;cursor:pointer';const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 24 24');svg.setAttribute('width','20');svg.setAttribute('height','20');svg.setAttribute('fill','none');svg.setAttribute('stroke','currentColor');svg.setAttribute('stroke-width','1.7');svg.setAttribute('stroke-linecap','round');svg.setAttribute('stroke-linejoin','round');svg.setAttribute('aria-hidden','true');const shape=document.createElementNS('http://www.w3.org/2000/svg','path');shape.setAttribute('d',path);svg.append(shape);button.append(svg);}
 const {API,KEY,Session,berlinDate}=AppCore;
 const partner=new Session(localStorage,'10von100_partner_session');
+PartnerPush.init(partner);
+const pushIdPattern=/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i;
+let pendingPushId=new URL(location.href).searchParams.get('surprise');if(!pushIdPattern.test(pendingPushId||''))pendingPushId=null;
+if(new URL(location.href).searchParams.has('surprise'))history.replaceState(null,'',location.pathname);
+if('serviceWorker'in navigator)navigator.serviceWorker.addEventListener('message',e=>{if(e.data?.type==='OPEN_SURPRISE'&&pushIdPattern.test(e.data.id||'')){pendingPushId=e.data.id;loadSurprises()}});
 let gifts=[],calendarRanges=[],loadVersion=0,gateVerified=false;
 const ids=['giftcards','detail','detailTitle','detailtext','detailMedia','authBox','authSignedIn','authMsg','authPin','authLogin','authLogout','intro','info','close','begin','closeDetail','addMoment','upload','daycount','monthtitle','grid','openCal','closeCal','prev','nextm','calendar','momentList','momentMsg','saveMoment','momentCaption','momentDate','momentFiles'];
 const ui=Object.fromEntries(ids.map(id=>[id,document.getElementById(id)]));
@@ -10,7 +15,7 @@ function clearPrivate(){stopDetailMedia();gateVerified=false;loadVersion++;detai
 partner.onclear=clearPrivate;
 // Remove the legacy session; a separate PIN session must never inherit admin credentials.
 localStorage.removeItem('10von100_access_token');localStorage.removeItem('10von100_refresh_token');
-function authUI(){const yes=!!partner.read()&&gateVerified;ui.authBox.hidden=false;ui.authSignedIn.hidden=true;ui.addMoment.disabled=!yes;document.getElementById('privateApp').hidden=!yes;document.getElementById('privateNav').hidden=!yes;ui.close.hidden=!yes;if(yes){document.getElementById('pinGate').hidden=true;ui.intro.classList.remove('show')}else if(document.getElementById('pinGate').hidden){ui.intro.classList.add('show')}}
+function authUI(){const yes=!!partner.read()&&gateVerified;PartnerPush.update(yes);ui.authBox.hidden=false;ui.authSignedIn.hidden=true;ui.addMoment.disabled=!yes;document.getElementById('privateApp').hidden=!yes;document.getElementById('privateNav').hidden=!yes;ui.close.hidden=!yes;if(yes){document.getElementById('pinGate').hidden=true;ui.intro.classList.remove('show')}else if(document.getElementById('pinGate').hidden){ui.intro.classList.add('show')}}
 async function publicRPC(name){const r=await fetch(API+'/rest/v1/rpc/'+name,{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},body:'{}',cache:'no-store'});if(!r.ok)throw Error('Kalender nicht verfügbar');return r.json();}
 async function loadSurprises(){const version=++loadVersion;
   try{const [schedule,ranges]=await Promise.all([publicRPC('public_surprise_schedule'),publicRPC('public_calendar_ranges')]);
@@ -25,6 +30,7 @@ async function loadSurprises(){const version=++loadVersion;
     calendarRanges=ranges;const visible=new Map(schedule.map(x=>[x.id,x]));for(const u of unlocked)visible.set(u.id,{...u,is_unlocked:true});
     const opened=new Map(unlocked.map(x=>[x.id,x]));gifts=[...visible.values()].map(x=>{const u=opened.get(x.id);return{id:x.id,calendarVisible:schedule.some(item=>item.id===x.id),date:berlinDate(new Date(x.unlock_at)),unlock_at:x.unlock_at,state:u?'open':'locked',title:u?.title||'Da wartet etwas auf dich.',body:u?.body||'',media:media.filter(m=>m.content_item_id===x.id)}}).sort((a,b)=>a.unlock_at.localeCompare(b.unlock_at));
     renderGifts();cal();const available=gifts.some(g=>g.state==='open');document.querySelector('#next b').textContent=available?'FÜR DICH FREIGESCHALTET':'NÄCHSTE ÜBERRASCHUNG';const future=gifts.find(x=>new Date(x.unlock_at)>new Date());document.querySelector('#next small').textContent=available?'Deine Überraschung öffnen →':future?fmt(future.date):'Bald wartet hier etwas auf dich.';
+    if(gateVerified&&pendingPushId){const target=gifts.find(g=>g.id===pendingPushId&&g.state==='open');pendingPushId=null;if(target)showGift(target);}
   }catch{if(version!==loadVersion)return;clearPrivate();ui.giftcards.textContent='Die Überraschungen sind gerade nicht erreichbar. Bitte mit Internetverbindung erneut versuchen.';}}
 ui.authLogin.onclick=async()=>{ui.authLogin.disabled=true;ui.authMsg.textContent='Anmeldung läuft …';const pin=ui.authPin.value;ui.authPin.value='';try{
   if(!navigator.onLine)throw Error('Du bist offline. Bitte mit dem Internet verbinden und erneut versuchen.');
@@ -32,7 +38,7 @@ ui.authLogin.onclick=async()=>{ui.authLogin.disabled=true;ui.authMsg.textContent
   const r=await fetch(API+'/functions/v1/partner-pin',{method:'POST',cache:'no-store',headers:{apikey:KEY,'Content-Type':'application/json'},body:JSON.stringify({action:'login',pin})});const data=await r.json();if(!r.ok)throw Error(data.error||'Anmeldung nicht möglich.');partner.save(data);authUI();await Promise.all([loadSurprises(),loadMoments()]);ui.authMsg.textContent='';
 }catch(e){ui.authMsg.textContent=e.message}finally{ui.authLogin.disabled=false}};
 ui.authPin.onkeydown=e=>{if(e.key==='Enter')ui.authLogin.click()};
-ui.authLogout.onclick=async()=>{try{await partner.logout()}catch(e){ui.authMsg.textContent=e.message}await loadSurprises()};
+ui.authLogout.onclick=async()=>{try{try{await PartnerPush.remove()}catch{}await partner.logout()}catch(e){ui.authMsg.textContent=e.message}await loadSurprises()};
 const fmt=d=>new Intl.DateTimeFormat('de-DE',{day:'2-digit',month:'long',year:'numeric'}).format(new Date(d+'T12:00:00'));
 function renderGifts(){const f=document.querySelector('.filters .active')?.dataset.filter||'all';ui.giftcards.replaceChildren();const items=gifts.filter(g=>f==='all'||g.state===f);if(!items.length){ui.giftcards.textContent='Hier wird bald etwas für dich warten. ♡';return;}
   for(const g of items){const card=document.createElement('button');card.type='button';card.className='card '+(g.state==='open'?'opened':'');const tag=document.createElement('span');tag.className='tag';tag.textContent=g.state==='open'?'GEÖFFNET ♡':'NOCH VERSCHLOSSEN';const title=document.createElement('h3');title.textContent=g.title;const date=document.createElement('p');date.textContent=fmt(g.date);card.append(tag,title,date);card.onclick=()=>showGift(g);ui.giftcards.append(card);}}
