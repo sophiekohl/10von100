@@ -14,9 +14,15 @@ test('memory collage exports real high resolution JPEG and closes on logout',asy
 test('Home fits short iPhone viewport and does not overlap navigation',async({page})=>{
  await mock(page);await page.goto('/');
  for(const height of [650,740,852]){await page.setViewportSize({width:393,height});const dimensions=await page.evaluate(()=>({scroll:document.documentElement.scrollHeight,height:innerHeight,bottom:document.querySelector('#openCal').getBoundingClientRect().bottom,nav:document.querySelector('.nav').getBoundingClientRect().top}));expect(dimensions.scroll).toBeLessThanOrEqual(dimensions.height);expect(dimensions.bottom).toBeLessThanOrEqual(dimensions.nav);}
- await expect(page.locator('#home figcaption')).toHaveCount(0);await expect(page.locator('#home .herofoot')).toHaveCount(0);
+ await expect(page.locator('#home figcaption')).toHaveCount(1);await expect(page.locator('#home .herofoot')).toHaveCount(0);
 });
 
 test('Unser Jahr supports direct PIN login with one shared session',async({page})=>{
  const {calls}=await mock(page);await page.goto('/');await page.getByRole('button',{name:'Unser Jahr',exact:true}).click();await expect(page.locator('#year #authBox')).toBeVisible();await page.locator('#authPin').fill('4826');await page.locator('#authLogin').click();await expect(page.locator('#year #authSignedIn')).toBeVisible();await page.getByRole('button',{name:'Für dich',exact:true}).click();await expect(page.locator('#foryou #authSignedIn')).toBeVisible();expect(calls.filter(c=>c.p.endsWith('/partner-pin'))).toHaveLength(1);
+});
+
+test('Year sign-in is at top and signed-in status stays slim',async({page})=>{
+ await mock(page);await page.goto('/');await page.getByRole('button',{name:'Unser Jahr',exact:true}).click();
+ const position=await page.evaluate(()=>document.querySelector('#year h1').nextElementSibling.id);expect(position).toBe('authBox');
+ await page.locator('#authPin').fill('4826');await page.locator('#authLogin').click();await expect(page.locator('#authSignedIn')).toBeVisible();const box=await page.locator('#authSignedIn').boundingBox();expect(box.height).toBeLessThanOrEqual(56);
 });
