@@ -37,7 +37,7 @@ function renderGifts(){const f=document.querySelector('.filters .active')?.datas
 document.querySelectorAll('.filters button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.filters button').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderGifts()});
 async function signedMedia(bucket,path){const data=await partner.request('/storage/v1/object/sign/'+bucket+'/'+path.split('/').map(encodeURIComponent).join('/'),{method:'POST',body:JSON.stringify({expiresIn:120})});return AppCore.storageURL(data.signedURL);}
 let detailVersion=0;
-async function showGift(g){const version=++detailVersion;ui.detailMedia.replaceChildren();ui.detailTitle.textContent=g.state==='open'?g.title:'Da wartet etwas auf dich.';ui.detailtext.textContent=g.state==='open'?g.body:'Diese Karte ist noch verschlossen. Wenn ihre Zeit gekommen ist, öffnet sie sich hier wie ein kleiner digitaler Brief.';ui.detail.classList.add('show');if(g.state!=='open')return;
+async function showGift(g){detailPanel.scrollTop=0;const version=++detailVersion;ui.detailMedia.replaceChildren();ui.detailTitle.textContent=g.state==='open'?g.title:'Da wartet etwas auf dich.';ui.detailtext.textContent=g.state==='open'?g.body:'Diese Karte ist noch verschlossen. Wenn ihre Zeit gekommen ist, öffnet sie sich hier wie ein kleiner digitaler Brief.';ui.detail.classList.add('show');if(g.state!=='open')return;
   for(const m of g.media.slice().sort((a,b)=>a.sort_order-b.sort_order)){let node;try{
     if(['image','video','audio'].includes(m.media_type)&&m.storage_path){const src=await signedMedia('content',m.storage_path);if(version!==detailVersion||!partner.read())return;node=document.createElement(m.media_type==='image'?'img':m.media_type);node.src=src;if(m.media_type==='image')node.alt=m.caption||'Erinnerung';else{node.controls=true;node.preload='metadata';node.playsInline=true;node.onplay=()=>{document.querySelectorAll('#detail audio,#detail video').forEach(other=>{if(other!==node)other.pause()});if('mediaSession'in navigator&&'MediaMetadata'in window){navigator.mediaSession.metadata=new MediaMetadata({title:g.title,artist:'10 / 100'});navigator.mediaSession.setActionHandler('play',()=>node.play());navigator.mediaSession.setActionHandler('pause',()=>node.pause())}};if(m.media_type==='video'){const key='10von100-video-'+m.id;node.onloadedmetadata=()=>{const position=Number(localStorage.getItem(key));if(position>0&&position<node.duration-2)node.currentTime=position};node.ontimeupdate=()=>localStorage.setItem(key,String(node.currentTime));node.onended=()=>localStorage.removeItem(key);}}}
     else if(m.media_type==='youtube'&&/^[\w-]{11}$/.test(m.youtube_video_id||'')){node=document.createElement('iframe');node.src='https://www.youtube-nocookie.com/embed/'+m.youtube_video_id;node.title='YouTube-Video';node.allowFullscreen=true;}
@@ -149,3 +149,12 @@ for(const digit of ['1','2','3','4','5','6','7','8','9','Zurück','0','Löschen'
 ui.authPin.readOnly=true;ui.authPin.after(keys);ui.authPin.setAttribute('aria-label','Vierstellige PIN');
 const logout=document.createElement('button');logout.textContent='Auf diesem Gerät abmelden';logout.className='calbtn';logout.onclick=()=>ui.authLogout.click();document.querySelector('#intro .intro').append(logout);logout.hidden=!partner.read();ui.info.addEventListener('click',()=>{logout.hidden=!gateVerified});
 authUI();
+
+const detailPanel=ui.detail.querySelector('.panel'),detailCue=document.createElement('div');detailCue.className='detailScrollCue';detailCue.textContent='Weiter unten entdecken ↓';detailCue.setAttribute('aria-hidden','true');detailCue.hidden=true;ui.detail.append(detailCue);
+function updateDetailCue(){detailCue.hidden=!ui.detail.classList.contains('show')||detailPanel.scrollHeight-detailPanel.clientHeight-detailPanel.scrollTop<36}
+detailPanel.addEventListener('scroll',updateDetailCue,{passive:true});
+addEventListener('resize',updateDetailCue);
+const detailResize=new ResizeObserver(updateDetailCue);detailResize.observe(detailPanel);detailResize.observe(ui.detailMedia);
+new MutationObserver(updateDetailCue).observe(ui.detail,{attributes:true,attributeFilter:['class']});
+new MutationObserver(updateDetailCue).observe(ui.detailMedia,{childList:true,subtree:true});
+ui.detailMedia.addEventListener('load',updateDetailCue,true);
