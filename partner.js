@@ -1,15 +1,15 @@
 function memoryAction(button,label,path){button.setAttribute('aria-label',label);button.title=label;button.style.cssText='display:inline-flex;align-items:center;justify-content:center;flex:0 0 44px;width:44px;min-height:44px;margin:0;padding:10px;border:0;background:transparent;color:#641d2b;border-radius:12px;font-size:0;cursor:pointer';const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 24 24');svg.setAttribute('width','20');svg.setAttribute('height','20');svg.setAttribute('fill','none');svg.setAttribute('stroke','currentColor');svg.setAttribute('stroke-width','1.7');svg.setAttribute('stroke-linecap','round');svg.setAttribute('stroke-linejoin','round');svg.setAttribute('aria-hidden','true');const shape=document.createElementNS('http://www.w3.org/2000/svg','path');shape.setAttribute('d',path);svg.append(shape);button.append(svg);}
 const {API,KEY,Session,berlinDate}=AppCore;
 const partner=new Session(localStorage,'10von100_partner_session');
-let gifts=[],calendarRanges=[],loadVersion=0;
+let gifts=[],calendarRanges=[],loadVersion=0,gateVerified=false;
 const ids=['giftcards','detail','detailTitle','detailtext','detailMedia','authBox','authSignedIn','authMsg','authPin','authLogin','authLogout','intro','info','close','begin','closeDetail','addMoment','upload','daycount','monthtitle','grid','openCal','closeCal','prev','nextm','calendar','momentList','momentMsg','saveMoment','momentCaption','momentDate','momentFiles'];
 const ui=Object.fromEntries(ids.map(id=>[id,document.getElementById(id)]));
-function clearPrivate(){loadVersion++;detailVersion++;momentVersion++;if('mediaSession'in navigator)navigator.mediaSession.metadata=null;gifts=gifts.map(g=>({...g,state:'locked',title:'Da wartet etwas auf dich.',body:'',media:[]}));
+function clearPrivate(){gateVerified=false;loadVersion++;detailVersion++;momentVersion++;if('mediaSession'in navigator)navigator.mediaSession.metadata=null;gifts=gifts.map(g=>({...g,state:'locked',title:'Da wartet etwas auf dich.',body:'',media:[]}));
   ui.detail.classList.remove('show');ui.detailTitle.textContent='Da wartet etwas auf dich.';ui.detailtext.textContent='';ui.detailMedia.replaceChildren();ui.momentList.replaceChildren();ui.upload.classList.remove('show');ui.momentCaption.value='';ui.momentFiles.value='';renderGifts();authUI();}
 partner.onclear=clearPrivate;
 // Remove the legacy session; a separate PIN session must never inherit admin credentials.
 localStorage.removeItem('10von100_access_token');localStorage.removeItem('10von100_refresh_token');
-function authUI(){const yes=!!partner.read();ui.authBox.hidden=yes;ui.authSignedIn.hidden=!yes;ui.addMoment.disabled=!yes;}
+function authUI(){const yes=!!partner.read()&&gateVerified;ui.authBox.hidden=false;ui.authSignedIn.hidden=true;ui.addMoment.disabled=!yes;document.getElementById('privateApp').hidden=!yes;document.getElementById('privateNav').hidden=!yes;ui.close.hidden=!yes;if(yes){document.getElementById('pinGate').hidden=true;ui.intro.classList.remove('show')}else if(document.getElementById('pinGate').hidden){ui.intro.classList.add('show')}}
 async function publicRPC(name){const r=await fetch(API+'/rest/v1/rpc/'+name,{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},body:'{}',cache:'no-store'});if(!r.ok)throw Error('Kalender nicht verfügbar');return r.json();}
 async function loadSurprises(){const version=++loadVersion;
   try{const [schedule,ranges]=await Promise.all([publicRPC('public_surprise_schedule'),publicRPC('public_calendar_ranges')]);
@@ -17,13 +17,13 @@ async function loadSurprises(){const version=++loadVersion;
     if(partner.read()){
       try{[unlocked,media]=await Promise.all(['public_unlocked_surprises','unlocked_couple_media'].map(name=>partner.request('/rest/v1/rpc/'+name,{method:'POST',body:'{}'})));
         // A revoked or expired partner session cannot return member data.
-        if(!await partner.request('/rest/v1/rpc/is_couple_member',{method:'POST',body:'{}'})){partner.clear();return loadSurprises();}
+        if(!await partner.request('/rest/v1/rpc/is_couple_member',{method:'POST',body:'{}'})){partner.clear();return loadSurprises();}gateVerified=true;authUI();
       }catch(e){if(version!==loadVersion)return;clearPrivate();ui.authMsg.textContent=e.message;return;}
     }
     if(version!==loadVersion)return;
     calendarRanges=ranges;const visible=new Map(schedule.map(x=>[x.id,x]));for(const u of unlocked)visible.set(u.id,{...u,is_unlocked:true});
     const opened=new Map(unlocked.map(x=>[x.id,x]));gifts=[...visible.values()].map(x=>{const u=opened.get(x.id);return{id:x.id,calendarVisible:schedule.some(item=>item.id===x.id),date:berlinDate(new Date(x.unlock_at)),unlock_at:x.unlock_at,state:u?'open':'locked',title:u?.title||'Da wartet etwas auf dich.',body:u?.body||'',media:media.filter(m=>m.content_item_id===x.id)}}).sort((a,b)=>a.unlock_at.localeCompare(b.unlock_at));
-    renderGifts();cal();const future=gifts.find(x=>new Date(x.unlock_at)>new Date());document.querySelector('#next small').textContent=future?fmt(future.date):'Bald wartet hier etwas auf dich.';
+    renderGifts();cal();const available=gifts.some(g=>g.state==='open');document.querySelector('#next b').textContent=available?'FÜR DICH FREIGESCHALTET':'NÄCHSTE ÜBERRASCHUNG';const future=gifts.find(x=>new Date(x.unlock_at)>new Date());document.querySelector('#next small').textContent=available?'Deine Überraschung öffnen →':future?fmt(future.date):'Bald wartet hier etwas auf dich.';
   }catch{if(version!==loadVersion)return;clearPrivate();ui.giftcards.textContent='Die Überraschungen sind gerade nicht erreichbar. Bitte mit Internetverbindung erneut versuchen.';}}
 ui.authLogin.onclick=async()=>{ui.authLogin.disabled=true;ui.authMsg.textContent='Anmeldung läuft …';const pin=ui.authPin.value;ui.authPin.value='';try{
   if(!/^[0-9]{4}$/.test(pin))throw Error('Bitte vier Ziffern eingeben.');
@@ -46,8 +46,8 @@ async function showGift(g){const version=++detailVersion;ui.detailMedia.replaceC
   }catch{if(version!==detailVersion)return;const p=document.createElement('p');p.textContent='Dieses Medium konnte nicht geladen werden. Bitte den Brief erneut öffnen.';ui.detailMedia.append(p);}}
 }
 ui.closeDetail.onclick=()=>{detailVersion++;if('mediaSession'in navigator)navigator.mediaSession.metadata=null;ui.detail.classList.remove('show');ui.detailMedia.replaceChildren()};
-const pages=[...document.querySelectorAll('.page')],nav=[...document.querySelectorAll('.nav button')];nav.forEach(b=>b.onclick=()=>{pages.forEach(p=>p.classList.toggle('on',p.id===b.dataset.p));nav.forEach(n=>n.classList.toggle('sel',n===b));if(b.dataset.p==='year'){document.querySelector('#year h1').after(ui.authBox,ui.authSignedIn);loadMoments()}else if(b.dataset.p==='foryou'){document.getElementById('foryou').prepend(ui.authBox,ui.authSignedIn)};scrollTo(0,0)});
-if(!localStorage.introSeen)ui.intro.classList.add('show');ui.info.onclick=()=>ui.intro.classList.add('show');ui.close.onclick=()=>ui.intro.classList.remove('show');ui.begin.onclick=()=>{ui.intro.classList.remove('show');localStorage.introSeen='1'};
+const pages=[...document.querySelectorAll('.page')],nav=[...document.querySelectorAll('.nav button')];nav.forEach(b=>b.onclick=()=>{pages.forEach(p=>p.classList.toggle('on',p.id===b.dataset.p));nav.forEach(n=>n.classList.toggle('sel',n===b));if(b.dataset.p==='year'){loadMoments()};scrollTo(0,0)});
+ui.info.onclick=()=>ui.intro.classList.add('show');ui.close.onclick=()=>{if(gateVerified)ui.intro.classList.remove('show')};ui.begin.onclick=()=>{ui.intro.classList.remove('show');if(!gateVerified)document.getElementById('pinGate').hidden=false;localStorage.introSeen='1'};
 // 10% refers to ten of one hundred years, not to elapsed app-year progress.
 ui.daycount.textContent='10 Jahre am 18. Januar 2027';
 let view=new Date();view=new Date(view.getFullYear(),view.getMonth(),1);
@@ -55,7 +55,7 @@ function cal(){ui.monthtitle.textContent=new Intl.DateTimeFormat('de-DE',{month:
   for(let i=0;i<(view.getDay()+6)%7;i++)ui.grid.append(document.createElement('div'));
   for(let day=1;day<=new Date(view.getFullYear(),view.getMonth()+1,0).getDate();day++){const iso=[view.getFullYear(),String(view.getMonth()+1).padStart(2,'0'),String(day).padStart(2,'0')].join('-');const d=document.createElement('div');d.className='d';d.textContent=day;if(gifts.some(g=>g.calendarVisible&&g.date===iso)||calendarRanges.some(r=>r.start_date<=iso&&iso<=r.end_date))d.classList.add('event');if(iso===berlinDate(new Date()))d.classList.add('today');ui.grid.append(d);}}
 ui.openCal.onclick=()=>{cal();ui.calendar.classList.add('show')};ui.closeCal.onclick=()=>ui.calendar.classList.remove('show');ui.prev.onclick=()=>{view.setMonth(view.getMonth()-1);cal()};ui.nextm.onclick=()=>{view.setMonth(view.getMonth()+1);cal()};
-ui.next=document.getElementById('next');ui.next.onclick=()=>ui.openCal.click();
+ui.next=document.getElementById('next');ui.next.setAttribute('role','button');ui.next.tabIndex=0;ui.next.onclick=()=>{const available=gifts.filter(g=>g.state==='open').sort((a,b)=>b.unlock_at.localeCompare(a.unlock_at))[0];if(available)showGift(available);else ui.openCal.click()};ui.next.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();ui.next.click()}};
 let momentVersion=0;
 async function loadMoments(){const version=++momentVersion;if(!partner.read()){ui.momentList.textContent='Melde dich hier mit deiner PIN an, um eure Erinnerungen zu sehen.';return;}
  try{const rows=await partner.request('/rest/v1/year_moments?select=id,caption,moment_date,created_by,moment_photos(id,storage_path)&order=moment_date.desc');if(version!==momentVersion||!partner.read())return;ui.momentList.replaceChildren();if(!rows.length)ui.momentList.textContent='Euer erster Moment wartet darauf, festgehalten zu werden. ♡';for(const row of rows){const article=document.createElement('article');article.className='card';const date=document.createElement('p');date.textContent=fmt(row.moment_date);const caption=document.createElement('p');caption.textContent=row.caption||'';article.append(date,caption);ui.momentList.append(article);
@@ -139,3 +139,11 @@ async function exportMemoryJpg(photos,page,status,version){
  const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/jpeg',0.95));canvas.width=canvas.height=1;if(!blob)throw Error('JPG konnte nicht erstellt werden.');
  return new File([blob],'Unser-Jahr'+(photos.length>48?'-'+(page+1):'')+'.jpg',{type:'image/jpeg'});
 }
+
+document.getElementById('gateForm').append(ui.authBox);
+document.getElementById('backWelcome').onclick=()=>{document.getElementById('pinGate').hidden=true;ui.authPin.value='';ui.intro.classList.add('show')};
+const keys=document.createElement('div');keys.className='pinKeys';keys.setAttribute('aria-label','PIN-Ziffern');
+for(const digit of ['1','2','3','4','5','6','7','8','9','Zurück','0','Löschen']){const b=document.createElement('button');b.type='button';b.textContent=digit==='Löschen'?'⌫':digit==='Zurück'?'←':digit;b.setAttribute('aria-label',digit);b.onclick=()=>{if(digit==='Zurück')document.getElementById('backWelcome').click();else if(digit==='Löschen')ui.authPin.value=ui.authPin.value.slice(0,-1);else if(ui.authPin.value.length<4)ui.authPin.value+=digit};keys.append(b)}
+ui.authPin.readOnly=true;ui.authPin.after(keys);ui.authPin.setAttribute('aria-label','Vierstellige PIN');
+const logout=document.createElement('button');logout.textContent='Auf diesem Gerät abmelden';logout.className='calbtn';logout.onclick=()=>ui.authLogout.click();document.querySelector('#intro .intro').append(logout);logout.hidden=!partner.read();ui.info.addEventListener('click',()=>{logout.hidden=!gateVerified});
+authUI();
