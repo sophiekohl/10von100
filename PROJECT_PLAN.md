@@ -186,4 +186,6 @@ Auf Wunsch vom 06.11.2026: Hochzeitsbild deutlich kleiner, kein Text direkt unte
 - [ ] Neustart, Offline-/Online-Wiederaufnahme und längerer Hintergrundbetrieb weiter prüfen; Erstinstallation bestätigt nicht automatisch diese Fälle.
 - [x] Zehn Logoentwürfe erstellt; Sophie hat die Kombination aus 07 und 03 freigegeben.
 - [x] App-Icons und Browser-Icon vorbereitet, kleine Darstellung visuell geprüft; PR #15.
-- [ ] Veröffentlichung und neues Symbol auf bestehender iPhone-Installation bestätigen.
+- [x] PR #15 nach beiden erfolgreichen CI-Läufen zusammengeführt; Pages-Veröffentlichung 42294885045 erfolgreich.
+- [ ] Neues Symbol auf bestehender iPhone-Installation bestätigen.
+- [ ] Nächster Ausbau: neutrale Push-Nachrichten ohne Überraschungstitel oder private Medien, mit echtem iPhone-Empfangstest.
