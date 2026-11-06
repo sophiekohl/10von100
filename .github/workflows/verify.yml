@@ -18,6 +18,14 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm run test:db
+      - name: Use official Ubuntu archive for browser dependencies
+        # Azure's Ubuntu mirror timed out during dependency installation.
+        run: |
+          for source in /etc/apt/sources.list /etc/apt/sources.list.d/*.sources /etc/apt/sources.list.d/*.list; do
+            if [ -f "$source" ]; then
+              sudo sed -i 's|http://azure.archive.ubuntu.com/ubuntu|https://archive.ubuntu.com/ubuntu|g; s|https://azure.archive.ubuntu.com/ubuntu|https://archive.ubuntu.com/ubuntu|g' "$source"
+            fi
+          done
       - run: npx playwright install --with-deps chromium webkit
       - run: npm run test:browser
       - name: Save mobile test evidence
