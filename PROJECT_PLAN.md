@@ -121,3 +121,9 @@ Auf Wunsch vom 06.11.2026: Hochzeitsbild deutlich kleiner, kein Text direkt unte
 - [x] Sophie hat dem Testbeitrag ein unverfängliches Foto hinzugefügt und die Veröffentlichung auf einen zukünftigen Termin gesetzt: Karte verschlossen, Foto sowie Titel/Text nicht sichtbar.
 - [x] Nach expliziter Freischaltung durch vergangenen Termin zeigt die Partner-App Foto, Titel und Text korrekt an (Sophie bestätigt).
 - [ ] Video/Audio-Wiedergabe sowie final installierte PWA weiter prüfen. Foto-Nachweis ist kein Nachweis für diese Medientypen.
+
+## Manuelle iPhone-Videoprüfung
+
+- [x] Kurzes iPhone-Video zum Testbeitrag hinzugefügt, gespeichert, freigeschaltet und in der Partner-App angezeigt.
+- [x] Wiedergabe mit Ton sowie Pause/Fortsetzen durch Sophie ausdrücklich bestätigt.
+- [ ] Eigenständige Audiodatei, Video-Vollbild/Hintergrund, Medienwechsel und installierte PWA weiterhin separat prüfen; keine weitergehende Freigabe allein aus diesem Nachweis.
