@@ -184,4 +184,6 @@ Auf Wunsch vom 06.11.2026: Hochzeitsbild deutlich kleiner, kein Text direkt unte
 
 - [x] Sophie bestätigt Hinzufügen zum Home-Bildschirm, Öffnen der installierten Hauptversion und erfolgreiche PIN-Anmeldung auf ihrem iPhone.
 - [ ] Neustart, Offline-/Online-Wiederaufnahme und längerer Hintergrundbetrieb weiter prüfen; Erstinstallation bestätigt nicht automatisch diese Fälle.
-- [ ] Zehn neue Logoentwürfe auf Nutzerwunsch erarbeiten; bestehendes App-Icon erst nach Auswahl ersetzen.
+- [x] Zehn Logoentwürfe erstellt; Sophie hat die Kombination aus 07 und 03 freigegeben.
+- [x] App-Icons und Browser-Icon vorbereitet, kleine Darstellung visuell geprüft; PR #15.
+- [ ] Veröffentlichung und neues Symbol auf bestehender iPhone-Installation bestätigen.
