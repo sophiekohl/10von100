@@ -28,7 +28,7 @@ window.PartnerPush=(()=>{
  try{await api({action:'subscribe',subscription:sub.toJSON()})}catch(e){await sub.unsubscribe();throw e}
  await refresh();}catch{msg.textContent='Aktivierung fehlgeschlagen. Bitte Verbindung und Anmeldung prüfen und erneut versuchen.'}finally{busy(false)}};
  test.onclick=async()=>{busy(true);try{const sub=await subscription();if(!sub)throw Error();await api({action:'test',endpoint:sub.endpoint});msg.textContent='Test an den Push-Dienst übergeben. Bitte prüfe deine Mitteilungen; Fokus-Einstellungen können den Hinweis stummschalten.'}catch{msg.textContent='Test nicht gesendet. Bitte Verbindung prüfen und eine Minute vor dem nächsten Versuch warten.'}finally{busy(false)}};
- async function remove(){if(!supported())return;const sub=await subscription();if(sub){try{await api({action:'remove',endpoint:sub.endpoint})}finally{await sub.unsubscribe()}}}
+ async function remove(){if(!supported())return;const reg=await navigator.serviceWorker.getRegistration();const sub=await reg?.pushManager?.getSubscription();if(sub){try{await api({action:'remove',endpoint:sub.endpoint})}finally{await sub.unsubscribe()}}}
  disable.onclick=async()=>{busy(true);try{await remove();await refresh();msg.textContent='Mitteilungen sind auf diesem Gerät ausgeschaltet.'}catch{msg.textContent='Bitte mit Internetverbindung erneut ausschalten.'}finally{busy(false)}};
  return {init(s){session=s;document.querySelector('#intro .intro').append(host);ready=true},update(value){verified=value;if(!ready)return;host.hidden=!value;if(value)refresh()},remove};
 })();

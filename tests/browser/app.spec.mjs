@@ -99,7 +99,7 @@ test('push consent is explicit; enable, test and disable are available in info',
  const notice={permission:'default',requestPermission:async()=>{window.pushPermissionCalls++;notice.permission='granted';return 'granted'}};
  Object.defineProperty(window,'Notification',{value:notice,configurable:true});
  const reg={pushManager:{getSubscription:async()=>sub,subscribe:async()=>{sub={endpoint:'https://web.push.apple.com/test',toJSON:()=>({endpoint:'https://web.push.apple.com/test',keys:{p256dh:'a'.repeat(87),auth:'b'.repeat(22)}}),unsubscribe:async()=>{sub=null;return true}};return sub}}};
- Object.defineProperty(navigator,'serviceWorker',{value:{ready:Promise.resolve(reg),register:async()=>reg,addEventListener(){}},configurable:true});
+ Object.defineProperty(navigator,'serviceWorker',{value:{ready:Promise.resolve(reg),getRegistration:async()=>reg,register:async()=>reg,addEventListener(){}},configurable:true});
  });
  await page.route('**/functions/v1/partner-push',route=>{const data=route.request().postDataJSON();actions.push(data.action);return route.fulfill({json:data.action==='config'?{publicKey:'BA'}:{ok:true}})});
  await page.goto('/');expect(await page.evaluate(()=>window.pushPermissionCalls)).toBe(0);await enter(page);await page.locator('#info').click();await expect(page.locator('#pushSettings')).toBeVisible();expect(await page.evaluate(()=>window.pushPermissionCalls)).toBe(0);
