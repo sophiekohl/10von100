@@ -137,3 +137,9 @@ Auf Wunsch vom 06.11.2026: Hochzeitsbild deutlich kleiner, kein Text direkt unte
 
 - [x] Sophie bestätigt: Start des Videos pausiert die Audioaufnahme; Schließen der Karte beendet die Wiedergabe.
 - [ ] Deezer von Sophie als nicht funktionierend gemeldet. Inventur: bisher keine gespeicherte Deezer-Medienzeile. Studio akzeptiert derzeit nur direkte numerische Track-/Album-/Playlist-Adressen und verwirft Kurzlinks. Exakten verwendeten Link/Fehler prüfen, bevor Ursache und Korrektur als bestätigt gelten.
+
+## Manuelle Deezer-Prüfung
+
+- [x] Ursache des Hinzufügefehlers eingegrenzt: Deezer-App-Kurzlink wird vom Studio nicht unterstützt. Vollständige numerische Track-Adresse zum Test verwendet; kein privater Songtitel/Link im Repository hinterlegt.
+- [x] Sophie bestätigt Hinzufügen, Playeranzeige und hörbare Deezer-Wiedergabe in der Partner-App auf dem iPhone.
+- [ ] Automatische Kurzlinkauflösung weiterhin nicht implementiert. Bis dahin vollständige Track-/Album-/Playlist-Adressen verwenden; keine allgemeine Kurzlink-Unterstützung als fertig markieren.
