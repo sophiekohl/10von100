@@ -1,0 +1,12 @@
+
+test('personal home shows wedding image publicly and replaces static percent',async({page})=>{
+ await mock(page);await page.goto('/');await expect(page.getByRole('heading',{name:'Für uns. Für immer.'})).toBeVisible();await expect(page.locator('img[alt="Unser Hochzeitstag am Strand"]')).toBeVisible();await expect(page.locator('.ring')).toHaveCount(0);
+});
+test('memory collage exports real high resolution JPEG and closes on logout',async({page})=>{
+ const {moments}=await mock(page);moments.push({id:'one',caption:'Test',moment_date:'2026-11-06',created_by:user,moment_photos:[{id:'photo',storage_path:'test/photo.png'}]});
+ await page.goto('/');await login(page);await page.getByRole('button',{name:'Unser Jahr',exact:true}).click();await page.getByRole('button',{name:'Unsere Bildcollage ansehen'}).click();
+ await expect(page.locator('#memoryCollage img')).toHaveCount(1);
+ const result=await page.evaluate(async()=>{const file=await exportMemoryJpg([{storage_path:'test/photo.png'}],0,document.createElement('p'),collageVersion);const bytes=new Uint8Array(await file.arrayBuffer());const image=await createImageBitmap(file);return{type:file.type,width:image.width,height:image.height,jpeg:bytes[0]===255&&bytes[1]===216}});
+ expect(result).toEqual({type:'image/jpeg',width:3200,height:4000,jpeg:true});
+ await page.getByRole('button',{name:'Für dich',exact:true}).click();await page.locator('#authLogout').click();await expect(page.locator('#memoryCollage')).toHaveCount(0);
+});
