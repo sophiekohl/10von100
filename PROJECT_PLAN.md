@@ -104,5 +104,6 @@ Auf Wunsch vom 06.11.2026: Hochzeitsbild deutlich kleiner, kein Text direkt unte
 - [x] Recovery-Link im erlaubten Root-Studio führt zur Passwort-Einrichtung. Root-Callback und Vorschau verwenden denselben Ablauf; URL-Tokens werden entfernt.
 - [x] Mailanfragen gegen Doppelklick geschützt; Erfolg 60 Sekunden Sendepause, bei 429 lokale 15-Minuten-Pause mit verständlichem Hinweis. Keine behauptete Aufhebung des Anbieterlimits.
 - [x] Unitprüfungen und 24 Chromium-/WebKit-Browserprüfungen erfolgreich: https://github.com/sophiekohl/10von100/actions/runs/42251843856 . PR #12 zusammengeführt.
-- [ ] Sophie setzt ihr eigenes Passwort privat, speichert es im Passwortmanager und bestätigt eine echte Passwortanmeldung. Echte Recovery-Mail prüfen.
+- [x] Sophie hat über den neuen E-Mail-Ablauf privat ein eigenes Studio-Passwort gesetzt und nach Abmelden eine erfolgreiche echte Passwortanmeldung bestätigt.
+- [ ] Speicherung im privaten Passwortmanager durch Sophie sicherstellen; Anbieterlimit für Login-/Recovery-Mails bleibt bestehen.
 - [ ] Für dauerhafte verlässliche Login-/Recovery-Mails SMTP-/E-Mail-Anbieter einrichten, sofern die Mailfunktion produktiv benötigt wird. Zugangsdaten ausschließlich beim Anbieter/Supabase hinterlegen; keine Secrets im Repository.
