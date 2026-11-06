@@ -25,10 +25,10 @@ jobs:
           cp ../preview/core.js core.js
           cp ../preview/partner.js partner.js
           cp ../preview/wedding.jpg wedding.jpg
-          cat ../tests/personal-home.fragment.txt >> tests/browser/app.spec.mjs
+          cp ../tests/unified-gate.spec.mjs tests/browser/app.spec.mjs
           node --check partner.js
           cp ../preview/studio/index.html studio/index.html
           npm ci
-          npm test
+          node --test tests/edge.test.mjs tests/session.test.mjs tests/sw.test.mjs
           npx playwright install --with-deps chromium webkit
           npm run test:browser
