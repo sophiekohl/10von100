@@ -79,7 +79,7 @@ function updateYearCounter(){
  ui.daycount.textContent=today<start?'Noch '+Math.ceil((start-today)/day)+' Tage bis zu deinem Geschenk':today>end?'Unser App-Jahr · '+total+' gemeinsame Tage':'Tag '+(Math.round((today-start)/day)+1)+' von '+total;
 }
 updateYearCounter();document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')updateYearCounter()});
-const collageButton=document.createElement('button');collageButton.className='add';collageButton.textContent='Unsere Bildcollage ansehen';ui.momentList.before(collageButton);
+const collageButton=document.createElement('button');collageButton.className='add collageAction';collageButton.textContent='Unsere Bildcollage ansehen';ui.momentList.before(ui.addMoment,collageButton);
 let collageVersion=0;
 function closeCollage(){collageVersion++;document.getElementById('memoryCollage')?.remove();}
 const previousClear=partner.onclear;partner.onclear=()=>{closeCollage();previousClear()};
