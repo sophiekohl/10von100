@@ -41,3 +41,16 @@ test('Home fits iPhone with portrait photo, surprise and calendar visible',async
 test('memory create edit delete survives unified gate',async({page})=>{await mock(page);await page.goto('/');await enter(page);await page.getByRole('button',{name:'Unser Jahr',exact:true}).click();await page.locator('#addMoment').click();await page.locator('#momentCaption').fill('Unser Testmoment');await page.locator('#saveMoment').click();await expect(page.locator('#momentList')).toContainText('Unser Testmoment');page.once('dialog',d=>d.accept('Bearbeitet'));await page.getByRole('button',{name:'Text bearbeiten'}).click();await expect(page.locator('#momentList')).toContainText('Bearbeitet');page.once('dialog',d=>d.accept());await page.getByRole('button',{name:'Entfernen',exact:true}).click();await expect(page.locator('#momentList')).not.toContainText('Bearbeitet');});
 test('expired or revoked session closes the complete app',async({page})=>{await mock(page);await page.goto('/');await enter(page);await page.route('**/rpc/is_couple_member',route=>route.fulfill({json:false}));await page.reload();await expect(page.locator('#intro')).toBeVisible();await expect(page.locator('#privateApp')).toBeHidden();await expect(page.locator('#privateNav')).toBeHidden();});
 test('partner account still cannot enter Studio',async({page})=>{await mock(page);await page.addInitScript(s=>sessionStorage.setItem('studioSession',JSON.stringify({...s,expires_at:Math.floor(Date.now()/1000)+3600})),session);await page.goto('/studio/');await expect(page.locator('#studio')).toBeHidden();await expect(page.locator('#loginMsg')).toContainText('Kein Studio-Zugriff');});
+
+test('welcome letter contrast and full screen visual evidence',async({page},testInfo)=>{
+ await mock(page);await page.goto('/');
+ const values=await page.locator('#intro').evaluate(root=>{const luminance=color=>{const c=color.match(/[\d.]+/g).slice(0,3).map(Number).map(x=>{x/=255;return x<=0.04045?x/12.92:((x+0.055)/1.055)**2.4});return c[0]*.2126+c[1]*.7152+c[2]*.0722};const bg=luminance(getComputedStyle(root).backgroundColor);return [...root.querySelectorAll('p,strong')].filter(n=>n.getClientRects().length).map(n=>{const l=luminance(getComputedStyle(n).color);return(Math.max(l,bg)+.05)/(Math.min(l,bg)+.05)})});
+ for(const ratio of values)expect(ratio).toBeGreaterThanOrEqual(4.5);
+ expect((await page.locator('#intro .mark').boundingBox()).y).toBeLessThan(90);
+ await page.screenshot({path:testInfo.outputPath('01-welcome.png')});
+ await page.locator('#begin').click();await page.screenshot({path:testInfo.outputPath('02-pin.png')});
+ for(const n of ['4','8','2','6'])await page.locator('#pinGate').getByRole('button',{name:n,exact:true}).click();await page.locator('#authLogin').click();await expect(page.locator('#privateApp')).toBeVisible();
+ await page.screenshot({path:testInfo.outputPath('03-home.png')});
+ await page.getByRole('button',{name:'Für dich',exact:true}).click();await page.screenshot({path:testInfo.outputPath('04-surprises.png')});
+ await page.getByRole('button',{name:'Unser Jahr',exact:true}).click();await page.screenshot({path:testInfo.outputPath('05-year.png')});
+});
