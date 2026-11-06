@@ -179,3 +179,9 @@ Auf Wunsch vom 06.11.2026: Hochzeitsbild deutlich kleiner, kein Text direkt unte
 - [ ] Hauptversion nach finalem Icon-/Release-Prüflauf bereitstellen und ausgelieferte Dateien kontrollieren.
 - [ ] Auf Sophies iPhone installieren: Home-Bildschirm, einmalige PIN, Schließen/Wiederöffnen, Neustart, Offline-/Online-Wiederaufnahme prüfen. Zielgerät des Mannes bleibt separat zu berücksichtigen; keine Prüfung auf seinem Gerät vorgeben oder vorzeitige Überraschung veranlassen.
 - [ ] Endgültige Betriebs-/Backup-/Mailkonfiguration, Push-Entscheidung und verbleibende Sicherheits-/Langzeitabnahme abschließen.
+
+## Physische PWA-Erstprüfung
+
+- [x] Sophie bestätigt Hinzufügen zum Home-Bildschirm, Öffnen der installierten Hauptversion und erfolgreiche PIN-Anmeldung auf ihrem iPhone.
+- [ ] Neustart, Offline-/Online-Wiederaufnahme und längerer Hintergrundbetrieb weiter prüfen; Erstinstallation bestätigt nicht automatisch diese Fälle.
+- [ ] Zehn neue Logoentwürfe auf Nutzerwunsch erarbeiten; bestehendes App-Icon erst nach Auswahl ersetzen.
