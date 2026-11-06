@@ -150,3 +150,9 @@ Auf Wunsch vom 06.11.2026: Hochzeitsbild deutlich kleiner, kein Text direkt unte
 - [x] Eingaben bleiben beim Zu-/Aufklappen erhalten; Speichern schließt das Formular und stellt den Schaltflächenzustand zurück. Logout bereinigt den Zustand.
 - [x] 26 mobile Browserprüfungen in Chromium/WebKit bestanden, einschließlich 20 bestehender Erinnerungen, sichtbarer Formularposition und erfolgreichem Speichern: https://github.com/sophiekohl/10von100/actions/runs/42267759839 . PR #13 nach Prüfung zusammengeführt.
 - [ ] Korrigiertes Hinzufügen und anschließender JPG-Collagenexport auf Sophies iPhone erneut bestätigen.
+
+## Collagenrückmeldung und Mediengestaltung
+
+- [x] Sophie bestätigt erfolgreichen Collagenablauf nach Wiederfinden des Moment-Formulars. Gesonderte breite Prüfung vieler Bilder/Formatmischungen bleibt sinnvoll.
+- [x] Überraschungsmedien erhalten feinen cremefarbenen Rahmen und dezenten Schatten. Scrollhinweis erscheint nur bei verbleibendem Inhalt unterhalb der aktuellen Position; bei kurzem Inhalt und am Ende verborgen.
+- [x] 28 mobile Chromium-/WebKit-Prüfungen erfolgreich: https://github.com/sophiekohl/10von100/actions/runs/42278276300 . PR #14 nach Prüfung zusammengeführt; Auslieferung durch GitHub Pages gesondert kontrollieren.
