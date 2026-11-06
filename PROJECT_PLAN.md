@@ -127,3 +127,8 @@ Auf Wunsch vom 06.11.2026: Hochzeitsbild deutlich kleiner, kein Text direkt unte
 - [x] Kurzes iPhone-Video zum Testbeitrag hinzugefügt, gespeichert, freigeschaltet und in der Partner-App angezeigt.
 - [x] Wiedergabe mit Ton sowie Pause/Fortsetzen durch Sophie ausdrücklich bestätigt.
 - [ ] Eigenständige Audiodatei, Video-Vollbild/Hintergrund, Medienwechsel und installierte PWA weiterhin separat prüfen; keine weitergehende Freigabe allein aus diesem Nachweis.
+
+## Manuelle iPhone-Audioprüfung
+
+- [x] Eigenständige Audiodatei im Testbeitrag gespeichert, freigeschaltet und in der Partner-App abgespielt. Ton, Pause und Fortsetzen durch Sophie bestätigt.
+- [ ] Medienwechsel sowie Stoppen beim Schließen/Abmelden, Hintergrund-/Vollbildverhalten und installierte PWA separat prüfen.
