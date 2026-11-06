@@ -35,3 +35,9 @@ Die Upgrade-Reihenfolge, Rollen und Sperren stehen in [SECURITY.md](docs/SECURIT
 Für Safari: veröffentlichte App öffnen → Teilen → „Zum Home-Bildschirm“. Die PNG-App-Icons und der Manifest-Scope unterstützen die Installation unter `/10von100/`.
 
 Die Anzeige „10 %“ bedeutet zehn von 100 gemeinsamen Jahren, keinen berechneten Jahresfortschritt. Termine gelten unabhängig von der Gerätezeitzone für `Europe/Berlin`.
+
+## Installierbarer Abnahmestand
+
+Die Hauptadresse ist nach Zusammenführung von PR #4 die installierbare Abnahmeversion. Die Vorschau unter `/preview/` registriert weiterhin keinen Service Worker und ist kein Installationsziel. Einmal in Safari die Hauptadresse öffnen und über Teilen zum Home-Bildschirm hinzufügen. Die eigene PIN muss auf der installierten App gegebenenfalls einmal eingegeben werden, weil Safari und Home-Bildschirm-App getrennte Speicher verwenden können. Die festgelegte Sitzungsdauer beträgt maximal 90 Tage; Widerruf und Löschen von Gerätedaten beenden den Zugang früher.
+
+Offline öffnet sich nur die öffentliche Hülle mit Willkommensbrief und ausdrücklich freigegebenem Hochzeitsbild. Private Inhalte werden weder im Service Worker gespeichert noch als Offlinefunktion versprochen. Bei fehlender Verbindung erscheint ein verständlicher Hinweis; vorhandene Zugangstokens bleiben für die Wiederaufnahme erhalten. Push ist weiterhin nicht umgesetzt. Finale Geräteabnahme und Langzeitbetrieb bleiben im Projektplan offen.

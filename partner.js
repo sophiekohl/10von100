@@ -4,7 +4,8 @@ const partner=new Session(localStorage,'10von100_partner_session');
 let gifts=[],calendarRanges=[],loadVersion=0,gateVerified=false;
 const ids=['giftcards','detail','detailTitle','detailtext','detailMedia','authBox','authSignedIn','authMsg','authPin','authLogin','authLogout','intro','info','close','begin','closeDetail','addMoment','upload','daycount','monthtitle','grid','openCal','closeCal','prev','nextm','calendar','momentList','momentMsg','saveMoment','momentCaption','momentDate','momentFiles'];
 const ui=Object.fromEntries(ids.map(id=>[id,document.getElementById(id)]));
-function clearPrivate(){gateVerified=false;loadVersion++;detailVersion++;momentVersion++;if('mediaSession'in navigator)navigator.mediaSession.metadata=null;gifts=gifts.map(g=>({...g,state:'locked',title:'Da wartet etwas auf dich.',body:'',media:[]}));
+function stopDetailMedia(){for(const node of ui.detailMedia.querySelectorAll('audio,video')){node.pause();node.onplay=null;node.ontimeupdate=null;node.onloadedmetadata=null;node.removeAttribute('src');node.load()}if('mediaSession'in navigator){navigator.mediaSession.metadata=null;for(const action of ['play','pause'])navigator.mediaSession.setActionHandler(action,null)}}
+function clearPrivate(){stopDetailMedia();gateVerified=false;loadVersion++;detailVersion++;momentVersion++;if('mediaSession'in navigator)navigator.mediaSession.metadata=null;gifts=gifts.map(g=>({...g,state:'locked',title:'Da wartet etwas auf dich.',body:'',media:[]}));
   ui.detail.classList.remove('show');ui.detailTitle.textContent='Da wartet etwas auf dich.';ui.detailtext.textContent='';ui.detailMedia.replaceChildren();ui.momentList.replaceChildren();closeMomentForm();ui.momentCaption.value='';ui.momentFiles.value='';renderGifts();authUI();}
 partner.onclear=clearPrivate;
 // Remove the legacy session; a separate PIN session must never inherit admin credentials.
@@ -26,6 +27,7 @@ async function loadSurprises(){const version=++loadVersion;
     renderGifts();cal();const available=gifts.some(g=>g.state==='open');document.querySelector('#next b').textContent=available?'FÜR DICH FREIGESCHALTET':'NÄCHSTE ÜBERRASCHUNG';const future=gifts.find(x=>new Date(x.unlock_at)>new Date());document.querySelector('#next small').textContent=available?'Deine Überraschung öffnen →':future?fmt(future.date):'Bald wartet hier etwas auf dich.';
   }catch{if(version!==loadVersion)return;clearPrivate();ui.giftcards.textContent='Die Überraschungen sind gerade nicht erreichbar. Bitte mit Internetverbindung erneut versuchen.';}}
 ui.authLogin.onclick=async()=>{ui.authLogin.disabled=true;ui.authMsg.textContent='Anmeldung läuft …';const pin=ui.authPin.value;ui.authPin.value='';try{
+  if(!navigator.onLine)throw Error('Du bist offline. Bitte mit dem Internet verbinden und erneut versuchen.');
   if(!/^[0-9]{4}$/.test(pin))throw Error('Bitte vier Ziffern eingeben.');
   const r=await fetch(API+'/functions/v1/partner-pin',{method:'POST',cache:'no-store',headers:{apikey:KEY,'Content-Type':'application/json'},body:JSON.stringify({action:'login',pin})});const data=await r.json();if(!r.ok)throw Error(data.error||'Anmeldung nicht möglich.');partner.save(data);authUI();await Promise.all([loadSurprises(),loadMoments()]);ui.authMsg.textContent='';
 }catch(e){ui.authMsg.textContent=e.message}finally{ui.authLogin.disabled=false}};
@@ -45,7 +47,7 @@ async function showGift(g){detailPanel.scrollTop=0;const version=++detailVersion
     if(version!==detailVersion)return;if(node){const wrap=document.createElement('div');wrap.className='mediaBlock';wrap.append(node);ui.detailMedia.append(wrap);}
   }catch{if(version!==detailVersion)return;const p=document.createElement('p');p.textContent='Dieses Medium konnte nicht geladen werden. Bitte den Brief erneut öffnen.';ui.detailMedia.append(p);}}
 }
-ui.closeDetail.onclick=()=>{detailVersion++;if('mediaSession'in navigator)navigator.mediaSession.metadata=null;ui.detail.classList.remove('show');ui.detailMedia.replaceChildren()};
+ui.closeDetail.onclick=()=>{stopDetailMedia();detailVersion++;if('mediaSession'in navigator)navigator.mediaSession.metadata=null;ui.detail.classList.remove('show');ui.detailMedia.replaceChildren()};
 const pages=[...document.querySelectorAll('.page')],nav=[...document.querySelectorAll('.nav button')];nav.forEach(b=>b.onclick=()=>{pages.forEach(p=>p.classList.toggle('on',p.id===b.dataset.p));nav.forEach(n=>n.classList.toggle('sel',n===b));if(b.dataset.p==='year'){loadMoments()};scrollTo({top:0,behavior:'instant'})});
 ui.info.onclick=()=>ui.intro.classList.add('show');ui.close.onclick=()=>{if(gateVerified)ui.intro.classList.remove('show')};ui.begin.onclick=()=>{ui.intro.classList.remove('show');if(!gateVerified)document.getElementById('pinGate').hidden=false;localStorage.introSeen='1'};
 // 10% refers to ten of one hundred years, not to elapsed app-year progress.
@@ -158,3 +160,6 @@ const detailResize=new ResizeObserver(updateDetailCue);detailResize.observe(deta
 new MutationObserver(updateDetailCue).observe(ui.detail,{attributes:true,attributeFilter:['class']});
 new MutationObserver(updateDetailCue).observe(ui.detailMedia,{childList:true,subtree:true});
 ui.detailMedia.addEventListener('load',updateDetailCue,true);
+
+function updateConnectionStatus(){const offline=!navigator.onLine;const message=document.getElementById('connectionMsg');if(message)message.hidden=!offline;if(offline)ui.authMsg.textContent='Du bist offline. Bitte mit dem Internet verbinden und erneut öffnen.';else if(ui.authMsg.textContent.startsWith('Du bist offline.'))ui.authMsg.textContent='';}
+addEventListener('online',()=>{updateConnectionStatus();loadSurprises();loadMoments()});addEventListener('offline',()=>{updateConnectionStatus();closeCollage();clearPrivate()});updateConnectionStatus();

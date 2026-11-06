@@ -27,3 +27,7 @@ Ein geplanter transaktionaler Test über Supabase `execute_sql` wurde nicht ausg
 ## Erforderlich vor Freigabe
 
 Erfolgreichen PIN-/Refresh-Ablauf und private Medien mit echten getrennten Konten prüfen. Der Versuch einer vollständigen transaktionalen Fixture-Suite gegen Produktion blieb wegen abgelaufener Bestätigung ohne Ausführung; die zusätzliche Live-Grants-Prüfung wurde separat erfolgreich ausgeführt. Negative Live-HTTP-Tests und Backend-Bereitstellung sind abgeschlossen. Danach die Liste in `IPHONE_ACCEPTANCE.md` auf dem Zielgerät abarbeiten. Keine Aufgabe zur Produktionsabnahme allein wegen bestandener lokaler Tests abhaken.
+
+## Vorbereitung installierbare Hauptversion
+
+Hauptbranch mit dem getesteten Releasekandidaten abgeglichen; Studio-Konflikt zugunsten des aktuellen Passwort-/Recovery-Ablaufs mit Root-Core-Script aufgelöst. Service Worker v6 cached ausschließlich öffentliche Allowlist-Dateien inklusive Hochzeitsbild. Neue echte Browserprüfung kontrolliert Manifest, Controller-Aktivierung, Cache-Inhalt sowie Offline-Neuladen mit Foto und geschlossenem Privatbereich. Die bereits live angewendete Cleanup-Migration ist mit ihrer echten Historienversion 20261106084835 im Repository ergänzt. Keine erneute Datenbankänderung vorgesehen. Lokale Unit- und Datenbankprüfungen bestanden; Browsernachweis und physische PWA-Abnahme folgen separat.
