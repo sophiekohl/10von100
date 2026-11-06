@@ -168,3 +168,14 @@ Auf Wunsch vom 06.11.2026: Hochzeitsbild deutlich kleiner, kein Text direkt unte
 - [x] Fehlende Bearbeiten-/Löschen-Schaltflächen lagen in einer älteren Studio-Ansicht. Aktuelle Root- und Vorschau-Dateien enthalten beide Funktionen; neue URL bereitgestellt.
 - [x] Sophie bestätigt danach, dass keine Testeinträge mehr im Studio vorhanden sind und die Löschung funktioniert hat.
 - [x] Sophie bestätigt nach erneutem Öffnen: gelöschte Testkarten sind auch in der Partner-App verschwunden. Testbereinigung manuell bestätigt; keine zusätzliche Löschung privater Inhalte durch den Assistenten vorgenommen.
+
+## Installierbare Hauptversion – Abnahmekandidat
+
+- [x] Hauptbranch und freigegebenen Kandidaten zusammengeführt; aktuelle Vorschau, Studio-Passwort-/Recovery-Flow, Mediengestaltung und Formular-Korrektur übernommen.
+- [x] Service Worker v6: öffentliche Hülle und ausdrücklich freigegebenes Hochzeitsbild; kein Cache für API, Studio, private Dateien oder Token-URLs. Offlinehinweis und geschlossener Privatbereich; Sitzung zur Online-Wiederaufnahme erhalten.
+- [x] Platzhalter-PNGs durch aus bestehender icon-v3.svg gerenderte Bordeaux-/Creme-App-Icons (192/512) ersetzt.
+- [x] Cleanup-Migration mit tatsächlicher bereits angewendeter Historienversion 20261106084835 nachgetragen; keine erneute Datenbankänderung.
+- [x] Codeprüfung: 11 Unit-Tests, Datenbankprüfung und 30 Browserfälle erfolgreich: https://github.com/sophiekohl/10von100/actions/runs/42282871003 . Vorschauprüfung ebenfalls erfolgreich. WebKit prüft Controller/Cache/Offline-UI; Offline-Neuladen ist wegen Playwright#42775/#34402 nur in Chromium automatisiert bestanden. Physisches iPhone-Neuladen bleibt offen.
+- [ ] Hauptversion nach finalem Icon-/Release-Prüflauf bereitstellen und ausgelieferte Dateien kontrollieren.
+- [ ] Auf Sophies iPhone installieren: Home-Bildschirm, einmalige PIN, Schließen/Wiederöffnen, Neustart, Offline-/Online-Wiederaufnahme prüfen. Zielgerät des Mannes bleibt separat zu berücksichtigen; keine Prüfung auf seinem Gerät vorgeben oder vorzeitige Überraschung veranlassen.
+- [ ] Endgültige Betriebs-/Backup-/Mailkonfiguration, Push-Entscheidung und verbleibende Sicherheits-/Langzeitabnahme abschließen.
