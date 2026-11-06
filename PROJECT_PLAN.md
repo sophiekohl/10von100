@@ -66,3 +66,10 @@ Supabase meldete deaktivierten Schutz gegen geleakte Passwörter; Admin-Auth-Ein
 
 - [ ] Push auf iPhone nach gesonderter Machbarkeits-/Einwilligungsentscheidung.
 - [ ] Weitere Barrierefreiheits- und Wiederherstellungstests.
+
+## Manuelle Abnahme am 06.11.2026
+
+- [x] Eigene PIN im Studio gesetzt; echte Partneranmeldung erfolgreich. Sitzung nach Schließen/Wiederöffnen erhalten.
+- [x] Unser Jahr auf Sophies iPhone: Text und Foto speichern, nach Wiederöffnen anzeigen, Text ändern und erneut laden sowie Eintrag löschen und Abwesenheit nach Wiederöffnen bestätigt.
+- [x] Gewünschte Bedienung implementiert: Stift direkt am Text, Papierkorb unten rechts, 44-Pixel-Tippflächen und Löschrückfrage. Veröffentlichung der Vorschau über PR #6 nach bestandenen Prüfungen.
+- [ ] Überraschungsfreischaltung und private Medien vollständig Ende-zu-Ende prüfen; installierte PWA auf dem Zielgerät weiterhin offen.
