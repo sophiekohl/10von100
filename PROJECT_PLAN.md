@@ -89,3 +89,11 @@ Auf Wunsch vom 06.11.2026: Hochzeitsbild deutlich kleiner, kein Text direkt unte
 - [x] Neue mobile Browserprüfungen: 8 Abläufe jeweils Chromium/WebKit bestanden; Handler-/Sitzungs-/Cache-Tests erfolgreich. Nachweis: https://github.com/sophiekohl/10von100/actions/runs/42238067504 . Alte DOM-/Browserannahmen zur Anmeldung pro Bereich durch neue Browserprüfung ersetzt.
 - [x] PR #10 nach bestandener Prüfung für die Testversion zusammengeführt; PR #9 dadurch ersetzt und geschlossen.
 - [ ] Neue Willkommens-/PIN-Ansicht auf dem echten iPhone sowie installierte PWA und private Freischalt-/Medienabläufe final abnehmen.
+
+## Visuelle Korrektur nach iPhone-Rückmeldung
+
+- [x] Helle Altfarben auf cremefarbenem Willkommensbildschirm entfernt: Brief dunkel, Hervorhebungen Bordeaux. Kontrastprüfung mindestens 4,5:1 für Absatz-/Fettschrift bestanden.
+- [x] Alten 80-Pixel-Kopfabstand und übergroße Marke korrigiert. Home nutzt die Höhe ausgewogen mit größerer Hochkantaufnahme.
+- [x] Einheitliche Editorial-Gestaltung für Für dich, Unser Jahr, PIN und Navigation. Collage nur bei vorhandenen Erinnerungsfotos; Bereichswechsel beginnt oben.
+- [x] Automatisierte Regression und 18 mobile Chromium-/WebKit-Prüfungen erfolgreich: https://github.com/sophiekohl/10von100/actions/runs/42240108206 . Gerenderte Ansichten als CI-Artefakte, Willkommensbrief/Home/Überraschungen/Unser Jahr visuell kontrolliert.
+- [x] PR #11 für Testversion nach Prüfungen zusammengeführt. Manuelle Abnahme auf Sophies iPhone weiterhin erforderlich; keine finale PWA-Freigabe daraus ableiten.
