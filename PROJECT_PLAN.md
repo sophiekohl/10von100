@@ -33,7 +33,7 @@ Stand: 05.11.2026 · Jubiläum: **18.01.2027**
 ## 3. Backend bereitgestellt und live geprüft
 
 - [x] Migrationen `private_app_security` und `explicit_app_grants` angewendet.
-- [x] Edge Function `partner-pin` Version 1 aktiv; noch keine PIN konfiguriert.
+- [x] Edge Function `partner-pin` Version 1 aktiv; eigene PIN inzwischen privat gesetzt und Anmeldung bestätigt.
 - [x] Live-Negativtests: private REST-Daten und interne PIN-RPCs verweigern anonymen Zugriff; öffentliche neutrale Termine erreichbar; fremder Origin abgewiesen. PIN-Login/Verwaltung ohne gültige Anmeldung liefern keinen Token.
 - [x] Rechteprüfung: kein anonymes SELECT/TRUNCATE auf Inhalten, kein TRUNCATE auf Adminregister für authenticated; browserseitige PIN-Konfiguration verboten; bestehende Authidentität unverändert. Health-Advisor ohne Befund.
 - [x] Signierte Medien-URLs behalten den erforderlichen `/storage/v1`-Präfix; Regressionstest ergänzt.
@@ -49,7 +49,7 @@ Stand: 05.11.2026 · Jubiläum: **18.01.2027**
 ## 4. Noch offen – finale Freigabe
 
 - [ ] Erfolgreiche PIN-Anmeldung und Session-Erneuerung mit echtem Partnerkonto sowie reale Storage-Uploads/-Wiedergabe Ende-zu-Ende prüfen. Backend-Bereitstellung und negative Live-Zugriffstests sind bereits erfolgt.
-- [ ] Eigene Partner-PIN privat im Studio setzen; keine Test-PIN produktiv übernehmen.
+- [x] Eigene Partner-PIN privat gesetzt; echte Anmeldung und Wiederöffnen durch Sophie bestätigt.
 - [ ] Reale Freischaltung, signierte Medien-URLs, Uploads und Auth-Refresh mit getrenntem Partner- und Admin-Konto Ende-zu-Ende prüfen.
 - [ ] Installierte Safari-PWA auf iPhone 15 Pro mit iOS 27.2 prüfen: Neustart, Hintergrund/Refresh, Tastatur, Offline, HEIC, Audio-/Video-Wiedergabe, Medienwechsel und externe Player.
 - [ ] Finale Freigabe nach bestandener Sicherheits- und Geräteabnahme.
@@ -97,3 +97,12 @@ Auf Wunsch vom 06.11.2026: Hochzeitsbild deutlich kleiner, kein Text direkt unte
 - [x] Einheitliche Editorial-Gestaltung für Für dich, Unser Jahr, PIN und Navigation. Collage nur bei vorhandenen Erinnerungsfotos; Bereichswechsel beginnt oben.
 - [x] Automatisierte Regression und 18 mobile Chromium-/WebKit-Prüfungen erfolgreich: https://github.com/sophiekohl/10von100/actions/runs/42240108206 . Gerenderte Ansichten als CI-Artefakte, Willkommensbrief/Home/Überraschungen/Unser Jahr visuell kontrolliert.
 - [x] PR #11 für Testversion nach Prüfungen zusammengeführt. Manuelle Abnahme auf Sophies iPhone weiterhin erforderlich; keine finale PWA-Freigabe daraus ableiten.
+
+## Studio-Passwort und Wiederherstellung
+
+- [x] Passwort-Einrichtung/Änderung nach überprüfter Adminanmeldung ergänzt: Bestätigung, mindestens zwölf Zeichen, New-Password-Autofill, keine Passwortablage im Storage, Felder nach Anfrage geleert.
+- [x] Recovery-Link im erlaubten Root-Studio führt zur Passwort-Einrichtung. Root-Callback und Vorschau verwenden denselben Ablauf; URL-Tokens werden entfernt.
+- [x] Mailanfragen gegen Doppelklick geschützt; Erfolg 60 Sekunden Sendepause, bei 429 lokale 15-Minuten-Pause mit verständlichem Hinweis. Keine behauptete Aufhebung des Anbieterlimits.
+- [x] Unitprüfungen und 24 Chromium-/WebKit-Browserprüfungen erfolgreich: https://github.com/sophiekohl/10von100/actions/runs/42251843856 . PR #12 zusammengeführt.
+- [ ] Sophie setzt ihr eigenes Passwort privat, speichert es im Passwortmanager und bestätigt eine echte Passwortanmeldung. Echte Recovery-Mail prüfen.
+- [ ] Für dauerhafte verlässliche Login-/Recovery-Mails SMTP-/E-Mail-Anbieter einrichten, sofern die Mailfunktion produktiv benötigt wird. Zugangsdaten ausschließlich beim Anbieter/Supabase hinterlegen; keine Secrets im Repository.
