@@ -42,7 +42,11 @@ Stand: 05.11.2026 · Jubiläum: **18.01.2027**
 
 - [x] Manueller Live-Test durch Sophie: Adminanmeldung und Speichern einer Überraschung erfolgreich. Testdatensatz anschließend gezielt entfernt; Abfrage bestätigt null verbleibende Datensätze für die Test-ID. Dieser Nachweis betrifft das bestehende veröffentlichte Studio, nicht die neue PIN-Oberfläche.
 
-## 4. Noch offen – Release-Blocker
+- [x] Weitere Prüfung: 21 Node-Tests, Datenbanksuite und 16 Browserprüfungen (je acht in Chromium und WebKit) erfolgreich: https://github.com/sophiekohl/10von100/actions/runs/42105136306 . Studio-Bearbeiten/Löschen, 320-/393-Pixel-Layouts und verspätete Ladeantwort nach Logout zusätzlich geprüft.
+- [x] iPhone-Studio: Datum/Uhrzeit auf kleinen Displays untereinander, Eingaben ohne horizontalen Überlauf. Verspätetes Laden nach Abmeldung füllt keine privaten Formularfelder mehr.
+- [x] Browser-Abnahmeversion aus PR #5 nach bestandenen 21 Node- und 16 Chromium-/WebKit-Prüfungen zusammengeführt. Öffentliche Studio-Vorschau erfolgreich per HTTPS abgerufen: Testversionshinweis, PIN-Bedienung und Core-Script vorhanden. PR: https://github.com/sophiekohl/10von100/pull/5 . Keine finale Freigabe; nutzt die echte Datenbank. Zugang aus dem bestehenden Studio im selben Tab.
+
+## 4. Noch offen – finale Freigabe
 
 - [ ] Erfolgreiche PIN-Anmeldung und Session-Erneuerung mit echtem Partnerkonto sowie reale Storage-Uploads/-Wiedergabe Ende-zu-Ende prüfen. Backend-Bereitstellung und negative Live-Zugriffstests sind bereits erfolgt.
 - [ ] Eigene Partner-PIN privat im Studio setzen; keine Test-PIN produktiv übernehmen.
