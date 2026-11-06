@@ -54,3 +54,18 @@ test('welcome letter contrast and full screen visual evidence',async({page},test
  await page.getByRole('button',{name:'Für dich',exact:true}).click();await expect.poll(()=>page.evaluate(()=>scrollY)).toBe(0);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.screenshot({path:testInfo.outputPath('04-surprises.png')});
  await page.getByRole('button',{name:'Unser Jahr',exact:true}).click();await page.screenshot({path:testInfo.outputPath('05-year.png')});
 });
+
+test('Studio recovery requests one email and explains a provider rate limit',async({page})=>{
+ await mock(page);let sends=0;await page.route('**/auth/v1/recover?*',route=>{sends++;return route.fulfill({status:429,json:{message:'email rate limit exceeded'}})});
+ await page.goto('/studio/');await page.locator('#email').fill('admin-test@example.invalid');await page.locator('#recover').click();await expect(page.locator('#loginMsg')).toContainText('Versandlimit');expect(sends).toBe(1);await expect(page.locator('#recover')).toBeDisabled();await expect(page.locator('#magic')).toBeDisabled();
+});
+test('Admin configures password privately, validates confirmation and clears fields',async({page})=>{
+ const {calls}=await mock(page,{admin:true});await page.addInitScript(s=>sessionStorage.setItem('studioSession',JSON.stringify({...s,expires_at:Math.floor(Date.now()/1000)+3600})),session);
+ await page.goto('/studio/');await expect(page.locator('#studio')).toBeVisible();await page.locator('#studioAccount summary').click();
+ await page.locator('#newStudioPassword').fill('Fictional-test-passphrase-12');await page.locator('#repeatStudioPassword').fill('Different-test-passphrase-12');await page.locator('#saveStudioPassword').click();await expect(page.locator('#studioPasswordMsg')).toContainText('stimmen');expect(calls.filter(c=>c.p==='/auth/v1/user'&&c.method==='PUT')).toHaveLength(0);
+ await page.locator('#repeatStudioPassword').fill('Fictional-test-passphrase-12');await page.locator('#saveStudioPassword').click();await expect(page.locator('#studioPasswordMsg')).toContainText('ist gespeichert');expect(calls.filter(c=>c.p==='/auth/v1/user'&&c.method==='PUT')).toHaveLength(1);
+ await expect(page.locator('#newStudioPassword')).toHaveValue('');await expect(page.locator('#repeatStudioPassword')).toHaveValue('');expect(await page.evaluate(()=>JSON.stringify(localStorage)+JSON.stringify(sessionStorage))).not.toContain('Fictional-test-passphrase-12');
+});
+test('Real callback page removes tokens from URL and opens password setup after recovery',async({page})=>{
+ await mock(page,{admin:true});await page.goto('/studio/#access_token=admin-test-token&refresh_token=test-refresh&expires_in=3600&type=recovery');await expect(page.locator('#studio')).toBeVisible();await expect(page.locator('#studioAccount')).toHaveAttribute('open','');await expect(page.locator('#studioPasswordMsg')).toContainText('festlegen');expect(page.url()).not.toContain('access_token');await expect(page.locator('#newStudioPassword')).toBeVisible();
+});
