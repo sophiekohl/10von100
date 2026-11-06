@@ -76,7 +76,7 @@ if('serviceWorker'in navigator)addEventListener('load',()=>navigator.serviceWork
 
 function updateYearCounter(){
  const start=Date.UTC(2026,11,9),end=Date.UTC(2027,11,31),today=Date.parse(berlinDate(new Date())+'T00:00:00Z'),day=86400000,total=Math.round((end-start)/day)+1;
- ui.daycount.textContent=today<start?'Noch '+Math.ceil((start-today)/day)+' Tage bis zu unserem gemeinsamen App-Jahr':today>end?'Unser App-Jahr · '+total+' gemeinsame Tage':'Tag '+(Math.round((today-start)/day)+1)+' von '+total;
+ ui.daycount.textContent=today<start?'Noch '+Math.ceil((start-today)/day)+' Tage bis zu deinem Geschenk':today>end?'Unser App-Jahr · '+total+' gemeinsame Tage':'Tag '+(Math.round((today-start)/day)+1)+' von '+total;
 }
 updateYearCounter();document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')updateYearCounter()});
 const collageButton=document.createElement('button');collageButton.className='add';collageButton.textContent='Unsere Bildcollage ansehen';ui.momentList.before(collageButton);
@@ -96,6 +96,14 @@ collageButton.onclick=async()=>{
  const rows=await partner.request('/rest/v1/year_moments?select=id,moment_date,moment_photos(id,storage_path)&order=moment_date.asc');
  if(version!==collageVersion||!partner.read())return;
  const photos=rows.flatMap(r=>r.moment_photos||[]);let unavailable=0;
+ if(photos.length){const hint=document.createElement('p');hint.textContent='Hochwertiges JPG · 3200 × 4000 Pixel · vollständige Fotos ohne Beschnitt'+(photos.length>48?' · mehrere Seiten mit je bis zu 48 Bildern.':'.');panel.insertBefore(hint,grid);
+ for(let page=0;page<Math.ceil(photos.length/48);page++){const make=document.createElement('button');make.textContent=photos.length>48?'JPG-Seite '+(page+1)+' erstellen':'Bildcollage als JPG erstellen';make.onclick=async()=>{make.disabled=true;try{
+ const file=await exportMemoryJpg(photos,page,status,version);if(version!==collageVersion||!partner.read())return;
+ const save=document.createElement('button');save.textContent='JPG speichern / teilen';let fileURL;
+ save.onclick=async()=>{try{if(navigator.canShare?.({files:[file]}))await navigator.share({files:[file],title:'Unser Jahr in Bildern'});else{if(!fileURL)fileURL=URL.createObjectURL(file);const a=document.createElement('a');a.href=fileURL;a.download=file.name;a.click()}}catch(e){if(e.name!=='AbortError')status.textContent='Speichern fehlgeschlagen. Bitte erneut versuchen.'}};
+ const observer=new MutationObserver(()=>{if(!panel.isConnected){if(fileURL)URL.revokeObjectURL(fileURL);observer.disconnect()}});observer.observe(document.body,{childList:true,subtree:true});make.replaceWith(save);status.textContent='Deine JPG-Collage ist bereit.';
+ }catch(e){if(version===collageVersion)status.textContent=e.message}finally{make.disabled=false}};panel.insertBefore(make,grid)}}
+
  for(const photo of photos){
   if(version!==collageVersion||!partner.read())return;
   try{const src=await signedMedia('moments',photo.storage_path);if(version!==collageVersion||!partner.read())return;
@@ -106,3 +114,28 @@ collageButton.onclick=async()=>{
  }catch{if(version===collageVersion)status.textContent='Die Collage konnte nicht geladen werden. Bitte erneut versuchen.'}
  finally{collageButton.disabled=false}
 };
+
+function collageLayout(count,width=3200,height=4000){
+ const margin=120,gap=24,top=240,bottom=120,columns=Math.max(1,Math.ceil(Math.sqrt(count*(width-2*margin)/(height-top-bottom)))),rows=Math.ceil(count/columns);
+ const cellW=(width-2*margin-(columns-1)*gap)/columns,cellH=(height-top-bottom-(rows-1)*gap)/rows;
+ return Array.from({length:count},(_,i)=>{const row=Math.floor(i/columns),inRow=Math.min(columns,count-row*columns);return{x:(width-(inRow*cellW+(inRow-1)*gap))/2+(i%columns)*(cellW+gap),y:top+row*(cellH+gap),w:cellW,h:cellH}});
+}
+async function exportMemoryJpg(photos,page,status,version){
+ const selected=photos.slice(page*48,(page+1)*48),canvas=document.createElement('canvas');canvas.width=3200;canvas.height=4000;
+ const ctx=canvas.getContext('2d');if(!ctx)throw Error('JPG-Erstellung wird auf diesem Gerät nicht unterstützt.');
+ ctx.fillStyle='#f5eee4';ctx.fillRect(0,0,3200,4000);ctx.fillStyle='#641d2b';ctx.font='80px Georgia';ctx.textAlign='center';ctx.fillText('Unser Jahr in Bildern',1600,132);
+ const cells=collageLayout(selected.length);
+ for(let i=0;i<selected.length;i++){
+  if(version!==collageVersion||!partner.read())throw Error('Collage geschlossen.');
+  status.textContent='JPG wird erstellt · Bild '+(i+1)+' von '+selected.length;
+  const url=await signedMedia('moments',selected[i].storage_path);
+  const response=await fetch(url,{cache:'no-store'});if(!response.ok)throw Error('Ein Bild ist nicht erreichbar. Bitte erneut versuchen.');
+  const objectURL=URL.createObjectURL(await response.blob());const image=new Image();
+  try{await new Promise((resolve,reject)=>{image.onload=resolve;image.onerror=()=>reject(Error('Ein Bildformat kann nicht verarbeitet werden. Bitte JPEG oder PNG verwenden.'));image.src=objectURL});
+   const cell=cells[i],scale=Math.min(cell.w/image.naturalWidth,cell.h/image.naturalHeight),w=image.naturalWidth*scale,h=image.naturalHeight*scale;ctx.drawImage(image,cell.x+(cell.w-w)/2,cell.y+(cell.h-h)/2,w,h);
+  }finally{URL.revokeObjectURL(objectURL);image.src=''}
+ }
+ if(version!==collageVersion||!partner.read())throw Error('Collage geschlossen.');
+ const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/jpeg',0.95));canvas.width=canvas.height=1;if(!blob)throw Error('JPG konnte nicht erstellt werden.');
+ return new File([blob],'Unser-Jahr'+(photos.length>48?'-'+(page+1):'')+'.jpg',{type:'image/jpeg'});
+}
