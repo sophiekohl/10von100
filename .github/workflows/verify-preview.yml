@@ -28,6 +28,9 @@ jobs:
           cp ../tests/unified-gate.spec.mjs tests/browser/app.spec.mjs
           node --check partner.js
           cp ../preview/studio/index.html studio/index.html
+          mkdir -p studio-callback preview
+          cp ../studio/index.html studio-callback/index.html
+          cp ../preview/core.js preview/core.js
           npm ci
           node --test tests/edge.test.mjs tests/session.test.mjs tests/sw.test.mjs
           npx playwright install --with-deps chromium webkit
