@@ -194,5 +194,7 @@ Auf Wunsch vom 06.11.2026: Hochzeitsbild deutlich kleiner, kein Text direkt unte
 - [x] Freiwillige Mitteilungen aktivieren/ausschalten, Testversand und Studio-Auswahl implementiert.
 - [x] Private Subscription-/Zustellverwaltung, geschützter Cron und Vault-Schlüssel eingerichtet; authentifizierter Live-Dispatcher mit null Empfängern erfolgreich.
 - [x] 17 Node-Tests und lokale bestehende sowie neue Datenbank-/PIN-/Queue-Sicherheitstests bestanden; Verschlüsselung mit synthetischen Schlüsseln geprüft.
-- [ ] Browser-Regression, Merge und Pages-Veröffentlichung prüfen.
+- [x] 34 Browserfälle (Chromium/WebKit) sowie 17 Node-Tests und Datenbank-Sicherheitstests bestanden; geprüfte App-/Serverdateien identisch zum freigegebenen Stand.
+- [x] PR #16 zusammengeführt (8ee3d81), Pages-Lauf 42300201761 erfolgreich. Zusätzliche Wiederholungsläufe nach Anpassung der Ubuntu-Paketquellen noch beobachten.
+- [ ] iPhone-Abnahme durchführen; Push bleibt bis zu echtem Empfang und geplantem Versand offen.
 - [ ] Echte iPhone-Einwilligung, Empfang bei geschlossener App, Antippen und geplante Freischaltung testen. Push ist bis zu dieser Abnahme nicht fertig.
