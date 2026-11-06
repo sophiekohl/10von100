@@ -1,3 +1,7 @@
 [functions.partner-pin]
 # The handler authenticates PINs itself, and validates admin JWTs with Auth.
 verify_jwt = false
+
+[functions.partner-push]
+# Member JWTs and the private cron credential are validated in the handler.
+verify_jwt = false

@@ -101,3 +101,6 @@ create policy "calendar_ranges_admin_all" on public.calendar_ranges for ALL to a
 create policy "pending_couple_invites_admin" on public.pending_couple_invites for ALL to authenticated using (is_admin()) with check (is_admin());
 grant usage on schema public,auth,storage to anon,authenticated,service_role;grant all on all tables in schema public,storage to authenticated,service_role;
 
+
+-- Test-only Vault model; production uses the encrypted Supabase Vault extension.
+create schema vault;create table vault.decrypted_secrets(id uuid primary key default gen_random_uuid(),decrypted_secret text);create function vault.create_secret(v text) returns uuid language plpgsql as $$declare k uuid;begin insert into vault.decrypted_secrets(decrypted_secret)values(v)returning id into k;return k;end$$;

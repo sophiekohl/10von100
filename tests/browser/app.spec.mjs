@@ -89,3 +89,24 @@ test('media frames and scroll hint respond to actual overflow and reading positi
  await page.evaluate(()=>{document.getElementById('detailMedia').replaceChildren();document.getElementById('detailMedia').style.height='12px';const panel=document.querySelector('#detail .panel');panel.scrollTop=0;updateDetailCue()});await expect(page.locator('.detailScrollCue')).toBeHidden();
  await page.locator('#closeDetail').click();await expect(page.locator('.detailScrollCue')).toBeHidden();
 });
+
+test('push consent is explicit; enable, test and disable are available in info',async({page})=>{
+ await mock(page);const actions=[];
+ await page.addInitScript(()=>{
+ window.pushPermissionCalls=0;let sub=null;
+ Object.defineProperty(navigator,'standalone',{value:true,configurable:true});
+ Object.defineProperty(window,'PushManager',{value:function(){},configurable:true});
+ const notice={permission:'default',requestPermission:async()=>{window.pushPermissionCalls++;notice.permission='granted';return 'granted'}};
+ Object.defineProperty(window,'Notification',{value:notice,configurable:true});
+ const reg={pushManager:{getSubscription:async()=>sub,subscribe:async()=>{sub={endpoint:'https://web.push.apple.com/test',toJSON:()=>({endpoint:'https://web.push.apple.com/test',keys:{p256dh:'a'.repeat(87),auth:'b'.repeat(22)}}),unsubscribe:async()=>{sub=null;return true}};return sub}}};
+ Object.defineProperty(navigator,'serviceWorker',{value:{ready:Promise.resolve(reg),register:async()=>reg,addEventListener(){}},configurable:true});
+ });
+ await page.route('**/functions/v1/partner-push',route=>{const data=route.request().postDataJSON();actions.push(data.action);return route.fulfill({json:data.action==='config'?{publicKey:'BA'}:{ok:true}})});
+ await page.goto('/');expect(await page.evaluate(()=>window.pushPermissionCalls)).toBe(0);await enter(page);await page.locator('#info').click();await expect(page.locator('#pushSettings')).toBeVisible();expect(await page.evaluate(()=>window.pushPermissionCalls)).toBe(0);
+ await page.getByRole('button',{name:'Mitteilungen aktivieren',exact:true}).click();await expect(page.locator('#pushStatus')).toContainText('auf diesem Gerät aktiv');expect(await page.evaluate(()=>window.pushPermissionCalls)).toBe(1);expect(actions).toContain('subscribe');
+ await page.getByRole('button',{name:'Testnachricht senden',exact:true}).click();await expect(page.locator('#pushStatus')).toContainText('Push-Dienst');expect(actions).toContain('test');
+ await page.getByRole('button',{name:'Mitteilungen ausschalten',exact:true}).click();await expect(page.locator('#pushStatus')).toContainText('ausgeschaltet');expect(actions).toContain('remove');
+});
+test('notification deep link opens content only after successful PIN gate',async({page})=>{
+ await mock(page);await page.goto('/?surprise='+id);await expect(page.locator('#detail')).not.toHaveClass(/show/);expect(page.url()).not.toContain('surprise=');await enter(page);await expect(page.locator('#detail')).toHaveClass(/show/);await expect(page.locator('#detailTitle')).toContainText('Freigeschaltet');
+});
