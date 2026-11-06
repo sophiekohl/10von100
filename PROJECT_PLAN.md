@@ -167,4 +167,4 @@ Auf Wunsch vom 06.11.2026: Hochzeitsbild deutlich kleiner, kein Text direkt unte
 
 - [x] Fehlende Bearbeiten-/Löschen-Schaltflächen lagen in einer älteren Studio-Ansicht. Aktuelle Root- und Vorschau-Dateien enthalten beide Funktionen; neue URL bereitgestellt.
 - [x] Sophie bestätigt danach, dass keine Testeinträge mehr im Studio vorhanden sind und die Löschung funktioniert hat.
-- [ ] Verschwinden der Testkarten in der Partner-App nach erneutem Öffnen bestätigen; keine zusätzliche Löschung privater Inhalte durch den Assistenten vorgenommen.
+- [x] Sophie bestätigt nach erneutem Öffnen: gelöschte Testkarten sind auch in der Partner-App verschwunden. Testbereinigung manuell bestätigt; keine zusätzliche Löschung privater Inhalte durch den Assistenten vorgenommen.
