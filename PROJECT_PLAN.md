@@ -107,3 +107,11 @@ Auf Wunsch vom 06.11.2026: Hochzeitsbild deutlich kleiner, kein Text direkt unte
 - [x] Sophie hat über den neuen E-Mail-Ablauf privat ein eigenes Studio-Passwort gesetzt und nach Abmelden eine erfolgreiche echte Passwortanmeldung bestätigt.
 - [ ] Speicherung im privaten Passwortmanager durch Sophie sicherstellen; Anbieterlimit für Login-/Recovery-Mails bleibt bestehen.
 - [ ] Für dauerhafte verlässliche Login-/Recovery-Mails SMTP-/E-Mail-Anbieter einrichten, sofern die Mailfunktion produktiv benötigt wird. Zugangsdaten ausschließlich beim Anbieter/Supabase hinterlegen; keine Secrets im Repository.
+
+## Manuelle Überraschungsprüfung am 06.11.2026
+
+- [x] Privater Entwurf „TEST – Überraschung“ bleibt in Partner-App und Kalender unsichtbar.
+- [x] Veröffentlichung mit Termin 18.01.2030 und Kalenderhäkchen: verschlossene Karte und neutrale Kalendermarkierung sichtbar, Titel und Text weiterhin verborgen (Sophie bestätigt).
+- [x] Änderung auf vergangenen Termin mit expliziter Freigabe: Titel und Text in der Partner-App erfolgreich gelesen (Sophie bestätigt).
+- [ ] Privaten Foto-/Video-/Audiozugriff und Wiedergabe vor/nach Freischaltung auf echtem iPhone prüfen. Der reine Textablauf ersetzt diesen Medientest nicht.
+- [ ] Den eindeutig benannten Testbeitrag nach Abschluss der Medienprüfung entfernen.
