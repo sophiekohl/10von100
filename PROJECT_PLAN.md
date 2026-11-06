@@ -189,3 +189,10 @@ Auf Wunsch vom 06.11.2026: Hochzeitsbild deutlich kleiner, kein Text direkt unte
 - [x] PR #15 nach beiden erfolgreichen CI-Läufen zusammengeführt; Pages-Veröffentlichung 42294885045 erfolgreich.
 - [ ] Neues Symbol auf bestehender iPhone-Installation bestätigen.
 - [ ] Nächster Ausbau: neutrale Push-Nachrichten ohne Überraschungstitel oder private Medien, mit echtem iPhone-Empfangstest.
+
+## Push-Mitteilungen · PR #16
+- [x] Freiwillige Mitteilungen aktivieren/ausschalten, Testversand und Studio-Auswahl implementiert.
+- [x] Private Subscription-/Zustellverwaltung, geschützter Cron und Vault-Schlüssel eingerichtet; authentifizierter Live-Dispatcher mit null Empfängern erfolgreich.
+- [x] 17 Node-Tests und lokale bestehende sowie neue Datenbank-/PIN-/Queue-Sicherheitstests bestanden; Verschlüsselung mit synthetischen Schlüsseln geprüft.
+- [ ] Browser-Regression, Merge und Pages-Veröffentlichung prüfen.
+- [ ] Echte iPhone-Einwilligung, Empfang bei geschlossener App, Antippen und geplante Freischaltung testen. Push ist bis zu dieser Abnahme nicht fertig.
