@@ -10,3 +10,9 @@ test('memory collage exports real high resolution JPEG and closes on logout',asy
  expect(result).toEqual({type:'image/jpeg',width:3200,height:4000,jpeg:true});
  await page.getByRole('button',{name:'Für dich',exact:true}).click();await page.locator('#authLogout').click();await expect(page.locator('#memoryCollage')).toHaveCount(0);
 });
+
+test('Home fits short iPhone viewport and does not overlap navigation',async({page})=>{
+ await mock(page);await page.goto('/');
+ for(const height of [650,740,852]){await page.setViewportSize({width:393,height});const dimensions=await page.evaluate(()=>({scroll:document.documentElement.scrollHeight,height:innerHeight,bottom:document.querySelector('#openCal').getBoundingClientRect().bottom,nav:document.querySelector('.nav').getBoundingClientRect().top}));expect(dimensions.scroll).toBeLessThanOrEqual(dimensions.height);expect(dimensions.bottom).toBeLessThanOrEqual(dimensions.nav);}
+ await expect(page.locator('#home figcaption')).toHaveCount(0);await expect(page.locator('#home .herofoot')).toHaveCount(0);
+});
