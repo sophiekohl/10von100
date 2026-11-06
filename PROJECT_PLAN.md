@@ -162,3 +162,9 @@ Auf Wunsch vom 06.11.2026: Hochzeitsbild deutlich kleiner, kein Text direkt unte
 - [x] GitHub-Pages-Veröffentlichung für PR #14 erfolgreich, ausgelieferter Rahmen und Scrollhinweis per HTTPS verifiziert.
 - [x] Sophie bestätigt anschließend die funktionierende Mediengestaltung auf ihrem iPhone.
 - [ ] Harmlosen Testbeitrag einschließlich Medien nach Tests entfernen; finale installierte PWA und Betrieb bleiben offen.
+
+## Studio-Testbereinigung
+
+- [x] Fehlende Bearbeiten-/Löschen-Schaltflächen lagen in einer älteren Studio-Ansicht. Aktuelle Root- und Vorschau-Dateien enthalten beide Funktionen; neue URL bereitgestellt.
+- [x] Sophie bestätigt danach, dass keine Testeinträge mehr im Studio vorhanden sind und die Löschung funktioniert hat.
+- [ ] Verschwinden der Testkarten in der Partner-App nach erneutem Öffnen bestätigen; keine zusätzliche Löschung privater Inhalte durch den Assistenten vorgenommen.
