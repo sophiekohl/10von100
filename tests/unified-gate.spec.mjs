@@ -80,3 +80,12 @@ test('new moment form opens above a long feed, remains editable and closes after
  await page.locator('#momentCaption').fill('Neuer Moment trotz langer Liste');await page.locator('#addMoment').click();await expect(page.locator('#upload')).toBeHidden();await page.locator('#addMoment').click();await expect(page.locator('#momentCaption')).toHaveValue('Neuer Moment trotz langer Liste');await page.locator('#saveMoment').click();
  await expect(page.locator('#momentMsg')).toContainText('Erinnerung gespeichert');await expect(page.locator('#upload')).toBeHidden();await expect(page.locator('#addMoment')).toHaveAttribute('aria-expanded','false');await expect(page.locator('#momentList')).toContainText('Neuer Moment trotz langer Liste');
 });
+
+test('media frames and scroll hint respond to actual overflow and reading position',async({page})=>{
+ await mock(page);await page.goto('/');await enter(page);await page.getByRole('button',{name:'Für dich',exact:true}).click();await page.getByRole('button',{name:/GEÖFFNET/}).click();await expect(page.locator('#detailMedia img')).toBeVisible();
+ const frame=await page.locator('#detailMedia .mediaBlock').evaluate(n=>({border:getComputedStyle(n).borderTopWidth,shadow:getComputedStyle(n).boxShadow}));expect(frame.border).toBe('1px');expect(frame.shadow).not.toBe('none');
+ await page.evaluate(()=>{document.getElementById('detailMedia').style.height='2000px';updateDetailCue()});await expect(page.locator('.detailScrollCue')).toBeVisible();
+ await page.evaluate(()=>{const panel=document.querySelector('#detail .panel');panel.scrollTop=panel.scrollHeight;panel.dispatchEvent(new Event('scroll'))});await expect(page.locator('.detailScrollCue')).toBeHidden();
+ await page.evaluate(()=>{document.getElementById('detailMedia').replaceChildren();document.getElementById('detailMedia').style.height='12px';const panel=document.querySelector('#detail .panel');panel.scrollTop=0;updateDetailCue()});await expect(page.locator('.detailScrollCue')).toBeHidden();
+ await page.locator('#closeDetail').click();await expect(page.locator('.detailScrollCue')).toBeHidden();
+});
