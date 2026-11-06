@@ -66,3 +66,26 @@ Supabase meldete deaktivierten Schutz gegen geleakte Passwörter; Admin-Auth-Ein
 
 - [ ] Push auf iPhone nach gesonderter Machbarkeits-/Einwilligungsentscheidung.
 - [ ] Weitere Barrierefreiheits- und Wiederherstellungstests.
+
+## Manuelle Abnahme am 06.11.2026
+
+- [x] Eigene PIN im Studio gesetzt; echte Partneranmeldung erfolgreich. Sitzung nach Schließen/Wiederöffnen erhalten.
+- [x] Unser Jahr auf Sophies iPhone: Text und Foto speichern, nach Wiederöffnen anzeigen, Text ändern und erneut laden sowie Eintrag löschen und Abwesenheit nach Wiederöffnen bestätigt.
+- [x] Gewünschte Bedienung implementiert: Stift direkt am Text, Papierkorb unten rechts, 44-Pixel-Tippflächen und Löschrückfrage. Veröffentlichung der Vorschau über PR #6 nach bestandenen Prüfungen.
+- [ ] Überraschungsfreischaltung und private Medien vollständig Ende-zu-Ende prüfen; installierte PWA auf dem Zielgerät weiterhin offen.
+
+## Erweiterung: gemeinsames App-Jahr
+
+Vom Nutzer bestätigt: Geschenk am 09.12.2026, Überraschungen bis einschließlich 31.12.2027 (388 Tage). Countdown vor Beginn, Tageszähler im Zeitraum und Abschlussanzeige danach implementiert. Unser Jahr erhält eine abrufbare Collagenansicht aller zugänglichen Erinnerungsfotos. Keine Überraschungsmedien; keine Bildkopien im Repository. Bereitstellung und Browserprüfung über PR #7; manuelle Collagenabnahme bleibt offen.
+
+## Home und Anmeldung – UX-Korrektur
+
+Auf Wunsch vom 06.11.2026: Hochzeitsbild deutlich kleiner, kein Text direkt unter dem Bild, Home mit Zähler/Kalender möglichst ohne Scrollen auf iPhone. Bei vergrößerter Schrift bleibt natürliches Scrollen möglich. PIN-Einstieg auch direkt in Unser Jahr, gemeinsame Sitzung mit Für dich. Umsetzung und mobile Layout-/Anmeldetests in PR #9; manuelle iPhone-Abnahme nach Bereitstellung offen.
+
+## Freigegebener Gesamtentwurf – umgesetzt
+
+- [x] Vollständiger Willkommensbrief mit Hochzeitsfoto → eine PIN vor der App → alle Bereiche gemeinsam erreichbar. Brief später unter Info; dort auch Abmelden.
+- [x] Kompakte Home-Seite mit Hochkantfoto neben Gruß/Zähler; verfügbare Überraschung direkt öffnen.
+- [x] Neue mobile Browserprüfungen: 8 Abläufe jeweils Chromium/WebKit bestanden; Handler-/Sitzungs-/Cache-Tests erfolgreich. Nachweis: https://github.com/sophiekohl/10von100/actions/runs/42238067504 . Alte DOM-/Browserannahmen zur Anmeldung pro Bereich durch neue Browserprüfung ersetzt.
+- [x] PR #10 nach bestandener Prüfung für die Testversion zusammengeführt; PR #9 dadurch ersetzt und geschlossen.
+- [ ] Neue Willkommens-/PIN-Ansicht auf dem echten iPhone sowie installierte PWA und private Freischalt-/Medienabläufe final abnehmen.
