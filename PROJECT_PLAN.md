@@ -179,3 +179,9 @@ Auf Wunsch vom 06.11.2026: Hochzeitsbild deutlich kleiner, kein Text direkt unte
 - [x] Installierbare Hauptversion nach finalem Icon-/Release-Prüflauf über PR #4 bereitgestellt. Finaler Head 6dce5483995632704aae9e933af923cb07ebafd2: beide Prüfläufe erfolgreich, 30 Browserfälle plus Unit-/Datenbanksuite. Deployment 42283632007 erfolgreich. Hauptadresse liefert PIN-Gate, Manifest, PNG-Icons und Service Worker v6 inklusive öffentlichem Hochzeitsbild per HTTPS aus.
 - [ ] Auf Sophies iPhone installieren: Home-Bildschirm, einmalige PIN, Schließen/Wiederöffnen, Neustart, Offline-/Online-Wiederaufnahme prüfen. Zielgerät des Mannes bleibt separat zu berücksichtigen; keine Prüfung auf seinem Gerät vorgeben oder vorzeitige Überraschung veranlassen.
 - [ ] Endgültige Betriebs-/Backup-/Mailkonfiguration, Push-Entscheidung und verbleibende Sicherheits-/Langzeitabnahme abschließen.
+
+## Physische PWA-Erstprüfung
+
+- [x] Sophie bestätigt Hinzufügen zum Home-Bildschirm, Öffnen der installierten Hauptversion und erfolgreiche PIN-Anmeldung auf ihrem iPhone.
+- [ ] Neustart, Offline-/Online-Wiederaufnahme und längerer Hintergrundbetrieb weiter prüfen; Erstinstallation bestätigt nicht automatisch diese Fälle.
+- [ ] Zehn neue Logoentwürfe auf Nutzerwunsch erarbeiten; bestehendes App-Icon erst nach Auswahl ersetzen.
