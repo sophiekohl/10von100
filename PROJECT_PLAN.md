@@ -115,3 +115,9 @@ Auf Wunsch vom 06.11.2026: Hochzeitsbild deutlich kleiner, kein Text direkt unte
 - [x] Änderung auf vergangenen Termin mit expliziter Freigabe: Titel und Text in der Partner-App erfolgreich gelesen (Sophie bestätigt).
 - [ ] Privaten Foto-/Video-/Audiozugriff und Wiedergabe vor/nach Freischaltung auf echtem iPhone prüfen. Der reine Textablauf ersetzt diesen Medientest nicht.
 - [ ] Den eindeutig benannten Testbeitrag nach Abschluss der Medienprüfung entfernen.
+
+## Manuelle private Fotoprüfung
+
+- [x] Sophie hat dem Testbeitrag ein unverfängliches Foto hinzugefügt und die Veröffentlichung auf einen zukünftigen Termin gesetzt: Karte verschlossen, Foto sowie Titel/Text nicht sichtbar.
+- [x] Nach expliziter Freischaltung durch vergangenen Termin zeigt die Partner-App Foto, Titel und Text korrekt an (Sophie bestätigt).
+- [ ] Video/Audio-Wiedergabe sowie final installierte PWA weiter prüfen. Foto-Nachweis ist kein Nachweis für diese Medientypen.
