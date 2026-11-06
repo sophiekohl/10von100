@@ -69,3 +69,14 @@ test('Admin configures password privately, validates confirmation and clears fie
 test('Real callback page removes tokens from URL and opens password setup after recovery',async({page})=>{
  await mock(page,{admin:true});await page.goto('/studio/#access_token=admin-test-token&refresh_token=test-refresh&expires_in=3600&type=recovery');await expect(page.locator('#studio')).toBeVisible();await expect(page.locator('#studioAccount')).toHaveAttribute('open','');await expect(page.locator('#studioPasswordMsg')).toContainText('festlegen');expect(page.url()).not.toContain('access_token');await expect(page.locator('#newStudioPassword')).toBeVisible();
 });
+
+test('new moment form opens above a long feed, remains editable and closes after save',async({page})=>{
+ const {moments}=await mock(page);
+ for(let i=0;i<20;i++)moments.push({id:'old-'+i,caption:'Bestehender Moment '+i,moment_date:'2026-11-01',created_by:user,moment_photos:[]});
+ await page.goto('/');await enter(page);await page.getByRole('button',{name:'Unser Jahr',exact:true}).click();await page.locator('#addMoment').click();
+ await expect(page.locator('#addMoment')).toHaveAttribute('aria-expanded','true');await expect(page.locator('#upload')).toBeVisible();
+ const position=await page.evaluate(()=>({direct:document.getElementById('addMoment').nextElementSibling.id,form:document.getElementById('upload').getBoundingClientRect().top,list:document.getElementById('momentList').getBoundingClientRect().top,height:innerHeight}));
+ expect(position.direct).toBe('upload');expect(position.form).toBeGreaterThanOrEqual(0);expect(position.form).toBeLessThan(position.height);expect(position.form).toBeLessThan(position.list);
+ await page.locator('#momentCaption').fill('Neuer Moment trotz langer Liste');await page.locator('#addMoment').click();await expect(page.locator('#upload')).toBeHidden();await page.locator('#addMoment').click();await expect(page.locator('#momentCaption')).toHaveValue('Neuer Moment trotz langer Liste');await page.locator('#saveMoment').click();
+ await expect(page.locator('#momentMsg')).toContainText('Erinnerung gespeichert');await expect(page.locator('#upload')).toBeHidden();await expect(page.locator('#addMoment')).toHaveAttribute('aria-expanded','false');await expect(page.locator('#momentList')).toContainText('Neuer Moment trotz langer Liste');
+});
