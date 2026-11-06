@@ -73,3 +73,36 @@ addEventListener('storage',e=>{if(e.key===partner.name&&!e.newValue){momentVersi
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'){loadSurprises();loadMoments()}});
 authUI();cal();loadSurprises();loadMoments();
 // Browser-only acceptance preview; no Service Worker is installed here.
+
+function updateYearCounter(){
+ const start=Date.UTC(2026,11,9),end=Date.UTC(2027,11,31),today=Date.parse(berlinDate(new Date())+'T00:00:00Z'),day=86400000,total=Math.round((end-start)/day)+1;
+ ui.daycount.textContent=today<start?'Noch '+Math.ceil((start-today)/day)+' Tage bis zu unserem gemeinsamen App-Jahr':today>end?'Unser App-Jahr · '+total+' gemeinsame Tage':'Tag '+(Math.round((today-start)/day)+1)+' von '+total;
+}
+updateYearCounter();document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')updateYearCounter()});
+const collageButton=document.createElement('button');collageButton.className='add';collageButton.textContent='Unsere Bildcollage ansehen';ui.momentList.before(collageButton);
+let collageVersion=0;
+function closeCollage(){collageVersion++;document.getElementById('memoryCollage')?.remove();}
+const previousClear=partner.onclear;partner.onclear=()=>{closeCollage();previousClear()};
+collageButton.onclick=async()=>{
+ closeCollage();if(!partner.read()){ui.momentMsg.textContent='Bitte zuerst unter „Für dich“ anmelden.';return}
+ const version=collageVersion;collageButton.disabled=true;
+ const panel=document.createElement('section');panel.id='memoryCollage';panel.className='card';panel.setAttribute('aria-label','Unsere Bildcollage');
+ const heading=document.createElement('h2');heading.textContent='Unser Jahr in Bildern ♡';
+ const close=document.createElement('button');close.textContent='Collage schließen';close.onclick=closeCollage;
+ const status=document.createElement('p');status.setAttribute('role','status');status.textContent='Eure Bilder werden geladen …';
+ const grid=document.createElement('div');grid.style.cssText='display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px';
+ panel.append(heading,close,status,grid);collageButton.after(panel);
+ try{
+ const rows=await partner.request('/rest/v1/year_moments?select=id,moment_date,moment_photos(id,storage_path)&order=moment_date.asc');
+ if(version!==collageVersion||!partner.read())return;
+ const photos=rows.flatMap(r=>r.moment_photos||[]);let unavailable=0;
+ for(const photo of photos){
+  if(version!==collageVersion||!partner.read())return;
+  try{const src=await signedMedia('moments',photo.storage_path);if(version!==collageVersion||!partner.read())return;
+   const img=document.createElement('img');img.src=src;img.alt='Ein Bild aus euren Erinnerungen';img.style.cssText='display:block;width:100%;height:auto;align-self:center;border-radius:8px';img.onerror=()=>{img.alt='Bild gerade nicht verfügbar – Collage bitte erneut öffnen.'};grid.append(img);
+  }catch{unavailable++}
+ }
+ status.textContent=photos.length?photos.length+' Erinnerungsbilder'+(unavailable?' · '+unavailable+' gerade nicht verfügbar.':''):'Mit eurem ersten Erinnerungsfoto beginnt hier eure Collage.';
+ }catch{if(version===collageVersion)status.textContent='Die Collage konnte nicht geladen werden. Bitte erneut versuchen.'}
+ finally{collageButton.disabled=false}
+};
