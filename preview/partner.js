@@ -46,7 +46,7 @@ async function showGift(g){const version=++detailVersion;ui.detailMedia.replaceC
   }catch{if(version!==detailVersion)return;const p=document.createElement('p');p.textContent='Dieses Medium konnte nicht geladen werden. Bitte den Brief erneut öffnen.';ui.detailMedia.append(p);}}
 }
 ui.closeDetail.onclick=()=>{detailVersion++;if('mediaSession'in navigator)navigator.mediaSession.metadata=null;ui.detail.classList.remove('show');ui.detailMedia.replaceChildren()};
-const pages=[...document.querySelectorAll('.page')],nav=[...document.querySelectorAll('.nav button')];nav.forEach(b=>b.onclick=()=>{pages.forEach(p=>p.classList.toggle('on',p.id===b.dataset.p));nav.forEach(n=>n.classList.toggle('sel',n===b));if(b.dataset.p==='year'){ui.momentList.before(ui.authBox,ui.authSignedIn);loadMoments()}else if(b.dataset.p==='foryou'){document.getElementById('foryou').prepend(ui.authBox,ui.authSignedIn)};scrollTo(0,0)});
+const pages=[...document.querySelectorAll('.page')],nav=[...document.querySelectorAll('.nav button')];nav.forEach(b=>b.onclick=()=>{pages.forEach(p=>p.classList.toggle('on',p.id===b.dataset.p));nav.forEach(n=>n.classList.toggle('sel',n===b));if(b.dataset.p==='year'){document.querySelector('#year h1').after(ui.authBox,ui.authSignedIn);loadMoments()}else if(b.dataset.p==='foryou'){document.getElementById('foryou').prepend(ui.authBox,ui.authSignedIn)};scrollTo(0,0)});
 if(!localStorage.introSeen)ui.intro.classList.add('show');ui.info.onclick=()=>ui.intro.classList.add('show');ui.close.onclick=()=>ui.intro.classList.remove('show');ui.begin.onclick=()=>{ui.intro.classList.remove('show');localStorage.introSeen='1'};
 // 10% refers to ten of one hundred years, not to elapsed app-year progress.
 ui.daycount.textContent='10 Jahre am 18. Januar 2027';
