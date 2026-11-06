@@ -132,3 +132,8 @@ Auf Wunsch vom 06.11.2026: Hochzeitsbild deutlich kleiner, kein Text direkt unte
 
 - [x] Eigenständige Audiodatei im Testbeitrag gespeichert, freigeschaltet und in der Partner-App abgespielt. Ton, Pause und Fortsetzen durch Sophie bestätigt.
 - [ ] Medienwechsel sowie Stoppen beim Schließen/Abmelden, Hintergrund-/Vollbildverhalten und installierte PWA separat prüfen.
+
+## Medienwechsel und Deezer
+
+- [x] Sophie bestätigt: Start des Videos pausiert die Audioaufnahme; Schließen der Karte beendet die Wiedergabe.
+- [ ] Deezer von Sophie als nicht funktionierend gemeldet. Inventur: bisher keine gespeicherte Deezer-Medienzeile. Studio akzeptiert derzeit nur direkte numerische Track-/Album-/Playlist-Adressen und verwirft Kurzlinks. Exakten verwendeten Link/Fehler prüfen, bevor Ursache und Korrektur als bestätigt gelten.
