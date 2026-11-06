@@ -179,3 +179,8 @@ Auf Wunsch vom 06.11.2026: Hochzeitsbild deutlich kleiner, kein Text direkt unte
 - [ ] Hauptversion nach finalem Icon-/Release-Prüflauf bereitstellen und ausgelieferte Dateien kontrollieren.
 - [ ] Auf Sophies iPhone installieren: Home-Bildschirm, einmalige PIN, Schließen/Wiederöffnen, Neustart, Offline-/Online-Wiederaufnahme prüfen. Zielgerät des Mannes bleibt separat zu berücksichtigen; keine Prüfung auf seinem Gerät vorgeben oder vorzeitige Überraschung veranlassen.
 - [ ] Endgültige Betriebs-/Backup-/Mailkonfiguration, Push-Entscheidung und verbleibende Sicherheits-/Langzeitabnahme abschließen.
+
+## Freigegebenes Logo
+- [x] Kombination aus Entwurf 07 und 03 von Sophie freigegeben.
+- [x] Versionierte PNG-App-Icons (192/512) und Browser-Icon (64) erstellt; Manifest, Apple-Touch-Icon und öffentlicher Cache aktualisiert.
+- [ ] Darstellung des neuen Symbols bei bestehender iPhone-Installation prüfen.
