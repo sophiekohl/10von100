@@ -51,6 +51,6 @@ test('welcome letter contrast and full screen visual evidence',async({page},test
  await page.locator('#begin').click();await page.screenshot({path:testInfo.outputPath('02-pin.png')});
  for(const n of ['4','8','2','6'])await page.locator('#pinGate').getByRole('button',{name:n,exact:true}).click();await page.locator('#authLogin').click();await expect(page.locator('#privateApp')).toBeVisible();
  await page.screenshot({path:testInfo.outputPath('03-home.png')});
- await page.getByRole('button',{name:'Für dich',exact:true}).click();await page.screenshot({path:testInfo.outputPath('04-surprises.png')});
+ await page.getByRole('button',{name:'Für dich',exact:true}).click();await expect.poll(()=>page.evaluate(()=>scrollY)).toBe(0);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.screenshot({path:testInfo.outputPath('04-surprises.png')});
  await page.getByRole('button',{name:'Unser Jahr',exact:true}).click();await page.screenshot({path:testInfo.outputPath('05-year.png')});
 });
