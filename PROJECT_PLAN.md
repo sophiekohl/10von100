@@ -248,10 +248,13 @@ Verbindlicher aktueller Stand; ältere Abschnitte dokumentieren die damaligen Zw
 - [x] Admin-geschützte Kurzlinkauflösung implementiert, Redirect-/Host-/HTTPS-/Zeit-/Größenlimits getestet; Live-Endpunkt weist nicht angemeldete Aufrufe zurück.
 - [x] Vier neue Unitfälle sowie mobile Studio-Auflösung/Fehlererhalt und übrige Regression erfolgreich (42360932416, Vorschau 42360932398). PR #22 zusammengeführt.
 - [ ] Tatsächlichen Deezer-App-Kurzlink auf Sophies iPhone auflösen und abspielen; lokale Live-Probe erreichte ihr Zeitlimit, daher noch keine allgemeine Funktionsabnahme behaupten.
-- [ ] YouTube hat Sophie ausdrücklich noch nicht getestet: als nächsten Medientest einplanen.
+- [x] Sophie bestätigt YouTube-Hinzufügen, Speichern, Freischalten und Wiedergabe mit Bild und Ton in der iPhone-App.
 - [ ] Danach Flugmodus/Online-Rückkehr, Neustart und übrige Betriebs-/Backup-Abnahme fortsetzen.
 
 ## Deezer-Kurzlink – iPhone-Rückmeldung
 - [x] Sophie bestätigt: Kurzlink erscheint als Deezer-Eintrag, wurde gespeichert und anschließend in der Partner-App angezeigt.
 - [ ] Hörbare Wiedergabe genau dieses Kurzlink-Eintrags noch nicht ausdrücklich bestätigt; frühere direkte Deezer-Wiedergabe bereits bestätigt.
-- [ ] Nächster geführter Medientest: YouTube hinzufügen, speichern, freischalten und auf dem iPhone abspielen.
+- [x] Geführter YouTube-Test vollständig von Sophie bestätigt: hinzugefügt, gespeichert, freigeschaltet, Bild und Ton funktionieren.
+
+## Nächste physische Stabilitätsprüfung
+- [ ] Flugmodus mit ausgeschaltetem WLAN: geschlossene App neu öffnen, verständlichen Offlinehinweis und gesperrten Privatbereich prüfen; anschließend Online-Rückkehr und Sitzung wiederherstellen.
