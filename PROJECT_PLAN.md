@@ -215,4 +215,5 @@ Auf Wunsch vom 06.11.2026: Hochzeitsbild deutlich kleiner, kein Text direkt unte
 ## Zuerst Push, darunter PIN · PR #19
 - [x] Push-Auswahl über der PIN; passende Erlauben-/Überspringen-/Ladezustände und Fokuswechsel ergänzt.
 - [x] 22 lokale Tests bestanden; Browserfälle für Reihenfolge, Höhe und beide Auswahlwege ergänzt.
-- [ ] Browserprüfung und Veröffentlichung bestätigen.
+- [x] Chromium/WebKit bestätigen beide Auswahlwege, Fokuswechsel, Reihenfolge und Sichtbarkeit bei 393×740/852; beide CI-Läufe erfolgreich (42357011465/42357011471).
+- [x] PR #19 zusammengeführt, Pages-Lauf 42357155781 erfolgreich. Empfang auf dem echten iPhone bleibt offene Abnahme.
