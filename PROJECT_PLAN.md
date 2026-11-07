@@ -198,3 +198,9 @@ Auf Wunsch vom 06.11.2026: Hochzeitsbild deutlich kleiner, kein Text direkt unte
 - [x] PR #16 zusammengeführt (8ee3d81), Pages-Lauf 42300201761 erfolgreich. Zusätzliche Wiederholungsläufe nach Anpassung der Ubuntu-Paketquellen noch beobachten.
 - [ ] iPhone-Abnahme durchführen; Push bleibt bis zu echtem Empfang und geplantem Versand offen.
 - [ ] Echte iPhone-Einwilligung, Empfang bei geschlossener App, Antippen und geplante Freischaltung testen. Push ist bis zu dieser Abnahme nicht fertig.
+
+## Push-Einwilligung auf der PIN-Seite · PR #17
+- [x] Freiwillige Einwilligung ganz unten auf der PIN-Seite ergänzt; Geräteregistrierung bleibt an erfolgreiche Anmeldung gebunden.
+- [x] 20 lokale Node-/DOM-Tests bestanden; zusätzliche Browserprüfung für falsche und richtige PIN ergänzt.
+- [ ] Browser-Regression und Veröffentlichung prüfen.
+- [ ] Physischer iPhone-Empfang und geplanter Versand weiterhin offen.
