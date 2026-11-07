@@ -200,3 +200,8 @@ Auf Wunsch vom 06.11.2026: Hochzeitsbild deutlich kleiner, kein Text direkt unte
 ## Kompakte PIN-Seite
 - [x] Kleinere PIN-Ziffern (20 px), weniger Abstände und kompakter Push-Hinweis; Tasten mindestens 44 px hoch.
 - [ ] Sichtbarkeit ohne Scrollen auf iPhone-Höhen und Browser-Regression prüfen.
+
+## Push zuerst, danach PIN
+- [x] Push-Auswahl oberhalb der PIN angeordnet; „Mitteilungen erlauben“ oder „Jetzt nicht“, danach Fokus auf PIN.
+- [x] Nach Einwilligung kompakte Bestätigung; angemeldet unter ⓘ weiterhin Aktivieren/Test/Ausschalten.
+- [ ] Zustände, Reihenfolge und Bildschirmhöhe vor Veröffentlichung prüfen.
