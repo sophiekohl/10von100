@@ -196,3 +196,7 @@ Auf Wunsch vom 06.11.2026: Hochzeitsbild deutlich kleiner, kein Text direkt unte
 - [x] Mitteilungen ganz unten auf der PIN-Seite erlauben; Serverregistrierung erst nach erfolgreicher Anmeldung.
 - [x] Einstellungen nach Anmeldung weiterhin unter ⓘ, ohne zusätzliche Fläche auf Home.
 - [ ] Empfang und geplanter Versand auf dem echten iPhone bleiben offene Abnahme.
+
+## Kompakte PIN-Seite
+- [x] Kleinere PIN-Ziffern (20 px), weniger Abstände und kompakter Push-Hinweis; Tasten mindestens 44 px hoch.
+- [ ] Sichtbarkeit ohne Scrollen auf iPhone-Höhen und Browser-Regression prüfen.

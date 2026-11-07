@@ -122,7 +122,12 @@ test('PIN footer permission waits for successful PIN before enrolling the device
  });
  await page.route('**/functions/v1/partner-push',route=>{const data=route.request().postDataJSON();actions.push(data.action);return route.fulfill({json:data.action==='config'?{publicKey:'BA'}:{ok:true}})});
  await page.route('**/functions/v1/partner-pin',route=>{logins++;return route.fulfill(logins===1?{status:401,json:{error:'PIN nicht korrekt.'}}:{json:session})});
- await page.goto('/');await page.locator('#begin').click();await expect(page.locator('#pinGate #pushSettings')).toBeVisible();expect(await page.evaluate(()=>window.pushPermissionCalls)).toBe(0);
+ await page.goto('/');await page.locator('#begin').click();await expect(page.locator('#pinGate #pushSettings')).toBeVisible();
+ for(const height of [740,852]){await page.setViewportSize({width:393,height});
+ const fit=await page.evaluate(()=>{const gate=document.getElementById('pinGate');gate.scrollTop=0;const button=document.querySelector('#pushSettings button');return {bottom:button.getBoundingClientRect().bottom,height:innerHeight,overflow:gate.scrollHeight-gate.clientHeight,targets:[...document.querySelectorAll('.pinKeys button')].map(b=>b.getBoundingClientRect().height),digitSize:parseFloat(getComputedStyle(document.querySelector('.pinKeys button')).fontSize)}});
+ expect(fit.bottom).toBeLessThanOrEqual(fit.height-10);expect(fit.overflow).toBeLessThanOrEqual(1);expect(fit.targets.every(h=>h>=44)).toBe(true);expect(fit.digitSize).toBe(20);
+ }
+ expect(await page.evaluate(()=>window.pushPermissionCalls)).toBe(0);
  await page.locator('#pushSettings').getByRole('button',{name:'Mitteilungen aktivieren',exact:true}).click();await expect(page.locator('#pushStatus')).toContainText('Nach deiner PIN-Anmeldung');expect(actions).toEqual([]);expect(await page.evaluate(()=>window.pushCreated)).toBe(0);
  for(const n of ['4','8','2','6'])await page.locator('#pinGate').getByRole('button',{name:n,exact:true}).click();await page.locator('#authLogin').click();await expect(page.locator('#authMsg')).toContainText('PIN nicht korrekt');expect(actions).toEqual([]);await expect(page.locator('#privateApp')).toBeHidden();
  for(const n of ['4','8','2','6'])await page.locator('#pinGate').getByRole('button',{name:n,exact:true}).click();await page.locator('#authLogin').click();await expect(page.locator('#privateApp')).toBeVisible();await page.locator('#info').click();await expect(page.locator('#intro #pushStatus')).toContainText('auf diesem Gerät aktiv');expect(actions).toContain('subscribe');expect(await page.evaluate(()=>window.pushCreated)).toBe(1);expect(await page.evaluate(()=>window.pushPermissionCalls)).toBe(1);
