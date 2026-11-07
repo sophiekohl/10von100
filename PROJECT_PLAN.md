@@ -279,3 +279,6 @@ Verbindlicher aktueller Stand; ältere Abschnitte dokumentieren die damaligen Zw
 - [x] Sophie bestätigt den geführten JPG-Export und das Öffnen des gespeicherten Bildes; auf die Prüfung von Schärfe und Anordnung positive Rückmeldung.
 - [ ] Anzahl/Formatmischung der hierbei verwendeten Fotos nicht bekannt; daraus keine Belastungsabnahme für sehr viele Bilder ableiten.
 - [ ] Technischer Abschluss: Dauerbetrieb, Backup und Wiederherstellung, verlässliche Admin-Recovery, abschließende Rechte-/Medienprüfung, Dokumentation und gezielte Testbereinigung.
+
+## Offener Bildfehler beim Mehrfoto-Test
+- [ ] Sophie meldet ein Moment-Foto, das fast vollständig leer und nur rechts als schmaler Streifen erscheint. Screenshot allein klärt Bilddatei gegenüber iPhone-Darstellung nicht; Originaldatei für gezielte Reproduktion erforderlich. Mehrfoto-Abnahme bleibt offen.
