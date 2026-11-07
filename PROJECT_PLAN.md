@@ -264,3 +264,8 @@ Verbindlicher aktueller Stand; ältere Abschnitte dokumentieren die damaligen Zw
 - [x] PR #23 verbessert sichtbare PIN-Rückmeldung, Netzwerk-Zeitlimit und Offline-Push-Hinweis. Beide CI-Läufe (42362184867/42362184811) mit Offline-/Online- und Netzfehlerfällen bestanden; zusammengeführt.
 - [ ] Verbesserte Offline-Meldung auf echtem iPhone bei Gelegenheit bestätigen.
 - [ ] iPhone-Neustart und Push-Ausschalten/erneut Aktivieren weiterhin offen.
+
+## iPhone-Neustart bestätigt
+- [x] Sophie bestätigt nach dem angeleiteten vollständigen iPhone-Neustart weiterhin funktionierenden App-Zugang.
+- [ ] Push-Ausschalten und erneutes Aktivieren samt Testempfang prüfen.
+- [ ] Verbesserte Offline-Rückmeldung auf dem Gerät, große Collagen sowie Betrieb/Backup/Recovery und finale Bereinigung bleiben offen.
