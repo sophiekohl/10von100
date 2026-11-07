@@ -282,3 +282,8 @@ Verbindlicher aktueller Stand; ältere Abschnitte dokumentieren die damaligen Zw
 
 ## Offener Bildfehler beim Mehrfoto-Test
 - [ ] Sophie meldet ein Moment-Foto, das fast vollständig leer und nur rechts als schmaler Streifen erscheint. Screenshot allein klärt Bilddatei gegenüber iPhone-Darstellung nicht; Originaldatei für gezielte Reproduktion erforderlich. Mehrfoto-Abnahme bleibt offen.
+
+## Mehrfoto-Darstellung · PR #24
+- [x] Bereitgestelltes privates Original lokal geprüft: JPEG 3840×2160, EXIF-Rotation 6, fehlerfrei dekodierbar. Kein Originalbild ins öffentliche Repository übernommen.
+- [ ] Begrenzte Bildflächen ohne Beschneiden und transformationsfreie fixierte Navigation prüfen und veröffentlichen; 30-Foto-/Scroll-Regression ergänzt.
+- [ ] Konkreten iPhone-Zeichenfehler nach Veröffentlichung erneut abnehmen; Ursache noch nicht abschließend bewiesen.
