@@ -5,3 +5,7 @@ verify_jwt = false
 [functions.partner-push]
 # Member JWTs and the private cron credential are validated in the handler.
 verify_jwt = false
+
+[functions.deezer-resolve]
+# Caller JWT is verified by the admin-only database RPC in the handler.
+verify_jwt = false

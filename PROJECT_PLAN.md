@@ -205,3 +205,8 @@ Auf Wunsch vom 06.11.2026: Hochzeitsbild deutlich kleiner, kein Text direkt unte
 - [x] Push-Auswahl oberhalb der PIN angeordnet; „Mitteilungen erlauben“ oder „Jetzt nicht“, danach Fokus auf PIN.
 - [x] Nach Einwilligung kompakte Bestätigung; angemeldet unter ⓘ weiterhin Aktivieren/Test/Ausschalten.
 - [ ] Zustände, Reihenfolge und Bildschirmhöhe vor Veröffentlichung prüfen.
+
+## Deezer-Kurzlinks und weitere Abnahme
+- [x] Admin-geschützte Kurzlinkauflösung mit HTTPS-/Host-Whitelist, Redirect-/Zeit-/Größenlimit und vier lokalen Tests implementiert.
+- [ ] Browserprüfung und Live-Abnahme vor Fertigmarkierung.
+- [ ] YouTube von Sophie ausdrücklich noch nicht getestet; vor Offline-/Neustartprüfung gemeinsam abnehmen.
