@@ -232,4 +232,4 @@ Auf Wunsch vom 06.11.2026: Hochzeitsbild deutlich kleiner, kein Text direkt unte
 ## Push-Kopfzeile · zweiter iPhone-Test
 - [x] Sophie bestätigt: leerer Titel reduziert die Doppelung auf ihrem iPhone nicht; Umbenennung zu 💛 betrifft beide Kopfzeilen.
 - [x] PR #21 verwendet den neutralen Nachrichtentext mit Herz als Titel, ohne separate Body-Zeile. Beide CI-Läufe erfolgreich (42359688588/42359688600).
-- [ ] Reale iPhone-Darstellung nach Veröffentlichung prüfen; iOS-Attribution bleibt systemgesteuert.
+- [x] Sophie bestätigt erfolgreiche kompakte Darstellung auf ihrem iPhone: neutraler Nachrichtentext mit Herz als Titel, keine zusätzliche Body-Zeile; iOS-Attribution bleibt.
