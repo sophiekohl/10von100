@@ -261,5 +261,6 @@ Verbindlicher aktueller Stand; ältere Abschnitte dokumentieren die damaligen Zw
 
 ## Physischer Offline-/Online-Test
 - [x] Sophie bestätigt: öffentliche Startseite offline vorhanden; private Inhalte werden nicht freigeschaltet. Nach Rückkehr ins Internet ist der Zugang wieder möglich.
-- [ ] Keine ausreichende sichtbare PIN-Rückmeldung im Flugmodus gemeldet. PR #23 verbessert Fehlermeldung/Netzwerk-Zeitlimit und stellt Push-Aktivierung offline zurück; vor Veröffentlichung vollständig prüfen.
+- [x] PR #23 verbessert sichtbare PIN-Rückmeldung, Netzwerk-Zeitlimit und Offline-Push-Hinweis. Beide CI-Läufe (42362184867/42362184811) mit Offline-/Online- und Netzfehlerfällen bestanden; zusammengeführt.
+- [ ] Verbesserte Offline-Meldung auf echtem iPhone bei Gelegenheit bestätigen.
 - [ ] iPhone-Neustart und Push-Ausschalten/erneut Aktivieren weiterhin offen.
