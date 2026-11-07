@@ -209,4 +209,5 @@ Auf Wunsch vom 06.11.2026: Hochzeitsbild deutlich kleiner, kein Text direkt unte
 ## PIN und Push ohne Scrollen · PR #18
 - [x] Ziffern auf 20 px verkleinert, Abstände und Hinweistext gestrafft; 44-px-Tastenziele erhalten.
 - [x] 21 lokale Tests bestanden.
-- [ ] Chromium/WebKit prüfen sichtbaren Push-Button ohne Scrollen bei 393×740 und 393×852; danach veröffentlichen.
+- [x] Chromium/WebKit bestätigen sichtbaren Push-Button ohne Scrollen bei 393×740 und 393×852 sowie mindestens 44 px hohe PIN-Tasten (42356277755).
+- [x] PR #18 zusammengeführt; Pages-Lauf 42356399458 erfolgreich. Physische iPhone-Push-Abnahme bleibt offen.
