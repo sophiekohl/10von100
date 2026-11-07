@@ -269,3 +269,8 @@ Verbindlicher aktueller Stand; ältere Abschnitte dokumentieren die damaligen Zw
 - [x] Sophie bestätigt nach dem angeleiteten vollständigen iPhone-Neustart weiterhin funktionierenden App-Zugang.
 - [ ] Push-Ausschalten und erneutes Aktivieren samt Testempfang prüfen.
 - [ ] Verbesserte Offline-Rückmeldung auf dem Gerät, große Collagen sowie Betrieb/Backup/Recovery und finale Bereinigung bleiben offen.
+
+## Push-Schalter am iPhone bestätigt
+- [x] Sophie bestätigt Ausschalten mit angezeigter Bestätigung, erneutes Aktivieren und erfolgreichen Empfang der folgenden Testnachricht.
+- [x] Damit sind Einwilligung, Empfang, geplanter Versand bei geschlossener App, Antippen, Darstellung und Ein-/Ausschalten auf Sophies iPhone praktisch bestätigt.
+- [ ] Großformatiger Collagenexport mit vielen unterschiedlichen Fotos, Betriebs-/Backup-/Recovery-Abnahme und finale Testbereinigung bleiben offen; keine Gesamtfertigmeldung.
