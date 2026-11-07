@@ -274,3 +274,8 @@ Verbindlicher aktueller Stand; ältere Abschnitte dokumentieren die damaligen Zw
 - [x] Sophie bestätigt Ausschalten mit angezeigter Bestätigung, erneutes Aktivieren und erfolgreichen Empfang der folgenden Testnachricht.
 - [x] Damit sind Einwilligung, Empfang, geplanter Versand bei geschlossener App, Antippen, Darstellung und Ein-/Ausschalten auf Sophies iPhone praktisch bestätigt.
 - [ ] Großformatiger Collagenexport mit vielen unterschiedlichen Fotos, Betriebs-/Backup-/Recovery-Abnahme und finale Testbereinigung bleiben offen; keine Gesamtfertigmeldung.
+
+## JPG-Collage auf dem iPhone bestätigt
+- [x] Sophie bestätigt den geführten JPG-Export und das Öffnen des gespeicherten Bildes; auf die Prüfung von Schärfe und Anordnung positive Rückmeldung.
+- [ ] Anzahl/Formatmischung der hierbei verwendeten Fotos nicht bekannt; daraus keine Belastungsabnahme für sehr viele Bilder ableiten.
+- [ ] Technischer Abschluss: Dauerbetrieb, Backup und Wiederherstellung, verlässliche Admin-Recovery, abschließende Rechte-/Medienprüfung, Dokumentation und gezielte Testbereinigung.
