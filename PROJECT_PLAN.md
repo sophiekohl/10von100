@@ -285,5 +285,6 @@ Verbindlicher aktueller Stand; ältere Abschnitte dokumentieren die damaligen Zw
 
 ## Mehrfoto-Darstellung · PR #24
 - [x] Bereitgestelltes privates Original lokal geprüft: JPEG 3840×2160, EXIF-Rotation 6, fehlerfrei dekodierbar. Kein Originalbild ins öffentliche Repository übernommen.
-- [ ] Begrenzte Bildflächen ohne Beschneiden und transformationsfreie fixierte Navigation prüfen und veröffentlichen; 30-Foto-/Scroll-Regression ergänzt.
+- [x] Begrenzte Bildflächen ohne Beschneiden und transformationsfreie fixierte Navigation umgesetzt; beide CI-Läufe einschließlich 30-Foto-/Scroll-Regression erfolgreich (42363304816/42363304938). PR #24 zusammengeführt.
+- [ ] Physisch prüfen, ob der konkrete iPhone-Zeichenfehler und das Hochrutschen der Navigation behoben sind.
 - [ ] Konkreten iPhone-Zeichenfehler nach Veröffentlichung erneut abnehmen; Ursache noch nicht abschließend bewiesen.
