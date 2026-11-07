@@ -1,7 +1,7 @@
 # Private Mitteilungen
 
 ## Bedienung
-Die Haupt-App vom iPhone-Home-Bildschirm öffnen, mit PIN anmelden, dann oben auf ⓘ tippen. Unter „Ein kleiner Hinweis für dich“ Mitteilungen bewusst aktivieren und den iPhone-Dialog erlauben. Die App fragt nie beim ersten Öffnen automatisch nach Erlaubnis. Hier lassen sich auch Testnachrichten senden (höchstens eine pro Minute) und Mitteilungen ausschalten.
+Die Haupt-App vom iPhone-Home-Bildschirm öffnen. Unten auf der PIN-Seite lassen sich Mitteilungen bereits bewusst erlauben. Das Gerät wird erst nach erfolgreicher PIN-Prüfung am Server registriert. Ohne Einwilligung erscheint kein Erlaubnisdialog. Eine noch nicht abgeschlossene ausdrückliche Einwilligung wird gerätebezogen als einzelnes lokales Ja/Nein-Merkmal bis zur Anmeldung gemerkt; keine Subscription, Schlüssel oder Inhalte werden dafür lokal gespeichert. Nach dem Anmelden bleiben die Einstellungen unter ⓘ verfügbar. Unter „Ein kleiner Hinweis für dich“ Mitteilungen bewusst aktivieren und den iPhone-Dialog erlauben. Die App fragt nie beim ersten Öffnen automatisch nach Erlaubnis. Hier lassen sich auch Testnachrichten senden (höchstens eine pro Minute) und Mitteilungen ausschalten.
 
 Im Studio bei einem Beitrag „Bei Freischaltung eine Mitteilung senden“ aktivieren. Der Beitrag muss zusätzlich veröffentlicht sein. Versand erfolgt beim nächsten Minutenlauf nach der Freischaltung, nur an zuvor angemeldete Geräte. Kein Nachversand alter Freischaltungen beim Aktivieren eines Geräts; nach Ausfällen werden höchstens 24 Stunden alte Freischaltungen versucht. Der Hinweis enthält keine privaten Titel, Texte oder Bilder. `push_text` wird nicht verwendet.
 
