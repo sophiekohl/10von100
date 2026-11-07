@@ -25,7 +25,7 @@ window.PartnerPush=(()=>{
  enable.textContent=verified?'Mitteilungen aktivieren':'Mitteilungen erlauben';
  if(supported()&&Notification.permission!=='granted'&&pendingEnrollment)setPending(false);
  title.textContent=verified?'Ein kleiner Hinweis für dich':pendingEnrollment?'Mitteilungen erlaubt ✓':'Keine Überraschung verpassen';
- if(!supported()){msg.textContent=location.pathname.includes('/preview/')?'Mitteilungen sind in der installierten Haupt-App verfügbar.':'Dieser Browser unterstützt Mitteilungen noch nicht.';return}
+ if(!navigator.onLine){msg.textContent='Du bist offline. Mitteilungen kannst du mit Internetverbindung aktivieren.';return}\n if(!supported()){msg.textContent=location.pathname.includes('/preview/')?'Mitteilungen sind in der installierten Haupt-App verfügbar.':'Dieser Browser unterstützt Mitteilungen noch nicht.';return}
  if(isIOS()&&!installed()){msg.textContent='Öffne die App über ihr Symbol auf deinem Home-Bildschirm, um Mitteilungen zu aktivieren.';return}
  if(Notification.permission==='denied'){msg.textContent='Mitteilungen sind auf diesem Gerät blockiert. Du kannst sie in den iPhone-Einstellungen für diese App erlauben.';disable.hidden=!verified;return}
  if(!verified){skip.hidden=pendingEnrollment||skipped;skip.textContent='Jetzt nicht';enable.hidden=pendingEnrollment||skipped;if(skipped)title.textContent='Mitteilungen später';msg.textContent=skipped?'Du kannst Mitteilungen später unter ⓘ aktivieren.':pendingEnrollment?'Mitteilungen sind erlaubt. Nach deiner PIN-Anmeldung wird dieses Gerät dafür aktiviert.':'Ein kleiner Hinweis, sobald etwas für dich bereit ist. Freiwillig – du kannst auch ohne fortfahren.';return}
@@ -39,7 +39,7 @@ window.PartnerPush=(()=>{
  try{await api({action:'subscribe',subscription:sub.toJSON()});setPending(false)}catch(e){await sub.unsubscribe();throw e}
  })().finally(()=>{enrolling=null});return enrolling;
  }
- enable.onclick=async()=>{busy(true);try{
+ enable.onclick=async()=>{if(!navigator.onLine){refresh();return}busy(true);try{
  // iOS requires the permission request directly in the user's tap, including before PIN login.
  const permission=await Notification.requestPermission();if(permission!=='granted'){setPending(false);await refresh();return}
  setPending(true);
