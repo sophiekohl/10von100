@@ -205,3 +205,8 @@ Auf Wunsch vom 06.11.2026: Hochzeitsbild deutlich kleiner, kein Text direkt unte
 - [x] 21 Node-/DOM-Tests, Datenbankprüfungen und Chromium/WebKit-Browserfälle bestanden (42355707280); Vorschau ebenfalls erfolgreich.
 - [x] PR #17 zusammengeführt; Pages-Lauf 42355854417 erfolgreich.
 - [ ] Physischer iPhone-Empfang und geplanter Versand weiterhin offen.
+
+## PIN und Push ohne Scrollen · PR #18
+- [x] Ziffern auf 20 px verkleinert, Abstände und Hinweistext gestrafft; 44-px-Tastenziele erhalten.
+- [x] 21 lokale Tests bestanden.
+- [ ] Chromium/WebKit prüfen sichtbaren Push-Button ohne Scrollen bei 393×740 und 393×852; danach veröffentlichen.
