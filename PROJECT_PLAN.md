@@ -202,5 +202,6 @@ Auf Wunsch vom 06.11.2026: Hochzeitsbild deutlich kleiner, kein Text direkt unte
 ## Push-Einwilligung auf der PIN-Seite · PR #17
 - [x] Freiwillige Einwilligung ganz unten auf der PIN-Seite ergänzt; Geräteregistrierung bleibt an erfolgreiche Anmeldung gebunden.
 - [x] 20 lokale Node-/DOM-Tests bestanden; zusätzliche Browserprüfung für falsche und richtige PIN ergänzt.
-- [ ] Browser-Regression und Veröffentlichung prüfen.
+- [x] 21 Node-/DOM-Tests, Datenbankprüfungen und Chromium/WebKit-Browserfälle bestanden (42355707280); Vorschau ebenfalls erfolgreich.
+- [x] PR #17 zusammengeführt; Pages-Lauf 42355854417 erfolgreich.
 - [ ] Physischer iPhone-Empfang und geplanter Versand weiterhin offen.
