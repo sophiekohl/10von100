@@ -142,3 +142,15 @@ test('Studio resolves Deezer short links and preserves input when resolution fai
  await page.goto('/studio/');await expect(page.locator('#studio')).toBeVisible();await page.locator('#deezer').fill('https://link.deezer.com/s/test');await page.locator('#addDeezer').click();await expect(page.locator('#mediaList')).toContainText('Deezer track: 123');await expect(page.locator('#deezer')).toHaveValue('');
  fail=true;await page.locator('#deezer').fill('https://link.deezer.com/s/unavailable');await page.locator('#addDeezer').click();await expect(page.locator('#saveMsg')).toContainText('nicht aufgelöst');await expect(page.locator('#deezer')).toHaveValue('https://link.deezer.com/s/unavailable');await expect(page.locator('#addDeezer')).toBeEnabled();
 });
+
+test('offline PIN shows a visible explanation and online return restores the gate',async({page})=>{
+ await mock(page);await page.goto('/');await page.locator('#begin').click();await page.context().setOffline(true);
+ for(const n of ['4','8','2','6'])await page.locator('#pinGate').getByRole('button',{name:n,exact:true}).click();
+ await page.locator('#authLogin').click();await expect(page.locator('#authMsg')).toBeVisible();await expect(page.locator('#authMsg')).toContainText('offline');await expect(page.locator('#privateApp')).toBeHidden();await expect(page.locator('#authLogin')).toBeEnabled();
+ await page.context().setOffline(false);
+ for(const n of ['4','8','2','6'])await page.locator('#pinGate').getByRole('button',{name:n,exact:true}).click();await page.locator('#authLogin').click();await expect(page.locator('#privateApp')).toBeVisible();
+});
+test('failed network with stale online status explains error and unlocks retry',async({page})=>{
+ await mock(page);await page.route('**/functions/v1/partner-pin',route=>route.abort('failed'));await page.goto('/');await page.locator('#begin').click();
+ for(const n of ['4','8','2','6'])await page.locator('#pinGate').getByRole('button',{name:n,exact:true}).click();await page.locator('#authLogin').click();await expect(page.locator('#authMsg')).toBeVisible();await expect(page.locator('#authMsg')).toContainText('Keine Verbindung');await expect(page.locator('#authLogin')).toBeEnabled();await expect(page.locator('#privateApp')).toBeHidden();
+});

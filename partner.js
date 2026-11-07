@@ -35,8 +35,8 @@ async function loadSurprises(){const version=++loadVersion;
 ui.authLogin.onclick=async()=>{ui.authLogin.disabled=true;ui.authMsg.textContent='Anmeldung läuft …';const pin=ui.authPin.value;ui.authPin.value='';try{
   if(!navigator.onLine)throw Error('Du bist offline. Bitte mit dem Internet verbinden und erneut versuchen.');
   if(!/^[0-9]{4}$/.test(pin))throw Error('Bitte vier Ziffern eingeben.');
-  const r=await fetch(API+'/functions/v1/partner-pin',{method:'POST',cache:'no-store',headers:{apikey:KEY,'Content-Type':'application/json'},body:JSON.stringify({action:'login',pin})});const data=await r.json();if(!r.ok)throw Error(data.error||'Anmeldung nicht möglich.');partner.save(data);authUI();await Promise.all([loadSurprises(),loadMoments()]);ui.authMsg.textContent='';
-}catch(e){ui.authMsg.textContent=e.message}finally{ui.authLogin.disabled=false}};
+  const r=await fetch(API+'/functions/v1/partner-pin',{method:'POST',cache:'no-store',signal:AbortSignal.timeout(8000),headers:{apikey:KEY,'Content-Type':'application/json'},body:JSON.stringify({action:'login',pin})});const data=await r.json();if(!r.ok)throw Error(data.error||'Anmeldung nicht möglich.');partner.save(data);authUI();await Promise.all([loadSurprises(),loadMoments()]);ui.authMsg.textContent='';
+}catch(e){ui.authMsg.textContent=['AbortError','TimeoutError','TypeError'].includes(e.name)?'Keine Verbindung zum Server. Bitte Internet einschalten und erneut öffnen.':e.message;ui.authMsg.scrollIntoView({block:'nearest',behavior:'instant'})}finally{ui.authLogin.disabled=false}};
 ui.authPin.onkeydown=e=>{if(e.key==='Enter')ui.authLogin.click()};
 ui.authLogout.onclick=async()=>{try{try{await PartnerPush.remove()}catch{}await partner.logout()}catch(e){ui.authMsg.textContent=e.message}await loadSurprises()};
 const fmt=d=>new Intl.DateTimeFormat('de-DE',{day:'2-digit',month:'long',year:'numeric'}).format(new Date(d+'T12:00:00'));
@@ -167,5 +167,5 @@ new MutationObserver(updateDetailCue).observe(ui.detail,{attributes:true,attribu
 new MutationObserver(updateDetailCue).observe(ui.detailMedia,{childList:true,subtree:true});
 ui.detailMedia.addEventListener('load',updateDetailCue,true);
 
-function updateConnectionStatus(){const offline=!navigator.onLine;const message=document.getElementById('connectionMsg');if(message)message.hidden=!offline;if(offline)ui.authMsg.textContent='Du bist offline. Bitte mit dem Internet verbinden und erneut öffnen.';else if(ui.authMsg.textContent.startsWith('Du bist offline.'))ui.authMsg.textContent='';}
+function updateConnectionStatus(){PartnerPush.update(gateVerified);const offline=!navigator.onLine;const message=document.getElementById('connectionMsg');if(message)message.hidden=!offline;if(offline)ui.authMsg.textContent='Du bist offline. Bitte mit dem Internet verbinden und erneut öffnen.';else if(ui.authMsg.textContent.startsWith('Du bist offline.'))ui.authMsg.textContent='';}
 addEventListener('online',()=>{updateConnectionStatus();loadSurprises();loadMoments()});addEventListener('offline',()=>{updateConnectionStatus();closeCollage();clearPrivate()});updateConnectionStatus();
