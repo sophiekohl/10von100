@@ -243,3 +243,10 @@ Verbindlicher aktueller Stand; ältere Abschnitte dokumentieren die damaligen Zw
 - [ ] Dauerbetrieb von Supabase, Backup samt Wiederherstellung und verlässliche Admin-Mail-/Recovery-Konfiguration abschließen.
 - [ ] Abschließende Rechte-/Freischaltungs-/Medienprüfung, aktuelle Testinhalte bereinigen, Betriebs- und Übergabedokumentation finalisieren.
 - [ ] Optionaler Komfort: automatische Deezer-Kurzlinkauflösung; direkte Links funktionieren bereits.
+
+## Deezer-Kurzlinks und YouTube · PR #22
+- [x] Admin-geschützte Kurzlinkauflösung implementiert, Redirect-/Host-/HTTPS-/Zeit-/Größenlimits getestet; Live-Endpunkt weist nicht angemeldete Aufrufe zurück.
+- [x] Vier neue Unitfälle sowie mobile Studio-Auflösung/Fehlererhalt und übrige Regression erfolgreich (42360932416, Vorschau 42360932398). PR #22 zusammengeführt.
+- [ ] Tatsächlichen Deezer-App-Kurzlink auf Sophies iPhone auflösen und abspielen; lokale Live-Probe erreichte ihr Zeitlimit, daher noch keine allgemeine Funktionsabnahme behaupten.
+- [ ] YouTube hat Sophie ausdrücklich noch nicht getestet: als nächsten Medientest einplanen.
+- [ ] Danach Flugmodus/Online-Rückkehr, Neustart und übrige Betriebs-/Backup-Abnahme fortsetzen.
