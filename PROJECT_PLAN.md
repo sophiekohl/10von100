@@ -258,3 +258,8 @@ Verbindlicher aktueller Stand; ältere Abschnitte dokumentieren die damaligen Zw
 
 ## Nächste physische Stabilitätsprüfung
 - [ ] Flugmodus mit ausgeschaltetem WLAN: geschlossene App neu öffnen, verständlichen Offlinehinweis und gesperrten Privatbereich prüfen; anschließend Online-Rückkehr und Sitzung wiederherstellen.
+
+## Physischer Offline-/Online-Test
+- [x] Sophie bestätigt: öffentliche Startseite offline vorhanden; private Inhalte werden nicht freigeschaltet. Nach Rückkehr ins Internet ist der Zugang wieder möglich.
+- [ ] Keine ausreichende sichtbare PIN-Rückmeldung im Flugmodus gemeldet. PR #23 verbessert Fehlermeldung/Netzwerk-Zeitlimit und stellt Push-Aktivierung offline zurück; vor Veröffentlichung vollständig prüfen.
+- [ ] iPhone-Neustart und Push-Ausschalten/erneut Aktivieren weiterhin offen.
