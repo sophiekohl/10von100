@@ -135,3 +135,10 @@ test('Push before PIN waits for successful PIN before enrolling the device',asyn
  for(const n of ['4','8','2','6'])await page.locator('#pinGate').getByRole('button',{name:n,exact:true}).click();await page.locator('#authLogin').click();await expect(page.locator('#authMsg')).toContainText('PIN nicht korrekt');expect(actions).toEqual([]);await expect(page.locator('#privateApp')).toBeHidden();
  for(const n of ['4','8','2','6'])await page.locator('#pinGate').getByRole('button',{name:n,exact:true}).click();await page.locator('#authLogin').click();await expect(page.locator('#privateApp')).toBeVisible();await page.locator('#info').click();await expect(page.locator('#intro #pushStatus')).toContainText('auf diesem Gerät aktiv');expect(actions).toContain('subscribe');expect(await page.evaluate(()=>window.pushCreated)).toBe(1);expect(await page.evaluate(()=>window.pushPermissionCalls)).toBe(1);
 });
+
+test('Studio resolves Deezer short links and preserves input when resolution fails',async({page})=>{
+ await mock(page,{admin:true});await page.addInitScript(s=>sessionStorage.setItem('studioSession',JSON.stringify({...s,expires_at:Math.floor(Date.now()/1000)+3600})),session);let fail=false;
+ await page.route('**/functions/v1/deezer-resolve',route=>route.fulfill(fail?{status:400,json:{error:'unavailable'}}:{json:{kind:'track',id:'123'}}));
+ await page.goto('/studio/');await expect(page.locator('#studio')).toBeVisible();await page.locator('#deezer').fill('https://link.deezer.com/s/test');await page.locator('#addDeezer').click();await expect(page.locator('#mediaList')).toContainText('Deezer track: 123');await expect(page.locator('#deezer')).toHaveValue('');
+ fail=true;await page.locator('#deezer').fill('https://link.deezer.com/s/unavailable');await page.locator('#addDeezer').click();await expect(page.locator('#saveMsg')).toContainText('nicht aufgelöst');await expect(page.locator('#deezer')).toHaveValue('https://link.deezer.com/s/unavailable');await expect(page.locator('#addDeezer')).toBeEnabled();
+});
