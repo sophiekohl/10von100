@@ -217,3 +217,9 @@ Auf Wunsch vom 06.11.2026: Hochzeitsbild deutlich kleiner, kein Text direkt unte
 - [x] 22 lokale Tests bestanden; Browserfälle für Reihenfolge, Höhe und beide Auswahlwege ergänzt.
 - [x] Chromium/WebKit bestätigen beide Auswahlwege, Fokuswechsel, Reihenfolge und Sichtbarkeit bei 393×740/852; beide CI-Läufe erfolgreich (42357011465/42357011471).
 - [x] PR #19 zusammengeführt, Pages-Lauf 42357155781 erfolgreich. Empfang auf dem echten iPhone bleibt offene Abnahme.
+
+## Physischer Push-Test · 07.11.2026
+- [x] Sophie bestätigt tatsächlichen Empfang der Testnachricht auf ihrem iPhone; Screenshot zeigt den neutralen Hinweis und das neue App-Symbol bei geöffneter App.
+- [ ] Automatische Mitteilung bei geplanter Freischaltung mit geschlossener App prüfen.
+- [ ] Antippen einer echten Freischaltungsmitteilung öffnet ausschließlich den freigegebenen Beitrag, gegebenenfalls nach PIN.
+- [ ] Ausschalten/Abmeldung sowie erneute Aktivierung am Gerät prüfen. Push noch nicht vollständig abgenommen.
