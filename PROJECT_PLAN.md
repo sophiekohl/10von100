@@ -223,3 +223,8 @@ Auf Wunsch vom 06.11.2026: Hochzeitsbild deutlich kleiner, kein Text direkt unte
 - [ ] Automatische Mitteilung bei geplanter Freischaltung mit geschlossener App prüfen.
 - [ ] Antippen einer echten Freischaltungsmitteilung öffnet ausschließlich den freigegebenen Beitrag, gegebenenfalls nach PIN.
 - [ ] Ausschalten/Abmeldung sowie erneute Aktivierung am Gerät prüfen. Push noch nicht vollständig abgenommen.
+
+## Push-Abnahme und Kopfzeile · 07.11.2026
+- [x] Sophie bestätigt automatische Nachricht bei geschlossener App und korrektes Öffnen des freigegebenen Beitrags beim Antippen.
+- [x] PR #20: eigenen Benachrichtigungstitel entfernt; Nachricht mit Herz bleibt. Beide automatischen Prüfläufe bestanden.
+- [ ] Echte iOS-Darstellung ohne eigenen Titel prüfen; OS-Kopfzeile kann weiterhin erscheinen.
