@@ -250,3 +250,8 @@ Verbindlicher aktueller Stand; ältere Abschnitte dokumentieren die damaligen Zw
 - [ ] Tatsächlichen Deezer-App-Kurzlink auf Sophies iPhone auflösen und abspielen; lokale Live-Probe erreichte ihr Zeitlimit, daher noch keine allgemeine Funktionsabnahme behaupten.
 - [ ] YouTube hat Sophie ausdrücklich noch nicht getestet: als nächsten Medientest einplanen.
 - [ ] Danach Flugmodus/Online-Rückkehr, Neustart und übrige Betriebs-/Backup-Abnahme fortsetzen.
+
+## Deezer-Kurzlink – iPhone-Rückmeldung
+- [x] Sophie bestätigt: Kurzlink erscheint als Deezer-Eintrag, wurde gespeichert und anschließend in der Partner-App angezeigt.
+- [ ] Hörbare Wiedergabe genau dieses Kurzlink-Eintrags noch nicht ausdrücklich bestätigt; frühere direkte Deezer-Wiedergabe bereits bestätigt.
+- [ ] Nächster geführter Medientest: YouTube hinzufügen, speichern, freischalten und auf dem iPhone abspielen.
