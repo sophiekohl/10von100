@@ -110,3 +110,20 @@ test('push consent is explicit; enable, test and disable are available in info',
 test('notification deep link opens content only after successful PIN gate',async({page})=>{
  await mock(page);await page.goto('/?surprise='+id);await expect(page.locator('#detail')).not.toHaveClass(/show/);expect(page.url()).not.toContain('surprise=');await enter(page);await expect(page.locator('#detail')).toHaveClass(/show/);await expect(page.locator('#detailTitle')).toContainText('Freigeschaltet');
 });
+
+test('PIN footer permission waits for successful PIN before enrolling the device',async({page})=>{
+ await mock(page);const actions=[];let logins=0;
+ await page.addInitScript(()=>{
+ window.pushPermissionCalls=0;window.pushCreated=0;let sub=null;
+ Object.defineProperty(navigator,'standalone',{value:true,configurable:true});Object.defineProperty(window,'PushManager',{value:function(){},configurable:true});
+ const notice={permission:'default',requestPermission:async()=>{window.pushPermissionCalls++;notice.permission='granted';return 'granted'}};Object.defineProperty(window,'Notification',{value:notice,configurable:true});
+ const reg={pushManager:{getSubscription:async()=>sub,subscribe:async()=>{window.pushCreated++;sub={endpoint:'https://web.push.apple.com/test',toJSON:()=>({endpoint:'https://web.push.apple.com/test',keys:{p256dh:'a'.repeat(87),auth:'b'.repeat(22)}}),unsubscribe:async()=>{sub=null;return true}};return sub}}};
+ Object.defineProperty(navigator,'serviceWorker',{value:{ready:Promise.resolve(reg),getRegistration:async()=>reg,register:async()=>reg,addEventListener(){}},configurable:true});
+ });
+ await page.route('**/functions/v1/partner-push',route=>{const data=route.request().postDataJSON();actions.push(data.action);return route.fulfill({json:data.action==='config'?{publicKey:'BA'}:{ok:true}})});
+ await page.route('**/functions/v1/partner-pin',route=>{logins++;return route.fulfill(logins===1?{status:401,json:{error:'PIN nicht korrekt.'}}:{json:session})});
+ await page.goto('/');await page.locator('#begin').click();await expect(page.locator('#pinGate #pushSettings')).toBeVisible();expect(await page.evaluate(()=>window.pushPermissionCalls)).toBe(0);
+ await page.locator('#pushSettings').getByRole('button',{name:'Mitteilungen aktivieren',exact:true}).click();await expect(page.locator('#pushStatus')).toContainText('Nach deiner PIN-Anmeldung');expect(actions).toEqual([]);expect(await page.evaluate(()=>window.pushCreated)).toBe(0);
+ for(const n of ['4','8','2','6'])await page.locator('#pinGate').getByRole('button',{name:n,exact:true}).click();await page.locator('#authLogin').click();await expect(page.locator('#authMsg')).toContainText('PIN nicht korrekt');expect(actions).toEqual([]);await expect(page.locator('#privateApp')).toBeHidden();
+ for(const n of ['4','8','2','6'])await page.locator('#pinGate').getByRole('button',{name:n,exact:true}).click();await page.locator('#authLogin').click();await expect(page.locator('#privateApp')).toBeVisible();await page.locator('#info').click();await expect(page.locator('#intro #pushStatus')).toContainText('auf diesem Gerät aktiv');expect(actions).toContain('subscribe');expect(await page.evaluate(()=>window.pushCreated)).toBe(1);expect(await page.evaluate(()=>window.pushPermissionCalls)).toBe(1);
+});

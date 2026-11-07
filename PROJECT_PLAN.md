@@ -191,3 +191,8 @@ Auf Wunsch vom 06.11.2026: Hochzeitsbild deutlich kleiner, kein Text direkt unte
 - [x] Lokale Rechte-/Sperr-/Freischaltungs- und Verschlüsselungstests bestanden.
 - [ ] Browser-Regression und Live-Veröffentlichung prüfen.
 - [ ] Echten Empfang, Antippen und geplanten Versand auf Sophies installierter iPhone-App abnehmen; erst danach Push als fertig markieren.
+
+## Push vor der PIN-Eingabe
+- [x] Mitteilungen ganz unten auf der PIN-Seite erlauben; Serverregistrierung erst nach erfolgreicher Anmeldung.
+- [x] Einstellungen nach Anmeldung weiterhin unter ⓘ, ohne zusätzliche Fläche auf Home.
+- [ ] Empfang und geplanter Versand auf dem echten iPhone bleiben offene Abnahme.
