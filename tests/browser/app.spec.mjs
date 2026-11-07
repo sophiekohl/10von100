@@ -154,3 +154,10 @@ test('failed network with stale online status explains error and unlocks retry',
  await mock(page);await page.route('**/functions/v1/partner-pin',route=>route.abort('failed'));await page.goto('/');await page.locator('#begin').click();
  for(const n of ['4','8','2','6'])await page.locator('#pinGate').getByRole('button',{name:n,exact:true}).click();await page.locator('#authLogin').click();await expect(page.locator('#authMsg')).toBeVisible();await expect(page.locator('#authMsg')).toContainText('Keine Verbindung');await expect(page.locator('#authLogin')).toBeEnabled();await expect(page.locator('#privateApp')).toBeHidden();
 });
+
+test('many moment photos stay bounded and navigation remains pinned while scrolling',async({page})=>{
+const {moments}=await mock(page);for(let i=0;i<30;i++)moments.push({id:'paint-'+i,caption:'Synthetic photo '+i,moment_date:'2026-11-07',created_by:user,moment_photos:[{id:'photo-'+i,storage_path:'synthetic/photo.png'}]});
+await page.goto('/');await enter(page);await page.getByRole('button',{name:'Unser Jahr',exact:true}).click();await expect(page.locator('#momentList img').first()).toBeVisible();
+await expect(page.locator('#momentList img')).toHaveCount(30);
+for(const fraction of [0,0.5,1]){await page.evaluate(f=>scrollTo(0,(document.documentElement.scrollHeight-innerHeight)*f),fraction);const bounds=await page.evaluate(()=>({height:innerHeight,nav:document.getElementById('privateNav').getBoundingClientRect().bottom,transform:getComputedStyle(document.getElementById('privateNav')).transform,images:[...document.querySelectorAll('#momentList img')].map(n=>({height:n.getBoundingClientRect().height,width:n.getBoundingClientRect().width,card:n.closest('.card').getBoundingClientRect().width,fit:getComputedStyle(n).objectFit}))}));expect(bounds.nav).toBeLessThanOrEqual(bounds.height+1);expect(bounds.nav).toBeGreaterThan(bounds.height-60);expect(bounds.transform).toBe('none');expect(bounds.images.every(x=>x.height<=520&&x.width<=x.card&&x.fit==='contain')).toBe(true);}
+});
