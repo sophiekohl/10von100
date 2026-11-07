@@ -187,8 +187,8 @@ Auf Wunsch vom 06.11.2026: Hochzeitsbild deutlich kleiner, kein Text direkt unte
 - [x] Zehn Logoentwürfe erstellt; Sophie hat die Kombination aus 07 und 03 freigegeben.
 - [x] App-Icons und Browser-Icon vorbereitet, kleine Darstellung visuell geprüft; PR #15.
 - [x] PR #15 nach beiden erfolgreichen CI-Läufen zusammengeführt; Pages-Veröffentlichung 42294885045 erfolgreich.
-- [ ] Neues Symbol auf bestehender iPhone-Installation bestätigen.
-- [ ] Nächster Ausbau: neutrale Push-Nachrichten ohne Überraschungstitel oder private Medien, mit echtem iPhone-Empfangstest.
+- [x] Neues Symbol auf Sophies iPhone in den realen Mitteilungen sichtbar bestätigt.
+- [x] Neutrale Push-Mitteilungen umgesetzt; echter Empfang, geplanter Versand und Antippen bestätigt.
 
 ## Push-Mitteilungen · PR #16
 - [x] Freiwillige Mitteilungen aktivieren/ausschalten, Testversand und Studio-Auswahl implementiert.
@@ -220,8 +220,8 @@ Auf Wunsch vom 06.11.2026: Hochzeitsbild deutlich kleiner, kein Text direkt unte
 
 ## Physischer Push-Test · 07.11.2026
 - [x] Sophie bestätigt tatsächlichen Empfang der Testnachricht auf ihrem iPhone; Screenshot zeigt den neutralen Hinweis und das neue App-Symbol bei geöffneter App.
-- [ ] Automatische Mitteilung bei geplanter Freischaltung mit geschlossener App prüfen.
-- [ ] Antippen einer echten Freischaltungsmitteilung öffnet ausschließlich den freigegebenen Beitrag, gegebenenfalls nach PIN.
+- [x] Automatische Mitteilung bei geschlossener App von Sophie bestätigt.
+- [x] Sophie bestätigt korrektes Öffnen des freigegebenen Beitrags beim Antippen der Mitteilung.
 - [ ] Ausschalten/Abmeldung sowie erneute Aktivierung am Gerät prüfen. Push noch nicht vollständig abgenommen.
 
 ## Push-Abnahme und Kopfzeile · 07.11.2026
@@ -233,3 +233,13 @@ Auf Wunsch vom 06.11.2026: Hochzeitsbild deutlich kleiner, kein Text direkt unte
 - [x] Sophie bestätigt: leerer Titel reduziert die Doppelung auf ihrem iPhone nicht; Umbenennung zu 💛 betrifft beide Kopfzeilen.
 - [x] PR #21 verwendet den neutralen Nachrichtentext mit Herz als Titel, ohne separate Body-Zeile. Beide CI-Läufe erfolgreich (42359688588/42359688600).
 - [x] Sophie bestätigt erfolgreiche kompakte Darstellung auf ihrem iPhone: neutraler Nachrichtentext mit Herz als Titel, keine zusätzliche Body-Zeile; iOS-Attribution bleibt.
+
+## Aktueller Abschlussbedarf · 07.11.2026
+Verbindlicher aktueller Stand; ältere Abschnitte dokumentieren die damaligen Zwischenstände.
+- [x] Installation, PIN-Anmeldung, Medien-/Erinnerungs-Grundabläufe und Collagen-Grundablauf von Sophie bestätigt.
+- [x] Push: tatsächlicher Empfang, automatische Freischaltung bei geschlossener App, korrektes Antippen und kompakte Darstellung bestätigt.
+- [ ] Physische Stabilitätsabnahme: iPhone-Neustart, Flugmodus/Online-Rückkehr, Hintergrundbetrieb und Push-Ausschalten/erneut Aktivieren.
+- [ ] Collagen mit vielen Fotos und gemischten Formaten auf dem iPhone prüfen; sinnvolle Exportgrenzen dokumentieren.
+- [ ] Dauerbetrieb von Supabase, Backup samt Wiederherstellung und verlässliche Admin-Mail-/Recovery-Konfiguration abschließen.
+- [ ] Abschließende Rechte-/Freischaltungs-/Medienprüfung, aktuelle Testinhalte bereinigen, Betriebs- und Übergabedokumentation finalisieren.
+- [ ] Optionaler Komfort: automatische Deezer-Kurzlinkauflösung; direkte Links funktionieren bereits.
