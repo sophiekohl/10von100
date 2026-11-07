@@ -228,3 +228,8 @@ Auf Wunsch vom 06.11.2026: Hochzeitsbild deutlich kleiner, kein Text direkt unte
 - [x] Sophie bestätigt automatische Nachricht bei geschlossener App und korrektes Öffnen des freigegebenen Beitrags beim Antippen.
 - [x] PR #20: eigenen Benachrichtigungstitel entfernt; Nachricht mit Herz bleibt. Beide automatischen Prüfläufe bestanden.
 - [ ] Echte iOS-Darstellung ohne eigenen Titel prüfen; OS-Kopfzeile kann weiterhin erscheinen.
+
+## Push-Kopfzeile · zweiter iPhone-Test
+- [x] Sophie bestätigt: leerer Titel reduziert die Doppelung auf ihrem iPhone nicht; Umbenennung zu 💛 betrifft beide Kopfzeilen.
+- [x] PR #21 verwendet den neutralen Nachrichtentext mit Herz als Titel, ohne separate Body-Zeile. Beide CI-Läufe erfolgreich (42359688588/42359688600).
+- [ ] Reale iPhone-Darstellung nach Veröffentlichung prüfen; iOS-Attribution bleibt systemgesteuert.
