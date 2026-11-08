@@ -1,6 +1,6 @@
 # Betrieb und Wiederherstellung – 10von100
 
-Stand: 08.11.2026. Ziel: Geschenkübergabe 09.12.2026, Betrieb bis mindestens 31.12.2027.
+Stand: 08.11.2026. Budgetentscheidung: Sophie möchte vollständig kostenlosen Betrieb. Ziel: Geschenkübergabe 09.12.2026, Betrieb bis mindestens 31.12.2027.
 
 ## Verifizierter Iststand
 - Supabase-Projekt aktiv und gesund; Health Advisor ohne Befund.
@@ -12,13 +12,23 @@ Stand: 08.11.2026. Ziel: Geschenkübergabe 09.12.2026, Betrieb bis mindestens 31
 - Aktuelle SMTP-Einstellungen und vorhandene Wiederherstellungspunkte sind mit den verfügbaren verbundenen Werkzeugen nicht einsehbar. Ihr Vorhandensein wird nicht behauptet.
 - Noch keine neue Sicherung angelegt und keine Wiederherstellung durchgeführt.
 
-## Entscheidung zum Dauerbetrieb
-Free kann bei geringer Aktivität pausiert werden. Für das zugesagte Nutzungsjahr wird Pro empfohlen, damit die Inaktivitätspause entfällt. Das ist keine Garantie gegen alle Ausfälle.
-Die öffentliche Preisseite nennt Pro ab 25 USD/Monat. Tatsächlichen Betrag einschließlich Steuern, Zusatzprojekten und Verbrauch im Checkout prüfen; keine Buchung ohne ausdrückliche Kostenfreigabe.
-Es wurden keine Tarif-, Abrechnungs- oder Ressourcenänderungen vorgenommen.
+## Verbindliche Budgetentscheidung: kostenlos
+Sophie hat kostenpflichtigen Betrieb abgelehnt. Free bleibt bestehen. Kein Pro-Upgrade, kein kostenpflichtiges Add-on, kein neuer kostenpflichtiger Mail-/Backup-Dienst.
+Die Empfehlung eines kostenpflichtigen Tarifs wird damit nicht weiterverfolgt.
+
+Free kann bei geringer Aktivität pausiert werden. Deshalb ist eine unterbrechungsfreie Verfügbarkeit bis Ende 2027 in diesem Tarif nicht zugesichert. Die vorhandene Push-Cron-Funktion ist kein nachgewiesener Schutz gegen die Inaktivitätspause. Keine künstliche Aktivität als Verfügbarkeitsgarantie ausgeben.
+
+Kostenloses Vorgehen:
+- Vor der Übergabe und während der Nutzung den Projektstatus kontrollieren; bei einer Pause über das Supabase-Dashboard reaktivieren.
+- Bestehende Quoten für Datenbank, Medien und Übertragungen beachten. Bei steigender Nutzung zuerst Größen reduzieren; keine automatische kostenpflichtige Erweiterung.
+- Eigene private Sicherung außerhalb des Projekts vorsehen. Dafür kein privates Material in öffentliche Repository-Dateien, Actions-Logs oder ungeschützte Artefakte schreiben.
+- Bevorzugter erster Sicherungsweg: bewusst herunterladbare Inhaltssicherung im Admin-Studio, auf dem eigenen Gerät geschützt abgelegt. Umsetzung und tatsächliche Wiederherstellung sind noch offen.
+- Eine Inhaltssicherung darf nicht als vollständige Sicherung von Auth, Datenbankschema, Vault, Secrets oder Projektkonfiguration bezeichnet werden.
+- Für eine vollständige Datenbanksicherung braucht der offizielle kostenlose CLI-Weg einen geschützten Betreiberzugang; dieser wird nicht aus SQL-Systemdateien oder fremden Sitzungen beschafft und nicht im Chat angefordert.
+- Für die bestehende Admin-Mail-Wiederherstellung zunächst die tatsächlich konfigurierten kostenlosen Möglichkeiten und Limits prüfen. Ein separater SMTP-Dienst wird nur dann eingerichtet, wenn er ohne neue Kosten nutzbar und passend autorisiert ist.
 
 ## Vorgeschlagenes Sicherungskonzept – noch umzusetzen
-1. Datenbank: tägliche Provider-Sicherungen, sofern nach Tarifwechsel bestätigt; zusätzlich regelmäßiger verschlüsselter Export außerhalb des Projekts.
+1. Datenbank: eigener verschlüsselter Export außerhalb des Projekts; keine täglichen Provider-Sicherungen im gewählten Free-Tarif als vorhanden annehmen.
 2. Medien: gesonderte Kopie der privaten Storage-Dateien. Die Datenbanksicherung enthält lediglich deren Metadaten und ersetzt diese Kopie nicht.
 3. Anwendung: Code, Migrationen und Edge-Function-Quellen im GitHub-Repository. Zusätzlich die tatsächlich bereitgestellten Versionen dokumentieren.
 4. Geheimnisse/Konfiguration: Auth- und SMTP-Konfiguration sowie benötigtes Vault-/VAPID-Wiederherstellungsverfahren gesondert erfassen und geschützt aufbewahren. Keine Schlüssel, PINs, Passwörter oder Klartext-Dumps im Repository.
@@ -45,8 +55,8 @@ Es wurden keine Tarif-, Abrechnungs- oder Ressourcenänderungen vorgenommen.
 - Die vom Ehemann verwendete PIN bleibt davon unabhängig.
 
 ## Nächste Reihenfolge
-1. Betriebsbudget festlegen.
-2. Tarif und vorhandene Datenbanksicherungen im Dashboard bestätigen.
+1. Kostenlose Budgetentscheidung ist getroffen; Free beibehalten.
+2. Tatsächlich verfügbare kostenlose Export-/Recovery-Wege im Dashboard bestätigen.
 3. Privates Ziel für die zusätzliche Datenbank-/Medien-Sicherung festlegen und Sicherung einrichten.
 4. Isolierten Wiederherstellungstest abschließen.
 5. SMTP-/Admin-Recovery abnehmen.
