@@ -288,3 +288,8 @@ Verbindlicher aktueller Stand; ältere Abschnitte dokumentieren die damaligen Zw
 - [x] Begrenzte Bildflächen ohne Beschneiden und transformationsfreie fixierte Navigation umgesetzt; beide CI-Läufe einschließlich 30-Foto-/Scroll-Regression erfolgreich (42363304816/42363304938). PR #24 zusammengeführt.
 - [ ] Physisch prüfen, ob der konkrete iPhone-Zeichenfehler und das Hochrutschen der Navigation behoben sind.
 - [ ] Konkreten iPhone-Zeichenfehler nach Veröffentlichung erneut abnehmen; Ursache noch nicht abschließend bewiesen.
+
+## Collagen-Gestaltung · PR #25
+- [x] Cremeweiße Fotoränder und warme weiche Schatten in Übersicht und tatsächlichem JPG-Export implementiert; keine Beschneidung der Fotos.
+- [ ] Browser prüfen Pixel des gerenderten und wieder dekodierten JPEGs, Auflösung und übrige Regression vor Veröffentlichung.
+- [ ] Neue Collage auf Sophies iPhone visuell abnehmen.
