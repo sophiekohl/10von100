@@ -16,13 +16,13 @@ Stand: 08.11.2026. Budgetentscheidung: Sophie möchte vollständig kostenlosen B
 Sophie hat kostenpflichtigen Betrieb abgelehnt. Free bleibt bestehen. Kein Pro-Upgrade, kein kostenpflichtiges Add-on, kein neuer kostenpflichtiger Mail-/Backup-Dienst.
 Die Empfehlung eines kostenpflichtigen Tarifs wird damit nicht weiterverfolgt.
 
-Free kann bei geringer Aktivität pausiert werden. Deshalb ist eine unterbrechungsfreie Verfügbarkeit bis Ende 2027 in diesem Tarif nicht zugesichert. Die vorhandene Push-Cron-Funktion ist kein nachgewiesener Schutz gegen die Inaktivitätspause. Keine künstliche Aktivität als Verfügbarkeitsgarantie ausgeben.
+Free kann bei geringer Aktivität pausiert werden. Supabase nennt einige echte Nutzer-Datenbankanfragen pro Tag in der vorherigen Woche als typischerweise ausreichend, ohne feste garantierte Mindestzahl; öffentliche/offline Seitenaufrufe allein sind kein Nachweis. Deshalb ist eine unterbrechungsfreie Verfügbarkeit bis Ende 2027 in diesem Tarif nicht zugesichert. Die vorhandene Push-Cron-Funktion ist kein nachgewiesener Schutz gegen die Inaktivitätspause. Keine künstliche Aktivität als Verfügbarkeitsgarantie ausgeben.
 
 Kostenloses Vorgehen:
 - Vor der Übergabe und während der Nutzung den Projektstatus kontrollieren; bei einer Pause über das Supabase-Dashboard reaktivieren.
 - Bestehende Quoten für Datenbank, Medien und Übertragungen beachten. Bei steigender Nutzung zuerst Größen reduzieren; keine automatische kostenpflichtige Erweiterung.
 - Eigene private Sicherung außerhalb des Projekts vorsehen. Dafür kein privates Material in öffentliche Repository-Dateien, Actions-Logs oder ungeschützte Artefakte schreiben.
-- Bevorzugter erster Sicherungsweg: bewusst herunterladbare Inhaltssicherung im Admin-Studio, auf dem eigenen Gerät geschützt abgelegt. Umsetzung und tatsächliche Wiederherstellung sind noch offen.
+- Bevorzugter erster Sicherungsweg: bewusst herunterladbare Inhaltssicherung im Admin-Studio, auf dem eigenen Gerät geschützt abgelegt. Inhaltsexport ist in PR #27 technisch umgesetzt und mit synthetischen ZIP-Dateien sowie mobilen Chromium-/WebKit-Tests geprüft. Erster echter iPhone-Download und tatsächliche Wiederherstellung sind noch offen; siehe `docs/CONTENT_BACKUP.md`.
 - Eine Inhaltssicherung darf nicht als vollständige Sicherung von Auth, Datenbankschema, Vault, Secrets oder Projektkonfiguration bezeichnet werden.
 - Für eine vollständige Datenbanksicherung braucht der offizielle kostenlose CLI-Weg einen geschützten Betreiberzugang; dieser wird nicht aus SQL-Systemdateien oder fremden Sitzungen beschafft und nicht im Chat angefordert.
 - Für die bestehende Admin-Mail-Wiederherstellung zunächst die tatsächlich konfigurierten kostenlosen Möglichkeiten und Limits prüfen. Ein separater SMTP-Dienst wird nur dann eingerichtet, wenn er ohne neue Kosten nutzbar und passend autorisiert ist.
@@ -63,6 +63,7 @@ Kostenloses Vorgehen:
 6. Verbleibende technische Belastungsprüfung und Übergabeanleitung abschließen.
 
 ## Offizielle Referenzen
+- https://supabase.com/docs/guides/platform/free-project-pausing
 - https://supabase.com/pricing
 - https://supabase.com/docs/guides/deployment/going-into-prod
 - https://supabase.com/docs/guides/platform/backups
