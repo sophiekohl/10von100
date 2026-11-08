@@ -313,6 +313,6 @@ Verbindlicher aktueller Stand; ältere Abschnitte dokumentieren die damaligen Zw
 - [x] Haupt-Studio: bewusst vorbereitbarer ZIP-Download mit Texten, Terminen, Entwürfen, zukünftigen Beiträgen und referenzierten Originaldateien; YouTube/Deezer als Verknüpfungen.
 - [x] Keine Änderung von Datenbank-/Storage-Rechten, keine Secrets oder echten Inhalte in Repository oder Testartefakten. Adminprüfung, vollständige Paginierung, Vorher-/Nachher-Vergleich, SHA-256-Manifest, Abbruch bei Logout und mobiles Größenlimit.
 - [x] 30 Node-Prüfungen, beide lokalen PostgreSQL-Sicherheitssuiten und 54 mobile Chromium-/WebKit-Prüfungen bestanden; darunter acht neue Browser-Exportprüfungen. CI 42464699368 und Vorschau-CI 42464699358 erfolgreich; PR #27 zusammengeführt.
-- [ ] Veröffentlichung des neuen Studio-Exports live bestätigen.
+- [x] Pages-Veröffentlichung 42464844757 erfolgreich. Studio-HTML und backup.js live per HTTPS abgerufen; SHA-256 beider Dateien stimmt mit dem geprüften Quellcode überein.
 - [ ] Erster echter Download auf Sophies iPhone und Sichtprüfung des gespeicherten ZIP. Bisher ausschließlich synthetische Archive getestet, noch keine echte Inhaltssicherung angelegt.
 - [ ] Separate vollständige DB-/Auth-/Konfigurationssicherung sowie isolierter Wiederherstellungstest bleiben offen. Inhaltsexport ist kein vollständiges Projektbackup. Anleitung: docs/CONTENT_BACKUP.md.
