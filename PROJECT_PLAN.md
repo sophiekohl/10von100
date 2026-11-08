@@ -301,3 +301,9 @@ Verbindlicher aktueller Stand; ältere Abschnitte dokumentieren die damaligen Zw
 - [ ] Kostenentscheidung für Dauerbetrieb; kein Upgrade vorgenommen.
 - [ ] Datenbanksicherungen und getrennte Medien-Sicherung einrichten und isoliert wiederherstellen. Noch keine Sicherung/Wiederherstellung erfolgt.
 - [ ] SMTP und Admin-Recovery im Dashboard prüfen; Konfiguration über vorhandene Werkzeuge nicht einsehbar. Schutz gegen bekannte kompromittierte Passwörter weiterhin deaktiviert.
+
+## Budgetentscheidung – kostenlos
+- [x] Sophie möchte vollständig kostenlosen Betrieb. Free beibehalten; kein kostenpflichtiger Tarif, Add-on oder externer Dienst ohne neue ausdrückliche Entscheidung.
+- [x] Betriebsplan PR #26 entsprechend überarbeitet; mögliche Inaktivitätspause bleibt ein offenes Verfügbarkeitsrisiko, kein Keep-alive als Garantie.
+- [ ] Kostenlosen privaten Inhaltsexport und Wiederherstellung vorbereiten, von vollständiger Auth-/Schema-/Vault-/Medien-Projektsicherung abgrenzen.
+- [ ] Kostenlose Admin-Mail-/Recovery-Möglichkeiten und tatsächliche Konfiguration prüfen.
