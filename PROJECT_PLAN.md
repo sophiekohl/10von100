@@ -315,5 +315,14 @@ Verbindlicher aktueller Stand; ältere Abschnitte dokumentieren die damaligen Zw
 - [x] 30 Node-Prüfungen, beide lokalen PostgreSQL-Sicherheitssuiten und 54 mobile Chromium-/WebKit-Prüfungen bestanden; darunter acht neue Browser-Exportprüfungen. CI 42464699368 und Vorschau-CI 42464699358 erfolgreich; PR #27 zusammengeführt.
 - [x] Pages-Veröffentlichung 42464844757 erfolgreich. Studio-HTML und backup.js live per HTTPS abgerufen; SHA-256 beider Dateien stimmt mit dem geprüften Quellcode überein.
 - [x] Erster echter Inhaltsexport von Sophie heruntergeladen und zur Prüfung bereitgestellt. ZIP-CRC, sämtliche SHA-256-Prüfsummen, Dateigrößen, Zeilenzahlen und Medienzuordnungen erfolgreich unabhängig geprüft. Keine privaten Inhalte oder Archivdateien ins Repository übernommen.
-- [ ] Lokale Aufbewahrung und Öffnen der entpackten Originaldateien auf Sophies iPhone bestätigen. Vollständiger Projekt-Restore bleibt separat offen.
+- [x] Sophie bestätigt lokale Aufbewahrung und erfolgreiches Öffnen eines entpackten Originalfotos auf ihrem iPhone. Vollständiger Projekt-Restore bleibt separat offen.
 - [ ] Separate vollständige DB-/Auth-/Konfigurationssicherung sowie isolierter Wiederherstellungstest bleiben offen. Inhaltsexport ist kein vollständiges Projektbackup. Anleitung: docs/CONTENT_BACKUP.md.
+
+
+## Lokale Wiederherstellungsprobe · PR #28
+- [x] Inhaltssicherung in stets neue lokale PostgreSQL-WASM-Datenbank einlesen: alle exportierten Spalten und Fremdschlüssel, Originalbytes und Prüfsummen, private Storage-Zuordnungen und Rollen nach dem Import geprüft.
+- [x] Lokale Probe mit synthetischen Daten bestanden: freigeschalteter Beitrag, Zukunftstermin, Entwurf, Originalmedien, Erinnerung, Kalender, YouTube/Deezer; beschädigtes Archiv und ungültige SQL-Werte werden abgewiesen. 30 bestehende Node-Tests und beide Datenbanksicherheitssuiten ebenfalls bestanden.
+- [x] Keine Ziel-URL, kein produktiver Datenbankzugang, keine echten Auth-/SMTP-/Storage-Dienste. Reduzierte Auth-/Storage-Testmodelle ausdrücklich dokumentiert. Keine kostenpflichtige Ressource angelegt.
+- [ ] CI von PR #28 abschließen und geprüften Test ins Hauptprojekt übernehmen.
+- [ ] Dieselbe lokale Probe mit Sophies echtem Archiv ausführen; bisher nur dessen Integrität und das Öffnen auf dem iPhone bestätigt. Temporäre Uploadkopie nach automatischer Workspace-Bereinigung nicht mehr verfügbar.
+- [ ] Vollständiger Supabase-Restore mit echten Auth-/Storage-APIs und separater Konten-/Konfigurations-/SMTP-/Push-Wiederherstellung bleibt offen.
