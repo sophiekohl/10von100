@@ -293,3 +293,11 @@ Verbindlicher aktueller Stand; ältere Abschnitte dokumentieren die damaligen Zw
 - [x] Cremeweiße Fotoränder und warme weiche Schatten in Übersicht und tatsächlichem JPG-Export implementiert; keine Beschneidung der Fotos.
 - [x] Chromium/WebKit prüfen Pixel des tatsächlichen JPEG-Exports: heller Rand, dunklerer Schatten, Fotofarbe und 3200×4000-Auflösung. Beide CI-Läufe erfolgreich (42460399944/42460399940); PR #25 zusammengeführt und Pages veröffentlicht.
 - [x] Sophie bestätigt die neue Collagen-Gestaltung als besser; Fotoränder, Schatten und Abstände visuell abgenommen.
+
+## Betriebsprüfung · 08.11.2026
+- [x] Sophie bestätigt Fotoanzeige und Navigation beim Scrollen; acht reale unterschiedliche Bilder genügen für die manuelle Sichtprüfung. Größere Belastung separat technisch prüfen.
+- [x] Projekt ACTIVE_HEALTHY, Health Advisor leer; Organisation im Free-Tarif. Storage-Buckets privat, RLS aktiv, sensible Worker-/PIN-RPCs für anonyme Nutzer gesperrt.
+- [x] Konkreter Betriebs-/Backup-/Recovery-Plan als separater Dokumentations-PR vorbereitet.
+- [ ] Kostenentscheidung für Dauerbetrieb; kein Upgrade vorgenommen.
+- [ ] Datenbanksicherungen und getrennte Medien-Sicherung einrichten und isoliert wiederherstellen. Noch keine Sicherung/Wiederherstellung erfolgt.
+- [ ] SMTP und Admin-Recovery im Dashboard prüfen; Konfiguration über vorhandene Werkzeuge nicht einsehbar. Schutz gegen bekannte kompromittierte Passwörter weiterhin deaktiviert.
