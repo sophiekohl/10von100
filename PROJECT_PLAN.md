@@ -324,5 +324,10 @@ Verbindlicher aktueller Stand; ältere Abschnitte dokumentieren die damaligen Zw
 - [x] Lokale Probe mit synthetischen Daten bestanden: freigeschalteter Beitrag, Zukunftstermin, Entwurf, Originalmedien, Erinnerung, Kalender, YouTube/Deezer; beschädigtes Archiv und ungültige SQL-Werte werden abgewiesen. 30 bestehende Node-Tests und beide Datenbanksicherheitssuiten ebenfalls bestanden.
 - [x] Keine Ziel-URL, kein produktiver Datenbankzugang, keine echten Auth-/SMTP-/Storage-Dienste. Reduzierte Auth-/Storage-Testmodelle ausdrücklich dokumentiert. Keine kostenpflichtige Ressource angelegt.
 - [x] CI 42468145655 (einschließlich der drei neuen Wiederherstellungstests) und Vorschau-CI 42468145803 erfolgreich am Commit 4f89f8c762daaceb60c2f018ac48b25a996a7f6e. PR #28 nach Prüfung zusammengeführt; keine produktiven Datenänderungen.
-- [ ] Dieselbe lokale Probe mit Sophies echtem Archiv ausführen; bisher nur dessen Integrität und das Öffnen auf dem iPhone bestätigt. Temporäre Uploadkopie nach automatischer Workspace-Bereinigung nicht mehr verfügbar.
+- [x] Dieselbe lokale Probe mit Sophies erneut bereitgestelltem echtem Archiv am 08.11.2026 erfolgreich: sämtliche exportierten Spalten und Fremdschlüssel eingelesen, Originaldateien erneut bytegenau geprüft, Admin-/Partner-/Fremdkonto-/Anonym-/Widerruf-Prüfungen bestanden. Dauer ca. 3,4 Sekunden in der lokalen Testumgebung; kein Nachweis für produktive Wiederherstellungsdauer. Temporäre entpackte Daten im Abschluss entfernt; keine privaten Inhalte ins Repository übernommen.
 - [ ] Vollständiger Supabase-Restore mit echten Auth-/Storage-APIs und separater Konten-/Konfigurations-/SMTP-/Push-Wiederherstellung bleibt offen.
+
+
+## Ergebnis der echten lokalen Inhaltsprobe · 08.11.2026
+- [x] Echtes ZIP erfolgreich in isoliertem PostgreSQL-WASM und reduziertem Storage-Modell wiederhergestellt und geprüft; keine Änderung an laufender App, keine Versandaufträge und keine neuen Kosten.
+- [ ] Vollständiger Wiederaufbau der gehosteten Supabase-Dienste einschließlich Auth, Storage-API, Konfiguration, SMTP und Push bleibt ausdrücklich offen. Eine funktionierende lokale Inhaltsprobe ersetzt diese Abnahme nicht.
