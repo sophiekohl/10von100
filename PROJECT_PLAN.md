@@ -291,5 +291,5 @@ Verbindlicher aktueller Stand; ältere Abschnitte dokumentieren die damaligen Zw
 
 ## Collagen-Gestaltung · PR #25
 - [x] Cremeweiße Fotoränder und warme weiche Schatten in Übersicht und tatsächlichem JPG-Export implementiert; keine Beschneidung der Fotos.
-- [ ] Browser prüfen Pixel des gerenderten und wieder dekodierten JPEGs, Auflösung und übrige Regression vor Veröffentlichung.
+- [x] Chromium/WebKit prüfen Pixel des tatsächlichen JPEG-Exports: heller Rand, dunklerer Schatten, Fotofarbe und 3200×4000-Auflösung. Beide CI-Läufe erfolgreich (42460399944/42460399940); PR #25 zusammengeführt und Pages veröffentlicht.
 - [ ] Neue Collage auf Sophies iPhone visuell abnehmen.
