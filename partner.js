@@ -100,7 +100,7 @@ collageButton.onclick=async()=>{
  const heading=document.createElement('h2');heading.textContent='Unser Jahr in Bildern ♡';
  const close=document.createElement('button');close.textContent='Collage schließen';close.onclick=closeCollage;
  const status=document.createElement('p');status.setAttribute('role','status');status.textContent='Eure Bilder werden geladen …';
- const grid=document.createElement('div');grid.style.cssText='display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px';
+ const grid=document.createElement('div');grid.style.cssText='display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px';
  panel.append(heading,close,status,grid);collageButton.after(panel);
  try{
  const rows=await partner.request('/rest/v1/year_moments?select=id,moment_date,moment_photos(id,storage_path)&order=moment_date.asc');
@@ -117,7 +117,7 @@ collageButton.onclick=async()=>{
  for(const photo of photos){
   if(version!==collageVersion||!partner.read())return;
   try{const src=await signedMedia('moments',photo.storage_path);if(version!==collageVersion||!partner.read())return;
-   const img=document.createElement('img');img.src=src;img.alt='Ein Bild aus euren Erinnerungen';img.style.cssText='display:block;width:100%;height:auto;align-self:center;border-radius:8px';img.onerror=()=>{img.alt='Bild gerade nicht verfügbar – Collage bitte erneut öffnen.'};grid.append(img);
+   const img=document.createElement('img');img.src=src;img.alt='Ein Bild aus euren Erinnerungen';img.style.cssText='display:block;width:100%;height:auto;align-self:center;border-radius:3px;border:6px solid #fffdf8;box-sizing:border-box;box-shadow:0 3px 12px rgba(63,29,24,.16)';img.onerror=()=>{img.alt='Bild gerade nicht verfügbar – Collage bitte erneut öffnen.'};grid.append(img);
   }catch{unavailable++}
  }
  status.textContent=photos.length?photos.length+' Erinnerungsbilder'+(unavailable?' · '+unavailable+' gerade nicht verfügbar.':''):'Mit eurem ersten Erinnerungsfoto beginnt hier eure Collage.';
@@ -126,7 +126,7 @@ collageButton.onclick=async()=>{
 };
 
 function collageLayout(count,width=3200,height=4000){
- const margin=120,gap=24,top=240,bottom=120,columns=Math.max(1,Math.ceil(Math.sqrt(count*(width-2*margin)/(height-top-bottom)))),rows=Math.ceil(count/columns);
+ const margin=140,gap=72,top=260,bottom=140,columns=Math.max(1,Math.ceil(Math.sqrt(count*(width-2*margin)/(height-top-bottom)))),rows=Math.ceil(count/columns);
  const cellW=(width-2*margin-(columns-1)*gap)/columns,cellH=(height-top-bottom-(rows-1)*gap)/rows;
  return Array.from({length:count},(_,i)=>{const row=Math.floor(i/columns),inRow=Math.min(columns,count-row*columns);return{x:(width-(inRow*cellW+(inRow-1)*gap))/2+(i%columns)*(cellW+gap),y:top+row*(cellH+gap),w:cellW,h:cellH}});
 }
@@ -142,7 +142,8 @@ async function exportMemoryJpg(photos,page,status,version){
   const response=await fetch(url,{cache:'no-store'});if(!response.ok)throw Error('Ein Bild ist nicht erreichbar. Bitte erneut versuchen.');
   const objectURL=URL.createObjectURL(await response.blob());const image=new Image();
   try{await new Promise((resolve,reject)=>{image.onload=resolve;image.onerror=()=>reject(Error('Ein Bildformat kann nicht verarbeitet werden. Bitte JPEG oder PNG verwenden.'));image.src=objectURL});
-   const cell=cells[i],scale=Math.min(cell.w/image.naturalWidth,cell.h/image.naturalHeight),w=image.naturalWidth*scale,h=image.naturalHeight*scale;ctx.drawImage(image,cell.x+(cell.w-w)/2,cell.y+(cell.h-h)/2,w,h);
+   const cell=cells[i],frame=20,scale=Math.min((cell.w-2*frame)/image.naturalWidth,(cell.h-2*frame)/image.naturalHeight),w=image.naturalWidth*scale,h=image.naturalHeight*scale,x=cell.x+(cell.w-w)/2,y=cell.y+(cell.h-h)/2;
+   ctx.save();ctx.shadowColor='rgba(63,29,24,0.18)';ctx.shadowBlur=28;ctx.shadowOffsetX=0;ctx.shadowOffsetY=12;ctx.fillStyle='#fffdf8';ctx.fillRect(x-frame,y-frame,w+2*frame,h+2*frame);ctx.restore();ctx.drawImage(image,x,y,w,h);
   }finally{URL.revokeObjectURL(objectURL);image.src=''}
  }
  if(version!==collageVersion||!partner.read())throw Error('Collage geschlossen.');

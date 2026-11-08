@@ -1,4 +1,4 @@
-const CACHE='10von100-v15';
+const CACHE='10von100-v16';
 const ASSETS=['./','./index.html','./core.js','./partner.js','./push.js','./manifest.webmanifest','./icon-infinity-192.png','./icon-infinity-512.png','./wedding.jpg'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('10von100-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));

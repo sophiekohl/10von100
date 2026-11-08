@@ -161,3 +161,15 @@ await page.goto('/');await enter(page);await page.getByRole('button',{name:'Unse
 await expect(page.locator('#momentList img')).toHaveCount(30);
 for(const fraction of [0,0.5,1]){await page.evaluate(f=>scrollTo(0,(document.documentElement.scrollHeight-innerHeight)*f),fraction);const bounds=await page.evaluate(()=>({height:innerHeight,nav:document.getElementById('privateNav').getBoundingClientRect().bottom,transform:getComputedStyle(document.getElementById('privateNav')).transform,images:[...document.querySelectorAll('#momentList img')].map(n=>({height:n.getBoundingClientRect().height,width:n.getBoundingClientRect().width,card:n.closest('.card').getBoundingClientRect().width,fit:getComputedStyle(n).objectFit}))}));expect(bounds.nav).toBeLessThanOrEqual(bounds.height+1);expect(bounds.nav).toBeGreaterThan(bounds.height-60);expect(bounds.transform).toBe('none');expect(bounds.images.every(x=>x.height<=520&&x.width<=x.card&&x.fit==='contain')).toBe(true);}
 });
+
+test('collage JPEG contains cream photo frame and soft shadow at export resolution',async({page})=>{
+ await mock(page);await page.goto('/');await enter(page);
+ const result=await page.evaluate(async()=>{
+ const source=document.createElement('canvas');source.width=80;source.height=120;const paint=source.getContext('2d');paint.fillStyle='rgb(30,90,160)';paint.fillRect(0,0,80,120);const url=source.toDataURL('image/png'),original=signedMedia;signedMedia=async()=>url;let objectURL;
+ try{const file=await exportMemoryJpg([{storage_path:'synthetic'}],0,document.createElement('p'),collageVersion);objectURL=URL.createObjectURL(file);const img=new Image();await new Promise((resolve,reject)=>{img.onload=resolve;img.onerror=reject;img.src=objectURL});const output=document.createElement('canvas');output.width=img.naturalWidth;output.height=img.naturalHeight;const ctx=output.getContext('2d');ctx.drawImage(img,0,0);
+ const cell=collageLayout(1)[0],scale=Math.min((cell.w-40)/80,(cell.h-40)/120),w=80*scale,h=120*scale,x=cell.x+(cell.w-w)/2,y=cell.y+(cell.h-h)/2;
+ const pixel=(a,b)=>Array.from(ctx.getImageData(Math.round(a),Math.round(b),1,1).data);
+ return {type:file.type,width:img.naturalWidth,height:img.naturalHeight,frame:pixel(x-10,y+50),photo:pixel(x+w/2,y+h/2),shadow:pixel(x+w/2,y+h+32),background:pixel(30,y+h+32)};
+ }finally{signedMedia=original;if(objectURL)URL.revokeObjectURL(objectURL)}});
+ expect(result.type).toBe('image/jpeg');expect(result.width).toBe(3200);expect(result.height).toBe(4000);expect(result.frame[0]).toBeGreaterThan(248);expect(result.photo[2]).toBeGreaterThan(result.photo[0]+60);expect(result.shadow[0]).toBeLessThan(result.background[0]-3);
+});
