@@ -5,7 +5,8 @@
   "scripts": {
     "test": "node --test tests/edge.test.mjs tests/session.test.mjs tests/sw.test.mjs tests/push.test.mjs tests/push-consent.test.mjs tests/deezer.test.mjs tests/backup.test.mjs",
     "test:browser": "playwright test",
-    "test:db": "node tests/database.mjs && node tests/push-database.mjs"
+    "test:db": "node tests/database.mjs && node tests/push-database.mjs",
+    "test:restore": "node --test tests/restore.test.mjs"
   },
   "devDependencies": {
     "@electric-sql/pglite": "0.5.15",
