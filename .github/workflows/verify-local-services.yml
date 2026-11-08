@@ -1,0 +1,50 @@
+name: Verify isolated Supabase services
+on:
+  pull_request:
+    paths:
+      - 'tests/fullstack/**'
+      - '.github/workflows/verify-local-services.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  services:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      SUPABASE_EXPERIMENTAL_STACK: '1'
+      LOCAL_STACK_DIR: ${{ runner.temp }}/10von100-local-services
+      LOCAL_STACK_STATUS: ${{ runner.temp }}/10von100-local-status.json
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - name: Install verified CLI 3.0.0
+        run: |
+          mkdir -p "$RUNNER_TEMP/supabase-bin"
+          curl -fsSL --retry 2 https://github.com/supabase/cli/releases/download/v3.0.0/supabase_3.0.0_linux_amd64.tar.gz -o "$RUNNER_TEMP/supabase-bin/cli.tar.gz"
+          cd "$RUNNER_TEMP/supabase-bin"
+          echo 'eeb61edcd59a4735fcb5e58596574f25d03d420efca779f43ddb307e1cc5c754  cli.tar.gz' | sha256sum -c -
+          tar -xzf cli.tar.gz supabase
+          echo "$RUNNER_TEMP/supabase-bin" >> "$GITHUB_PATH"
+      - name: Discover local CLI commands
+        run: |
+          supabase init --help
+          supabase start --help
+          supabase status --help
+          supabase db query --help
+          supabase stop --help
+      - name: Start disposable native Supabase without linking a project
+        run: |
+          mkdir -p "$LOCAL_STACK_DIR"
+          supabase --workdir "$LOCAL_STACK_DIR" init --yes
+          supabase --workdir "$LOCAL_STACK_DIR" start --runtime native > "$RUNNER_TEMP/local-start.log" 2>&1
+          supabase --workdir "$LOCAL_STACK_DIR" status -o json > "$LOCAL_STACK_STATUS"
+      - name: Synthetic real Auth and Storage recovery test
+        run: node tests/fullstack/services.mjs
+      - name: Stop local services
+        if: always()
+        run: supabase --workdir "$LOCAL_STACK_DIR" stop > "$RUNNER_TEMP/local-stop.log" 2>&1 || true
