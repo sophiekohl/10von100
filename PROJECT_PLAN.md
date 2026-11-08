@@ -323,6 +323,6 @@ Verbindlicher aktueller Stand; ältere Abschnitte dokumentieren die damaligen Zw
 - [x] Inhaltssicherung in stets neue lokale PostgreSQL-WASM-Datenbank einlesen: alle exportierten Spalten und Fremdschlüssel, Originalbytes und Prüfsummen, private Storage-Zuordnungen und Rollen nach dem Import geprüft.
 - [x] Lokale Probe mit synthetischen Daten bestanden: freigeschalteter Beitrag, Zukunftstermin, Entwurf, Originalmedien, Erinnerung, Kalender, YouTube/Deezer; beschädigtes Archiv und ungültige SQL-Werte werden abgewiesen. 30 bestehende Node-Tests und beide Datenbanksicherheitssuiten ebenfalls bestanden.
 - [x] Keine Ziel-URL, kein produktiver Datenbankzugang, keine echten Auth-/SMTP-/Storage-Dienste. Reduzierte Auth-/Storage-Testmodelle ausdrücklich dokumentiert. Keine kostenpflichtige Ressource angelegt.
-- [ ] CI von PR #28 abschließen und geprüften Test ins Hauptprojekt übernehmen.
+- [x] CI 42468145655 (einschließlich der drei neuen Wiederherstellungstests) und Vorschau-CI 42468145803 erfolgreich am Commit 4f89f8c762daaceb60c2f018ac48b25a996a7f6e. PR #28 nach Prüfung zusammengeführt; keine produktiven Datenänderungen.
 - [ ] Dieselbe lokale Probe mit Sophies echtem Archiv ausführen; bisher nur dessen Integrität und das Öffnen auf dem iPhone bestätigt. Temporäre Uploadkopie nach automatischer Workspace-Bereinigung nicht mehr verfügbar.
 - [ ] Vollständiger Supabase-Restore mit echten Auth-/Storage-APIs und separater Konten-/Konfigurations-/SMTP-/Push-Wiederherstellung bleibt offen.
