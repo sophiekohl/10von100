@@ -314,5 +314,6 @@ Verbindlicher aktueller Stand; ältere Abschnitte dokumentieren die damaligen Zw
 - [x] Keine Änderung von Datenbank-/Storage-Rechten, keine Secrets oder echten Inhalte in Repository oder Testartefakten. Adminprüfung, vollständige Paginierung, Vorher-/Nachher-Vergleich, SHA-256-Manifest, Abbruch bei Logout und mobiles Größenlimit.
 - [x] 30 Node-Prüfungen, beide lokalen PostgreSQL-Sicherheitssuiten und 54 mobile Chromium-/WebKit-Prüfungen bestanden; darunter acht neue Browser-Exportprüfungen. CI 42464699368 und Vorschau-CI 42464699358 erfolgreich; PR #27 zusammengeführt.
 - [x] Pages-Veröffentlichung 42464844757 erfolgreich. Studio-HTML und backup.js live per HTTPS abgerufen; SHA-256 beider Dateien stimmt mit dem geprüften Quellcode überein.
-- [ ] Erster echter Download auf Sophies iPhone und Sichtprüfung des gespeicherten ZIP. Bisher ausschließlich synthetische Archive getestet, noch keine echte Inhaltssicherung angelegt.
+- [x] Erster echter Inhaltsexport von Sophie heruntergeladen und zur Prüfung bereitgestellt. ZIP-CRC, sämtliche SHA-256-Prüfsummen, Dateigrößen, Zeilenzahlen und Medienzuordnungen erfolgreich unabhängig geprüft. Keine privaten Inhalte oder Archivdateien ins Repository übernommen.
+- [ ] Lokale Aufbewahrung und Öffnen der entpackten Originaldateien auf Sophies iPhone bestätigen. Vollständiger Projekt-Restore bleibt separat offen.
 - [ ] Separate vollständige DB-/Auth-/Konfigurationssicherung sowie isolierter Wiederherstellungstest bleiben offen. Inhaltsexport ist kein vollständiges Projektbackup. Anleitung: docs/CONTENT_BACKUP.md.
