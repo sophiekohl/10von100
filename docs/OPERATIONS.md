@@ -10,7 +10,7 @@ Stand: 08.11.2026. Budgetentscheidung: Sophie möchte vollständig kostenlosen B
 - Sicherheits-Advisor meldet weiter deaktivierten Schutz gegen bekannte kompromittierte Passwörter.
 - Weitere Advisor-Hinweise betreffen die beabsichtigten, explizit berechtigten RPC-Brücken bzw. privat gesperrte Tabellen. Das ersetzt keine vollständige Prüfung jeder Funktion.
 - Aktuelle SMTP-Einstellungen und vorhandene Wiederherstellungspunkte sind mit den verfügbaren verbundenen Werkzeugen nicht einsehbar. Ihr Vorhandensein wird nicht behauptet.
-- Noch keine neue Sicherung angelegt und keine Wiederherstellung durchgeführt.
+- Erste echte Inhaltssicherung von Sophie heruntergeladen und auf ihrem iPhone geöffnet; unabhängig auf ZIP-CRC, SHA-256 und Zuordnungen geprüft. Kein vollständiges Projektbackup. Lokale Restoreprobe bisher nur mit synthetischen Daten, kein vollständiger Supabase-Restore.
 
 ## Verbindliche Budgetentscheidung: kostenlos
 Sophie hat kostenpflichtigen Betrieb abgelehnt. Free bleibt bestehen. Kein Pro-Upgrade, kein kostenpflichtiges Add-on, kein neuer kostenpflichtiger Mail-/Backup-Dienst.
@@ -22,7 +22,7 @@ Kostenloses Vorgehen:
 - Vor der Übergabe und während der Nutzung den Projektstatus kontrollieren; bei einer Pause über das Supabase-Dashboard reaktivieren.
 - Bestehende Quoten für Datenbank, Medien und Übertragungen beachten. Bei steigender Nutzung zuerst Größen reduzieren; keine automatische kostenpflichtige Erweiterung.
 - Eigene private Sicherung außerhalb des Projekts vorsehen. Dafür kein privates Material in öffentliche Repository-Dateien, Actions-Logs oder ungeschützte Artefakte schreiben.
-- Bevorzugter erster Sicherungsweg: bewusst herunterladbare Inhaltssicherung im Admin-Studio, auf dem eigenen Gerät geschützt abgelegt. Inhaltsexport ist in PR #27 technisch umgesetzt und mit synthetischen ZIP-Dateien sowie mobilen Chromium-/WebKit-Tests geprüft. Erster echter iPhone-Download und tatsächliche Wiederherstellung sind noch offen; siehe `docs/CONTENT_BACKUP.md`.
+- Bevorzugter erster Sicherungsweg: bewusst herunterladbare Inhaltssicherung im Admin-Studio, auf dem eigenen Gerät geschützt abgelegt. Inhaltsexport ist in PR #27 technisch umgesetzt und mit synthetischen ZIP-Dateien sowie mobilen Chromium-/WebKit-Tests geprüft. Erster echter iPhone-Download und Öffnen bestätigt; vollständige Wiederherstellung noch offen; siehe `docs/CONTENT_BACKUP.md`.
 - Eine Inhaltssicherung darf nicht als vollständige Sicherung von Auth, Datenbankschema, Vault, Secrets oder Projektkonfiguration bezeichnet werden.
 - Für eine vollständige Datenbanksicherung braucht der offizielle kostenlose CLI-Weg einen geschützten Betreiberzugang; dieser wird nicht aus SQL-Systemdateien oder fremden Sitzungen beschafft und nicht im Chat angefordert.
 - Für die bestehende Admin-Mail-Wiederherstellung zunächst die tatsächlich konfigurierten kostenlosen Möglichkeiten und Limits prüfen. Ein separater SMTP-Dienst wird nur dann eingerichtet, wenn er ohne neue Kosten nutzbar und passend autorisiert ist.
