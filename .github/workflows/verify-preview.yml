@@ -38,6 +38,7 @@ jobs:
           cp ../preview/studio/index.html studio/index.html
           mkdir -p studio-callback preview
           cp ../studio/index.html studio-callback/index.html
+          cp ../backup.js backup.js
           cp ../preview/core.js preview/core.js
           npm ci
           node --test tests/edge.test.mjs tests/session.test.mjs tests/sw.test.mjs
