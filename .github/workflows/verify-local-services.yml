@@ -13,14 +13,16 @@ jobs:
     timeout-minutes: 20
     env:
       SUPABASE_EXPERIMENTAL_STACK: '1'
-      LOCAL_STACK_DIR: ${{ runner.temp }}/10von100-local-services
-      LOCAL_STACK_STATUS: ${{ runner.temp }}/10von100-local-status.json
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: '24'
           cache: npm
+      - name: Set disposable local paths
+        run: |
+          echo "LOCAL_STACK_DIR=$RUNNER_TEMP/10von100-local-services" >> "$GITHUB_ENV"
+          echo "LOCAL_STACK_STATUS=$RUNNER_TEMP/10von100-local-status.json" >> "$GITHUB_ENV"
       - run: npm ci
       - name: Install verified CLI 3.0.0
         run: |
