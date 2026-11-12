@@ -345,3 +345,10 @@ Verbindlicher aktueller Stand; ältere Abschnitte dokumentieren die damaligen Zw
 - [x] Einmalige Recovery-Anforderung im Studio, Eingang der neuesten Mail und Öffnen des Links bestätigt.
 - [x] Neues Studio-Passwort privat gesetzt; Erfolgsbestätigung und anschließendes Abmelden/erneute Anmeldung mit E-Mail und neuem Passwort ohne Mail-Link durch Sophie bestätigt. Kein Passwort oder Recovery-Link im Repository gespeichert.
 - [ ] Zuverlässigkeit/Versandlimits des bestehenden Standard-Maildienstes bleiben eine Betriebsgrenze; der erfolgreiche Einzeltest ist keine Zustellgarantie. Eigener SMTP-Dienst nicht eingerichtet. Schutz vor bekannten kompromittierten Passwörtern separat weiterhin prüfen.
+
+
+## Collagen-Mehrfoto-Prüfung · 12.11.2026 · PR #30
+- [x] Tatsächlicher Export von 97 unterschiedlichen synthetischen Hoch-/Quer-/Quadrat-/schmalen Hochformatbildern in Chromium und WebKit bestanden: drei JPG-Seiten mit 48/48/1 Bildern, jede 3200×4000 Pixel. Jede Bildmitte nach erneutem JPEG-Dekodieren gegen individuelle Quellfarbe geprüft; keine fehlenden oder wiederholten Fotos.
+- [x] Fehlendes Foto und geschlossene Collage liefern kein scheinbar vollständiges JPG. Haupt-CI 43305710194 und Vorschau-CI 43305710539 erfolgreich; PR #30 nach Prüfung zusammengeführt.
+- [x] Keine privaten Fotos oder Produktionsdaten verändert; Sophie muss keine weiteren Testbilder hochladen.
+- [ ] Physischer RAM-/Laufzeittest mit sehr vielen hochauflösenden Kameraoriginalen auf dem Ziel-iPhone dadurch nicht ersetzt. Der automatisierte Test nutzt kleine synthetische Quellbilder; acht echte Bilder wurden zuvor manuell abgenommen.
