@@ -336,5 +336,5 @@ Verbindlicher aktueller Stand; ältere Abschnitte dokumentieren die damaligen Zw
 ## Echte lokale Supabase-Dienste · 12.11.2026 · PR #29
 - [x] Workflow-Start korrigiert; native CLI-Statusstruktur und lokales Einspielen mehrteiliger SQL-Dateien angepasst. Ausschließlich Loopback-Ziele, keine produktiven Zugangsdaten oder privaten ZIPs in CI.
 - [x] Diensteprüfung 43297272929 am Commit 140e210d86e5fea4028ab909318388ce458ee265 bestanden: echte Auth-Anmeldung/Abmeldung, private Storage-Uploads, signierte bytegenaue Downloads, ZIP-Export, Entfernen synthetischer Daten und Wiederherstellung über REST/Storage. Zukunft, Entwurf, Fremdkonto, öffentlicher Dateizugriff und Widerruf geprüft.
-- [ ] Bestehende App-/Vorschauprüfungen abschließen und PR #29 erst dann zusammenführen.
+- [x] App-CI 43297273384 und Vorschau-CI 43297273683 ebenfalls bestanden. PR #29 danach mit geprüftem Head zusammengeführt. Keine produktiven Daten geändert.
 - [ ] Vollständige gehostete Projektwiederherstellung mit echten Konten/SMTP/Push-Konfiguration bleibt offen; erfolgreiche Diensteprüfung verwendet ausschließlich synthetische Daten. Keine neue kostenpflichtige Ressource angelegt.
