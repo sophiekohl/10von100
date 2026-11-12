@@ -41,7 +41,7 @@ Studio nur für Sophie: https://sophiekohl.github.io/10von100/studio/
 - Alte Ansicht: App schließen und mit Internet erneut öffnen. Vor Entfernen einer Installation prüfen, ob PIN und Passwort verfügbar sind; die neue Installation kann erneute Anmeldung und Push-Einwilligung benötigen.
 
 ## Noch keine uneingeschränkte Abschlussfreigabe
-- Schutz gegen bekannte kompromittierte Passwörter weiterhin als deaktiviert gemeldet; Verfügbarkeit im kostenlosen Tarif und passende Einstellung prüfen.
+- Schutz gegen bekannte kompromittierte Passwörter ist laut offizieller Supabase-Dokumentation erst ab Pro verfügbar. Im gewählten Free-Tarif bleibt er eine bewusst dokumentierte Grenze. Eigenes langes, zufällig erzeugtes Passwort nur für das Studio verwenden; kein Upgrade gebucht.
 - Abschließende bewusste Testdatenbereinigung und Zielgeräte-Abnahme vor Übergabe offen.
 - Vollständiger gehosteter Wiederaufbau einschließlich Konten und Konfiguration offen.
 - Acht echte Fotos manuell geprüft; 97 synthetische Fotos technisch in Chromium/WebKit exportiert. Das ist keine physische RAM-Abnahme mit 97 Kameraoriginalen.
