@@ -352,3 +352,12 @@ Verbindlicher aktueller Stand; ältere Abschnitte dokumentieren die damaligen Zw
 - [x] Fehlendes Foto und geschlossene Collage liefern kein scheinbar vollständiges JPG. Haupt-CI 43305710194 und Vorschau-CI 43305710539 erfolgreich; PR #30 nach Prüfung zusammengeführt.
 - [x] Keine privaten Fotos oder Produktionsdaten verändert; Sophie muss keine weiteren Testbilder hochladen.
 - [ ] Physischer RAM-/Laufzeittest mit sehr vielen hochauflösenden Kameraoriginalen auf dem Ziel-iPhone dadurch nicht ersetzt. Der automatisierte Test nutzt kleine synthetische Quellbilder; acht echte Bilder wurden zuvor manuell abgenommen.
+
+
+## Abschlusskontrollen und Übergabe · 12.11.2026 · PR #31
+- [x] Live-Metadaten: alle drei Buckets privat; keine öffentliche Anwendungstabelle ohne RLS; interne PIN- und Push-Worker-RPCs weder für anon noch authenticated ausführbar. Quellcode-Allowlist des Service-Worker-Caches auf öffentliche Hülle begrenzt.
+- [x] Übergabeanleitung mit Installation, PIN, Push, Studio-Recovery, privatem ZIP, 90-Tage-Sitzungsgrenze, Free-Pausen und Fehlerhilfe erstellt. Veralteten Satz über fehlendes Push korrigiert; ausdrücklich freigegebenes öffentliches Hochzeitsbild im Zugriffsmodell benannt.
+- [x] Offizielle Supabase-Dokumentation bestätigt Passwort-Leak-Schutz erst ab Pro. Im gewünschten Free-Tarif bleibt dies dokumentierte Grenze; kein Upgrade gebucht. Langes zufälliges eigenes Studio-Passwort ohne Wiederverwendung empfohlen. https://supabase.com/docs/guides/auth/password-security
+- [ ] Dokumentations-PR #31 nach CI übernehmen. Keine vollständige unabhängige Sicherheitsprüfung behauptet.
+- [ ] Testinhalte nur nach bewusster Einzelfallprüfung entfernen; keine privaten Erinnerungen automatisch löschen.
+- [ ] Ziel-iPhone vor Geschenkübergabe abnehmen; vollständiger gehosteter Wiederaufbau bleibt von lokaler Inhalts- und Dienstetest-Abnahme getrennt.
