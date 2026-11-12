@@ -173,3 +173,31 @@ test('collage JPEG contains cream photo frame and soft shadow at export resoluti
  }finally{signedMedia=original;if(objectURL)URL.revokeObjectURL(objectURL)}});
  expect(result.type).toBe('image/jpeg');expect(result.width).toBe(3200);expect(result.height).toBe(4000);expect(result.frame[0]).toBeGreaterThan(248);expect(result.photo[2]).toBeGreaterThan(result.photo[0]+60);expect(result.shadow[0]).toBeLessThan(result.background[0]-3);
 });
+
+test('97 mixed-format photos export as three complete JPEG pages without missing or repeated photos',async({page})=>{
+ test.setTimeout(120000);await mock(page);await page.goto('/');await enter(page);
+ const results=await page.evaluate(async()=>{
+  const photos=Array.from({length:97},(_,i)=>({storage_path:String(i)})),original=signedMedia;
+  const color=i=>[30+(i%5)*40,40+(Math.floor(i/5)%5)*35,60+Math.floor(i/25)*45];
+  signedMedia=async(bucket,key)=>{const i=Number(key),c=document.createElement('canvas'),dims=[[240,360],[360,240],[280,280],[80,400]][i%4];c.width=dims[0];c.height=dims[1];const ctx=c.getContext('2d');ctx.fillStyle='rgb('+color(i).join(',')+')';ctx.fillRect(0,0,c.width,c.height);return c.toDataURL('image/png');};
+  const results=[];
+  try{for(const pageIndex of [0,1,2]){
+   const started=performance.now(),file=await exportMemoryJpg(photos,pageIndex,document.createElement('p'),collageVersion),url=URL.createObjectURL(file),image=new Image();
+   try{await new Promise((resolve,reject)=>{image.onload=resolve;image.onerror=reject;image.src=url;});const c=document.createElement('canvas');c.width=image.naturalWidth;c.height=image.naturalHeight;const ctx=c.getContext('2d');ctx.drawImage(image,0,0);
+    const selected=photos.slice(pageIndex*48,(pageIndex+1)*48),pixels=collageLayout(selected.length).map((cell,i)=>({actual:Array.from(ctx.getImageData(Math.round(cell.x+cell.w/2),Math.round(cell.y+cell.h/2),1,1).data).slice(0,3),expected:color(Number(selected[i].storage_path))}));
+    results.push({name:file.name,type:file.type,width:c.width,height:c.height,count:selected.length,pixels,ms:performance.now()-started});c.width=c.height=1;
+   }finally{URL.revokeObjectURL(url);image.src='';}
+  }}finally{signedMedia=original;}return results;
+ });
+ expect(results.map(r=>r.count)).toEqual([48,48,1]);expect(results.map(r=>r.name)).toEqual(['Unser-Jahr-1.jpg','Unser-Jahr-2.jpg','Unser-Jahr-3.jpg']);
+ for(const result of results){expect(result.type).toBe('image/jpeg');expect([result.width,result.height]).toEqual([3200,4000]);for(const pixel of result.pixels)for(let k=0;k<3;k++)expect(Math.abs(pixel.actual[k]-pixel.expected[k])).toBeLessThanOrEqual(8);}
+});
+test('collage refuses missing photos and cancellation rather than returning a partial JPEG',async({page})=>{
+ await mock(page);await page.goto('/');await enter(page);
+ const result=await page.evaluate(async()=>{
+  const original=signedMedia;const messages=[];
+  try{signedMedia=async()=>{throw Error('Synthetic missing photo');};try{await exportMemoryJpg([{storage_path:'missing'}],0,document.createElement('p'),collageVersion);messages.push('unexpected file');}catch(e){messages.push(e.message);}
+   const old=collageVersion;closeCollage();try{await exportMemoryJpg([{storage_path:'cancelled'}],0,document.createElement('p'),old);messages.push('unexpected file');}catch(e){messages.push(e.message);}
+  }finally{signedMedia=original;}return messages;
+ });expect(result).toEqual(['Synthetic missing photo','Collage geschlossen.']);
+});
