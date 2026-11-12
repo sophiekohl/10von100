@@ -4,7 +4,7 @@
 
 Der bestehende Admin bleibt in `admin_users` und meldet sich nur im Studio mit Supabase Auth an. Eine Partner-PIN erzeugt niemals Adminrechte. Beide Paarmitglieder können Erinnerungen erstellen; der Autor kann die eigenen Texte bearbeiten und eigene Erinnerungen löschen. Der Admin kann alle Erinnerungen verwalten. Unbekannte angemeldete Konten dürfen keine privaten Inhalte lesen oder schreiben.
 
-Öffentlich sind ausschließlich die App-Oberfläche, neutrale Freischaltdaten und Kalenderbereiche. Titel, Briefe, Dateipfade, externe Medienkennungen und private Fotos sind geschützt. `published=false` bedeutet privater Entwurf, auch bei einem vergangenen Termin. Die Datenbankzeit entscheidet über die Freischaltung. Das Studio interpretiert Termine in `Europe/Berlin`.
+Öffentlich sind die App-Oberfläche, der ausdrücklich zur Veröffentlichung freigegebene Hochzeitseinstieg mit Hochzeitsbild, neutrale Freischaltdaten und Kalenderbereiche. Titel, Briefe, Dateipfade, externe Medienkennungen und private Fotos sind geschützt. `published=false` bedeutet privater Entwurf, auch bei einem vergangenen Termin. Die Datenbankzeit entscheidet über die Freischaltung. Das Studio interpretiert Termine in `Europe/Berlin`.
 
 ## PIN und Sitzung
 
@@ -29,6 +29,7 @@ Die Migration lässt die bestehende Adminidentität und bestehende Paarmitglieds
 
 ## Bekannte Betriebsgrenzen
 
-Vier Ziffern haben nur 10.000 Möglichkeiten. Die serverseitigen Sperren sind deshalb zwingend und können von Angreifern auch zum absichtlichen Sperren des Zugangs missbraucht werden. Der Admin kann mit einer neuen PIN entsperren. Push ist nicht implementiert und wird nicht angeboten. Teaserbilder werden vor Freischaltung nicht ausgeliefert. Bestehende signierte Medienlinks laufen nach kurzer Zeit ab; bei Wiedergabefehlern den Brief erneut öffnen.
+Vier Ziffern haben nur 10.000 Möglichkeiten. Die serverseitigen Sperren sind deshalb zwingend und können von Angreifern auch zum absichtlichen Sperren des Zugangs missbraucht werden. Der Admin kann mit einer neuen PIN entsperren. Push ist implementiert und auf Sophies iPhone einschließlich geplanter Zustellung und Antippen geprüft; siehe `docs/PUSH.md`. Hinweise enthalten keine privaten Titel oder Bilder. Teaserbilder werden vor Freischaltung nicht ausgeliefert. Bestehende signierte Medienlinks laufen nach kurzer Zeit ab; bei Wiedergabefehlern den Brief erneut öffnen.
 
 Der Supabase-Advisor meldete am 05.11.2026 deaktivierten Schutz gegen geleakte Passwörter. Diese Auth-Einstellung ist für den Admin im Dashboard zu prüfen: https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection . Die bewusst öffentlichen SECURITY-DEFINER-Kalenderfunktionen enthalten ausschließlich neutrale Projektionen; die übrigen Funktionen prüfen Rolle/Mitgliedschaft oder sind ausschließlich für `service_role` freigegeben.
+\n\n## Abschlusskontrolle 12.11.2026\nLive-Metadaten bestätigen drei private Buckets, keine öffentliche Anwendungstabelle ohne RLS und keine ausführbaren internen PIN-/Push-Worker-Funktionen für anon/authenticated. Service-Worker-Quellcode speichert nur die öffentliche Hülle; Auth, Studio, API, private Medien und URLs mit Query-Parametern sind nicht in der Cache-Allowlist. Diese begrenzte Kontrolle ersetzt weder ein externes Audit noch einen vollständigen Review aller Funktionstexte. Schutz gegen kompromittierte Passwörter bleibt laut Advisor deaktiviert. Die Übergabeanleitung nennt verbleibende Betriebs- und Wiederherstellungsgrenzen.\n
