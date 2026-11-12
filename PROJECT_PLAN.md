@@ -338,3 +338,10 @@ Verbindlicher aktueller Stand; ältere Abschnitte dokumentieren die damaligen Zw
 - [x] Diensteprüfung 43297272929 am Commit 140e210d86e5fea4028ab909318388ce458ee265 bestanden: echte Auth-Anmeldung/Abmeldung, private Storage-Uploads, signierte bytegenaue Downloads, ZIP-Export, Entfernen synthetischer Daten und Wiederherstellung über REST/Storage. Zukunft, Entwurf, Fremdkonto, öffentlicher Dateizugriff und Widerruf geprüft.
 - [x] App-CI 43297273384 und Vorschau-CI 43297273683 ebenfalls bestanden. PR #29 danach mit geprüftem Head zusammengeführt. Keine produktiven Daten geändert.
 - [ ] Vollständige gehostete Projektwiederherstellung mit echten Konten/SMTP/Push-Konfiguration bleibt offen; erfolgreiche Diensteprüfung verwendet ausschließlich synthetische Daten. Keine neue kostenpflichtige Ressource angelegt.
+
+
+## Admin-Passwortwiederherstellung · Geräteabnahme 12.11.2026
+- [x] Sophie zeigt SMTP-Einstellungen: Custom SMTP deaktiviert. Keine Konfiguration geändert, kein externer Dienst gebucht.
+- [x] Einmalige Recovery-Anforderung im Studio, Eingang der neuesten Mail und Öffnen des Links bestätigt.
+- [x] Neues Studio-Passwort privat gesetzt; Erfolgsbestätigung und anschließendes Abmelden/erneute Anmeldung mit E-Mail und neuem Passwort ohne Mail-Link durch Sophie bestätigt. Kein Passwort oder Recovery-Link im Repository gespeichert.
+- [ ] Zuverlässigkeit/Versandlimits des bestehenden Standard-Maildienstes bleiben eine Betriebsgrenze; der erfolgreiche Einzeltest ist keine Zustellgarantie. Eigener SMTP-Dienst nicht eingerichtet. Schutz vor bekannten kompromittierten Passwörtern separat weiterhin prüfen.
