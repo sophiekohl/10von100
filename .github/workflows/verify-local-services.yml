@@ -44,7 +44,7 @@ jobs:
           mkdir -p "$LOCAL_STACK_DIR"
           supabase --workdir "$LOCAL_STACK_DIR" init --yes
           supabase --workdir "$LOCAL_STACK_DIR" start --runtime native > "$RUNNER_TEMP/local-start.log" 2>&1
-          supabase --workdir "$LOCAL_STACK_DIR" status -o json > "$LOCAL_STACK_STATUS"
+          supabase --workdir "$LOCAL_STACK_DIR" status --output-format json > "$LOCAL_STACK_STATUS"
       - name: Synthetic real Auth and Storage recovery test
         run: node tests/fullstack/services.mjs
       - name: Stop local services
