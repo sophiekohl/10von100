@@ -8,7 +8,7 @@ import {randomUUID,createHash} from 'node:crypto';
 const work=process.env.LOCAL_STACK_DIR,statusPath=process.env.LOCAL_STACK_STATUS;
 assert.ok(work&&statusPath,'Local stack paths required');
 const status=JSON.parse(await fs.readFile(statusPath,'utf8'));
-const config=status.result||status;
+const envelope=status.result||status;\nconst config=envelope.env||envelope;
 const api=config.API_URL||config.api_url||config.apiUrl;
 const anon=config.ANON_KEY||config.anon_key,service=config.SERVICE_ROLE_KEY||config.service_role_key;
 if(!api||!anon||!service){console.error('Unsupported local status keys:',Object.keys(config));process.exit(1);}
