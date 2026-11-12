@@ -358,6 +358,6 @@ Verbindlicher aktueller Stand; ältere Abschnitte dokumentieren die damaligen Zw
 - [x] Live-Metadaten: alle drei Buckets privat; keine öffentliche Anwendungstabelle ohne RLS; interne PIN- und Push-Worker-RPCs weder für anon noch authenticated ausführbar. Quellcode-Allowlist des Service-Worker-Caches auf öffentliche Hülle begrenzt.
 - [x] Übergabeanleitung mit Installation, PIN, Push, Studio-Recovery, privatem ZIP, 90-Tage-Sitzungsgrenze, Free-Pausen und Fehlerhilfe erstellt. Veralteten Satz über fehlendes Push korrigiert; ausdrücklich freigegebenes öffentliches Hochzeitsbild im Zugriffsmodell benannt.
 - [x] Offizielle Supabase-Dokumentation bestätigt Passwort-Leak-Schutz erst ab Pro. Im gewünschten Free-Tarif bleibt dies dokumentierte Grenze; kein Upgrade gebucht. Langes zufälliges eigenes Studio-Passwort ohne Wiederverwendung empfohlen. https://supabase.com/docs/guides/auth/password-security
-- [ ] Dokumentations-PR #31 nach CI übernehmen. Keine vollständige unabhängige Sicherheitsprüfung behauptet.
+- [x] Dokumentations-PR #31 nach erfolgreichen CI-Läufen 43311844750 und 43311844745 am Commit 9afd3fbbb5b649d9d1feded08f41ad14361fbef4 übernommen. Keine vollständige unabhängige Sicherheitsprüfung behauptet.
 - [ ] Testinhalte nur nach bewusster Einzelfallprüfung entfernen; keine privaten Erinnerungen automatisch löschen.
 - [ ] Ziel-iPhone vor Geschenkübergabe abnehmen; vollständiger gehosteter Wiederaufbau bleibt von lokaler Inhalts- und Dienstetest-Abnahme getrennt.
