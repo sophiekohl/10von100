@@ -361,3 +361,10 @@ Verbindlicher aktueller Stand; ältere Abschnitte dokumentieren die damaligen Zw
 - [x] Dokumentations-PR #31 nach erfolgreichen CI-Läufen 43311844750 und 43311844745 am Commit 9afd3fbbb5b649d9d1feded08f41ad14361fbef4 übernommen. Keine vollständige unabhängige Sicherheitsprüfung behauptet.
 - [ ] Testinhalte nur nach bewusster Einzelfallprüfung entfernen; keine privaten Erinnerungen automatisch löschen.
 - [ ] Ziel-iPhone vor Geschenkübergabe abnehmen; vollständiger gehosteter Wiederaufbau bleibt von lokaler Inhalts- und Dienstetest-Abnahme getrennt.
+
+
+## Vorschau unabhängig vom Kalender · 13.11.2026 · PR #32
+- [x] Neutrale verschlossene Karten aller veröffentlichten Beiträge für aktuell berechtigte Paarmitglieder ergänzt, auch ohne Kalendermarkierung. Entwürfe verborgen; Titel, Texte und Medien bleiben bis zum Freischalttermin gesperrt. Kalenderdarstellung unverändert separat.
+- [x] Additiven SQL-Setup zunächst in zurückgerollter Transaktion negativ geprüft, danach bereitgestellt: anon ohne EXECUTE; ohne gültige Paarmitgliedschaft keine Vorschauen. Keine Termine oder Inhalte geändert.
+- [x] Browserregression für Nicht-Kalenderkarte, fehlende Kalendermarkierung und verschlossene Detailansicht bestanden. CI 43501249681 und 43501249424 erfolgreich; PR #32 zusammengeführt.
+- [ ] Pages-Auslieferung und Anzeige auf Sophies iPhone bestätigen.
