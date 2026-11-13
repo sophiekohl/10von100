@@ -19,15 +19,15 @@ function authUI(){const yes=!!partner.read()&&gateVerified;PartnerPush.update(ye
 async function publicRPC(name){const r=await fetch(API+'/rest/v1/rpc/'+name,{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},body:'{}',cache:'no-store'});if(!r.ok)throw Error('Kalender nicht verfügbar');return r.json();}
 async function loadSurprises(){const version=++loadVersion;
   try{const [schedule,ranges]=await Promise.all([publicRPC('public_surprise_schedule'),publicRPC('public_calendar_ranges')]);
-    let unlocked=[],media=[];
+    let unlocked=[],media=[],previews=[];
     if(partner.read()){
-      try{[unlocked,media]=await Promise.all(['public_unlocked_surprises','unlocked_couple_media'].map(name=>partner.request('/rest/v1/rpc/'+name,{method:'POST',body:'{}'})));
+      try{[unlocked,media,previews]=await Promise.all(['public_unlocked_surprises','unlocked_couple_media','partner_surprise_previews'].map(name=>partner.request('/rest/v1/rpc/'+name,{method:'POST',body:'{}'})));
         // A revoked or expired partner session cannot return member data.
         if(!await partner.request('/rest/v1/rpc/is_couple_member',{method:'POST',body:'{}'})){partner.clear();return loadSurprises();}gateVerified=true;authUI();
       }catch(e){if(version!==loadVersion)return;clearPrivate();ui.authMsg.textContent=e.message;return;}
     }
     if(version!==loadVersion)return;
-    calendarRanges=ranges;const visible=new Map(schedule.map(x=>[x.id,x]));for(const u of unlocked)visible.set(u.id,{...u,is_unlocked:true});
+    calendarRanges=ranges;const visible=new Map(schedule.map(x=>[x.id,x]));for(const p of previews)if(!visible.has(p.id))visible.set(p.id,p);for(const u of unlocked)visible.set(u.id,{...u,is_unlocked:true});
     const opened=new Map(unlocked.map(x=>[x.id,x]));gifts=[...visible.values()].map(x=>{const u=opened.get(x.id);return{id:x.id,calendarVisible:schedule.some(item=>item.id===x.id),date:berlinDate(new Date(x.unlock_at)),unlock_at:x.unlock_at,state:u?'open':'locked',title:u?.title||'Da wartet etwas auf dich.',body:u?.body||'',media:media.filter(m=>m.content_item_id===x.id)}}).sort((a,b)=>a.unlock_at.localeCompare(b.unlock_at));
     renderGifts();cal();const available=gifts.some(g=>g.state==='open');document.querySelector('#next b').textContent=available?'FÜR DICH FREIGESCHALTET':'NÄCHSTE ÜBERRASCHUNG';const future=gifts.find(x=>new Date(x.unlock_at)>new Date());document.querySelector('#next small').textContent=available?'Deine Überraschung öffnen →':future?fmt(future.date):'Bald wartet hier etwas auf dich.';
     if(gateVerified&&pendingPushId){const target=gifts.find(g=>g.id===pendingPushId&&g.state==='open');pendingPushId=null;if(target)showGift(target);}

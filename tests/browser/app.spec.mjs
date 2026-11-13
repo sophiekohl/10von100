@@ -201,3 +201,12 @@ test('collage refuses missing photos and cancellation rather than returning a pa
   }finally{signedMedia=original;}return messages;
  });expect(result).toEqual(['Synthetic missing photo','Collage geschlossen.']);
 });
+
+test('non-calendar future preview stays locked and absent from calendar markers',async({page})=>{
+ await mock(page);
+ await page.route('**/rpc/partner_surprise_previews',route=>route.fulfill({json:[{id:'hidden-calendar-preview',unlock_at:'2099-02-03T09:00:00Z',is_unlocked:false}]}));
+ await page.goto('/');await enter(page);await page.getByRole('button',{name:'Für dich',exact:true}).click();
+ const card=page.locator('#giftcards button').filter({hasText:'03. Februar 2099'});await expect(card).toBeVisible();await expect(card).toContainText('NOCH VERSCHLOSSEN');
+ expect(await page.evaluate(()=>gifts.find(g=>g.id==='hidden-calendar-preview').calendarVisible)).toBe(false);
+ await card.click();await expect(page.locator('#detailtext')).toContainText('noch verschlossen');await expect(page.locator('#detailMedia')).toBeEmpty();
+});
