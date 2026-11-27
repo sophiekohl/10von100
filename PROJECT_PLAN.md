@@ -368,3 +368,9 @@ Verbindlicher aktueller Stand; ältere Abschnitte dokumentieren die damaligen Zw
 - [x] Additiven SQL-Setup zunächst in zurückgerollter Transaktion negativ geprüft, danach bereitgestellt: anon ohne EXECUTE; ohne gültige Paarmitgliedschaft keine Vorschauen. Keine Termine oder Inhalte geändert.
 - [x] Browserregression für Nicht-Kalenderkarte, fehlende Kalendermarkierung und verschlossene Detailansicht bestanden. CI 43501249681 und 43501249424 erfolgreich; PR #32 zusammengeführt.
 - [ ] Pages-Auslieferung und Anzeige auf Sophies iPhone bestätigen.
+
+
+## Große Inhaltssicherung · 27.11.2026 · PR #33
+- [x] Studio und Offline-Prüfer verarbeiten Archive über 150 MiB. Synthetische 162-MiB-Sicherungen über den Studio-Download in mobilem WebKit und Chromium gespeichert und mit ZIP-Inventar und Prüfsummen geprüft. PR-Prüfungen 46056627178 und 46056627191 erfolgreich.
+- [x] Pages-Lauf 46056896640 erfolgreich. Ausgelieferte Studio-Seite und Exportcode stimmen bytegenau mit der geprüften Fassung überein.
+- [ ] Aktuelle private Sicherung auf Sophies Gerät herunterladen und öffnen.
