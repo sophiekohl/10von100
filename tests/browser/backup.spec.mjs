@@ -1,4 +1,5 @@
 import {test,expect} from '@playwright/test';
+import {stat, unlink} from 'node:fs/promises';
 import {execFileSync} from 'node:child_process';
 const user='22222222-2222-4222-8222-222222222222';
 async function studio(page,{missing=false,deny=false,slow=false}={}){
@@ -37,4 +38,33 @@ test('logout aborts an in-flight export and cannot reveal a download later',asyn
 });
 test('partner or unknown account never receives the export UI or originals',async({page})=>{
  const {calls}=await studio(page,{deny:true});await expect(page.locator('#studio')).toBeHidden();expect(calls.some(c=>c.path.includes('/object/authenticated/'))).toBe(false);await expect(page.locator('#loginMsg')).toContainText('Kein Studio-Zugriff');
+});
+
+test('Studio downloads and verifies a large synthetic archive', async ({page}, testInfo) => {
+ test.setTimeout(90000);
+ await studio(page);
+ // Supply a large native Blob without sending private data or moving the
+ // fixture through Playwright's base64 transport.
+ await page.evaluate(() => {
+   const fetchOriginal = window.fetch;
+   window.fetch = async (...args) => {
+     const response = await fetchOriginal(...args);
+     if (!String(args[0]).includes('/object/authenticated/')) return response;
+     const megabyte = new Blob([new Uint8Array(1024 * 1024)]);
+     return new Response(new Blob(Array(162).fill(megabyte)));
+   };
+ });
+ await page.locator('#backupPanel summary').click();
+ await page.locator('#backupStart').click();
+ await expect(page.locator('#backupDownload')).toBeVisible({timeout:60000});
+ const pending = page.waitForEvent('download');
+ await page.locator('#backupDownload').click();
+ const file = testInfo.outputPath('large-synthetic.zip');
+ await (await pending).saveAs(file);
+ try {
+   expect((await stat(file)).size).toBeGreaterThan(162 * 1024 * 1024);
+   expect(execFileSync('python3',['tools/verify-content-backup.py',file],{encoding:'utf8'})).toContain('OK:');
+ } finally {
+   await unlink(file);
+ }
 });
