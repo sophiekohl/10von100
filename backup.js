@@ -34,25 +34,28 @@ window.AppBackup = (() => {
   const crcTable=Uint32Array.from({length:256},(_,n)=>{for(let i=0;i<8;i++)n=n&1?0xedb88320^(n>>>1):n>>>1;return n>>>0;});
   function crc32(bytes){let n=0xffffffff;for(const b of bytes)n=crcTable[(n^b)&255]^(n>>>8);return(n^0xffffffff)>>>0;}
   function header(size){const bytes=new Uint8Array(size);return {bytes,view:new DataView(bytes.buffer)};}
+  const zipLimit = 0xffffffff;
+  const sizeError = () => Error('Die Sicherung überschreitet die ZIP-Grenze von 4 GiB.');
   // Standard ZIP, STORE method. Originals remain byte-for-byte unchanged.
   function zip(entries){
     if(entries.length>60000)throw Error('Zu viele Dateien für eine Sicherung.');
     const parts=[],central=[];let offset=0,centralSize=0;
     for(const entry of entries){
-      const name=encoder.encode(safePath(entry.name)),data=entry.bytes,crc=crc32(data);
-      if(name.length>65535||data.length>0xffffffff)throw Error('Datei zu groß.');
+      const name=encoder.encode(safePath(entry.name)),data=entry.blob,crc=entry.crc;
+      if(name.length>65535||data.size>0xffffffff)throw Error('Datei zu groß.');
       const local=header(30);const v=local.view;
       v.setUint32(0,0x04034b50,true);v.setUint16(4,20,true);v.setUint16(6,0x800,true);v.setUint16(12,33,true);
-      v.setUint32(14,crc,true);v.setUint32(18,data.length,true);v.setUint32(22,data.length,true);v.setUint16(26,name.length,true);
+      v.setUint32(14,crc,true);v.setUint32(18,data.size,true);v.setUint32(22,data.size,true);v.setUint16(26,name.length,true);
       parts.push(local.bytes,name,data);
       const c=header(46),w=c.view;w.setUint32(0,0x02014b50,true);w.setUint16(4,20,true);w.setUint16(6,20,true);w.setUint16(8,0x800,true);w.setUint16(14,33,true);
-      w.setUint32(16,crc,true);w.setUint32(20,data.length,true);w.setUint32(24,data.length,true);w.setUint16(28,name.length,true);w.setUint32(42,offset,true);
-      central.push(c.bytes,name);centralSize+=46+name.length;offset+=30+name.length+data.length;
+      w.setUint32(16,crc,true);w.setUint32(20,data.size,true);w.setUint32(24,data.size,true);w.setUint16(28,name.length,true);w.setUint32(42,offset,true);
+      central.push(c.bytes,name);centralSize+=46+name.length;offset+=30+name.length+data.size;
     }
+    if (offset + centralSize + 22 > zipLimit) throw sizeError();
     const end=header(22),v=end.view;v.setUint32(0,0x06054b50,true);v.setUint16(8,entries.length,true);v.setUint16(10,entries.length,true);v.setUint32(12,centralSize,true);v.setUint32(16,offset,true);
     return new Blob([...parts,...central,end.bytes],{type:'application/zip'});
   }
-  async function build({request,download,check=()=>{},progress=()=>{},maxBytes=150*1024*1024}) {
+  async function build({request,download,check=()=>{},progress=()=>{},maxBytes=zipLimit}) {
     const startedAt=new Date().toISOString();let total=0;const entries=[],files=[];
     const guard=()=>{check();};
     async function assertAdmin(){guard();const user=await request('/auth/v1/user');guard();const rows=await request('/rest/v1/admin_users?select=user_id&user_id=eq.'+encodeURIComponent(user.id));guard();if(!Array.isArray(rows)||!rows.some(r=>r.user_id===user.id))throw Error('Diese Sicherung ist nur für deinen Adminzugang verfügbar.');}
@@ -63,7 +66,20 @@ window.AppBackup = (() => {
         if(batch.some(r=>typeof r.id!=='string'||r.id<=last))throw Error('Ungültige Datenseite.');rows.push(...batch);last=batch.at(-1).id;if(rows.length>50000)throw Error('Zu viele Einträge für den mobilen Export.');
       }data[name]=rows;
     }validate(data);return data;}
-    async function add(name,bytes){guard();total+=bytes.length;if(total>maxBytes)throw Error('Die mobile Sicherung ist auf 150 MB begrenzt. Es wurde kein unvollständiges Archiv erstellt.');const sha256=await digest(bytes);guard();entries.push({name,bytes});files.push({name,bytes:bytes.length,sha256});}
+    async function add(name, source, inventory = true) {
+      guard();
+      const blob = source instanceof Blob ? source : new Blob([source]);
+      total += blob.size;
+      if (total > maxBytes) throw sizeError();
+      // Keep Blob references for assembly. Only the current original needs a
+      // JS byte buffer for its hashes, including when fetch uses a file-backed Blob.
+      const bytes = new Uint8Array(await blob.arrayBuffer());
+      guard();
+      const crc = crc32(bytes);
+      if (inventory) files.push({name, bytes:blob.size, sha256:await digest(bytes)});
+      guard();
+      entries.push({name, blob, crc});
+    }
     await assertAdmin();progress('Texte und Termine werden geladen …');const data=await snapshot();
     const refs=references(data);
     for(let i=0;i<refs.length;i++){guard();progress('Originaldatei '+(i+1)+' von '+refs.length+' wird geladen …');const {bucket,path}=refs[i];const bytes=await download(bucket,path,maxBytes-total);guard();await add('media/'+bucket+'/'+path,bytes);}
@@ -71,7 +87,7 @@ window.AppBackup = (() => {
     await add('data.json',encoder.encode(JSON.stringify(data,null,2)));
     await add('BITTE-LESEN.txt',encoder.encode('10 / 100 · Private Inhaltssicherung\n\nEnthält auch unveröffentlichte Überraschungen und private Originaldateien. Diese ZIP-Datei ist NICHT verschlüsselt. Nur privat aufbewahren und nicht weitergeben.\n\ndata.json: Texte, Termine und Dateizuordnungen. media/: Originaldateien. manifest.json: Umfang und SHA-256-Prüfsummen.\n\nNicht enthalten: Konten, Passwörter, PIN, Sitzungen, Push-Abos/Schlüssel, Datenbankschema, unzugeordnete Storage-Dateien oder Inhalte externer YouTube-/Deezer-Angebote.\n\nKein vollständiges Projekt-Backup, kein automatischer Import. Für eine Wiederherstellung müssen die App-Struktur und Konten separat eingerichtet werden. Verknüpfungen zu externen Diensten sind in data.json gespeichert. Während des Exports bitte keine Inhalte verändern.\n'));
     const manifest={format:'10von100-content',version:1,started_at:startedAt,completed_at:new Date().toISOString(),counts:Object.fromEntries(Object.entries(data).map(([k,v])=>[k,v.length])),media_count:refs.length,files};
-    entries.push({name:'manifest.json',bytes:encoder.encode(JSON.stringify(manifest,null,2))});guard();return {blob:zip(entries),manifest};
+    await add('manifest.json',encoder.encode(JSON.stringify(manifest,null,2)),false);guard();return {blob:zip(entries),manifest};
   }
   return {build,safePath,references};
 })();

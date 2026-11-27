@@ -14,8 +14,10 @@ def verify(path):
         for name in names:
             if any(part in ('', '.', '..') for part in name.split('/')) or '\\' in name or ':' in name:
                 raise ValueError('Unsafe archive path')
-        if sum(info.file_size for info in archive.infolist()) > 160 * 1024 * 1024:
+        if sum(info.file_size for info in archive.infolist()) > 0xffffffff:
             raise ValueError('Archive exceeds the supported size')
+        if any(info.file_size > 160 * 1024 * 1024 for info in archive.infolist() if not info.filename.startswith('media/')):
+            raise ValueError('Metadata exceeds the supported size')
         if archive.testzip() is not None:
             raise ValueError('ZIP checksum mismatch')
         manifest = json.loads(archive.read('manifest.json'))
@@ -25,8 +27,11 @@ def verify(path):
         if len(expected) != len(manifest['files']) or set(names) != expected | {'manifest.json'}:
             raise ValueError('File inventory mismatch')
         for item in manifest['files']:
-            raw = archive.read(item['name'])
-            if len(raw) != item['bytes'] or hashlib.sha256(raw).hexdigest() != item['sha256']:
+            digest = hashlib.sha256()
+            with archive.open(item['name']) as media:
+                for chunk in iter(lambda: media.read(1024 * 1024), b''):
+                    digest.update(chunk)
+            if archive.getinfo(item['name']).file_size != item['bytes'] or digest.hexdigest() != item['sha256']:
                 raise ValueError('File integrity mismatch')
         data = json.loads(archive.read('data.json'))
         tables = {'content_items', 'content_media', 'year_moments', 'moment_photos', 'calendar_ranges'}

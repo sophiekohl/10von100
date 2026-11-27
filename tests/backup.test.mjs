@@ -28,6 +28,22 @@ test('ZIP independently opens, verifies checksums and preserves drafts, links, U
 });
 test('non-admin fails before any content or original is downloaded',async()=>{const f=fixture({deny:true});await assert.rejects(build(f),/Adminzugang/);assert.equal(f.downloads.length,0);assert.equal(f.calls.length,2);});
 test('missing media, changed rows, cancellation and size limits fail without returning an archive',async()=>{
- await assert.rejects(build(fixture({fail:true})),/Unavailable/);await assert.rejects(build(fixture({change:true})),/geändert/);await assert.rejects(build(fixture({abort:true})),/Cancelled/);await assert.rejects(build({...fixture(),maxBytes:2}),/150 MB/);
+ await assert.rejects(build(fixture({fail:true})),/Unavailable/);await assert.rejects(build(fixture({change:true})),/geändert/);await assert.rejects(build(fixture({abort:true})),/Cancelled/);await assert.rejects(build({...fixture(),maxBytes:2}),/ZIP-Grenze/);
 });
 test('unsafe archive paths fail closed',()=>{for(const p of ['../a','a/../b','/a','a//b','a\\b','a:bad','a/\0'])assert.throws(()=>safePath(p));});
+
+test('complete ZIP above the former mobile and verifier limits', async () => {
+ const fixtureData = fixture();
+ const source = new Blob([new Uint8Array(54 * 1024 * 1024)]);
+ const {blob, manifest} = await build({...fixtureData, download:async () => source});
+ assert.equal(manifest.media_count, 3);
+ assert.ok(blob.size > 160 * 1024 * 1024);
+ const folder = await fs.mkdtemp(path.join(os.tmpdir(), 'large-content-backup-'));
+ try {
+   const file = path.join(folder, 'backup.zip');
+   await fs.writeFile(file, blob.stream());
+   execFileSync('python3', ['tools/verify-content-backup.py', file]);
+ } finally {
+   await fs.rm(folder, {recursive:true, force:true});
+ }
+});
