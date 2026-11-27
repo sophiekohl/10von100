@@ -28,9 +28,12 @@ Push-Abos/Schlüssel, Auth-/SMTP-Konfiguration, Schema und RLS. Dies ist eine
 
 ## Grenzen und Schutz
 
-Maximal 150 MiB Nutzdaten und 50.000 Zeilen je Tabelle; darüber bricht der mobile
-Export explizit ab. Ein größerer/streamender Export ist noch offen. Der Export
-benötigt Browser-RAM und überträgt Originale; Supabase-Transferkontingente gelten.
+Originale werden nacheinander als Blobs geladen und einzeln für die Prüfsummen
+gelesen. Das Studio erstellt eine ZIP-Datei im bisherigen Format auch für
+Sammlungen über 150 MiB. Die klassische ZIP-Ausgabe ist auf knapp 4 GiB
+inklusive Verzeichnis und auf 60.000 Dateien begrenzt. Weiterhin gelten
+50.000 Zeilen pro Tabelle. Freier Gerätespeicher, Browser und Transferkontingente
+begrenzen den praktisch verfügbaren Umfang.
 Keine regelmäßigen automatischen Downloads. Nach wichtigen Änderungen erneut sichern.
 
 Keyset-Paginierung lädt alle Zeilen auch bei kleineren API-Seitenlimits.
